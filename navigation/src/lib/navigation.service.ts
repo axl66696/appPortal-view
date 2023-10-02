@@ -2,7 +2,7 @@ import { Injectable, Signal, computed, inject,signal } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-
+import {LoginService} from 'login/src/lib/login.service'
 @Injectable({
   providedIn: 'root'
 })

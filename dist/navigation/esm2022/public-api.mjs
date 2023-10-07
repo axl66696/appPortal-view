@@ -1,0 +1,6 @@
+/*
+ * Public API Surface of navigation
+ */
+export * from './lib/navigation.service';
+export * from './lib/navigation.component';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL25hdmlnYXRpb24vc3JjL3B1YmxpYy1hcGkudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0dBRUc7QUFFSCxjQUFjLDBCQUEwQixDQUFDO0FBQ3pDLGNBQWMsNEJBQTRCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogUHVibGljIEFQSSBTdXJmYWNlIG9mIG5hdmlnYXRpb25cbiAqL1xuXG5leHBvcnQgKiBmcm9tICcuL2xpYi9uYXZpZ2F0aW9uLnNlcnZpY2UnO1xuZXhwb3J0ICogZnJvbSAnLi9saWIvbmF2aWdhdGlvbi5jb21wb25lbnQnO1xuIl19

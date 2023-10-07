@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
+// import { WsNatsService } from 'src/app/ws-nats.service';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from 'navigation';
@@ -7,8 +9,9 @@ import { NavigationComponent } from 'navigation';
   standalone: true,
   imports: [CommonModule, RouterOutlet,NavigationComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'app-portal';
+
 }

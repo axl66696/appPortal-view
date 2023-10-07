@@ -2,7 +2,6 @@ import { Injectable, Signal, computed, inject,signal } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {LoginService} from 'login/src/lib/login.service'
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +22,7 @@ export class NavigationService {
     console.log("is the view?", event.urlAfterRedirects !== '/appStore' && event.urlAfterRedirects !== '/home' && event.urlAfterRedirects !== '/news')
     return event.urlAfterRedirects !== '/appStore' && event.urlAfterRedirects !== '/home' && event.urlAfterRedirects !== '/news';
   });
+
 
     /** navigation收合
     * @memberof NavigationService

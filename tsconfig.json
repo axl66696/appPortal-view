@@ -5,12 +5,20 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true ,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
+      "app-store": [
+        "dist/app-store"
+      ],
+      "login": [
+        "dist/login"
+      ],
       "navigation": [
         "dist/navigation"
       ]

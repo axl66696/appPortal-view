@@ -1,0 +1,17 @@
+{
+  "Please select branch": "請選擇院區",
+  "Please enter account": "請輸入帳號",
+  "Please enter password": "請輸入密碼",
+  "branch": "院區",
+  "account": "帳號",
+  "password": "密碼",
+  "forget password": "忘記密碼",
+  "login": "登入",
+  "eMail": "電子信箱",
+  "cancel": "取消",
+  "submit": "確定送出",
+  "reset password": "重置密碼",
+  "new password": "新密碼",
+  "Please enter new password": "請輸入新密碼",
+  "Please enter again": "請再次輸入"
+}

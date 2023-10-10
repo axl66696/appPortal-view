@@ -100,9 +100,7 @@ class AppStoreService {
      * @memberof AppStoreService
     */
     async initAppStore() {
-        // const userCode =  await this.#sharedService.getValue(history.state.token.userCode);
-        const userCode = 'Neo';
-        console.log('before getAppStoreList');
+        const userCode = await this.#sharedService.getValue(history.state.token.userCode);
         await this.getAppStoreList(userCode);
         await this.getUserStoreList(userCode);
     }

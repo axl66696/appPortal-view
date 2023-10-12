@@ -1,7 +1,7 @@
-<div class="layout-sidebar" [ngClass]="{ 'collapsed-inactive': !navigationService.isCollapsed() }">
+
   <div class="navigation-container">
-    <div class="navigation-header" [ngClass]="{'collapsed-inactive': !navigationService.isCollapsed()}">
-      <ng-container *ngIf="!navigationService.isCollapsed()">
+    <div class="navigation-header" [ngClass]="{'collapsed-inactive': !navigationService.isCollapsed}">
+      <ng-container *ngIf="navigationService.isCollapsed">
         <div class="m-1">
           <span class="material-symbols-outlined">
             {{appInfo().icon}}
@@ -16,7 +16,7 @@
           pButton
           pRipple
           type="button"
-          (click)="changeCollapsed()"
+          (click)="changeCollapsed(navigationService.isCollapsed())"
           icon="{{ this.collapsedButtonIcon() }}"
           class="p-button-rounded p-button-text"
         > </button>
@@ -27,14 +27,4 @@
     </ng-container>
     <his-navigation-footer></his-navigation-footer> -->
   </div>
-</div>
-<div
-  class="layout-content"
-  [ngClass]="{
-    'collapsed-inactive': !navigationService.isCollapsed()
-  }"
->
-  <!-- <router-outlet></router-outlet> -->
-</div>
 
-<!-- <his-dock></his-dock> -->

@@ -1,0 +1,7 @@
+/*
+ * Public API Surface of news-info
+ */
+export * from './lib/news-list/news-list.component';
+export * from './lib/news-info.component';
+export * from './lib/news.service';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL25ld3MtaW5mby9zcmMvcHVibGljLWFwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7R0FFRztBQUdILGNBQWMscUNBQXFDLENBQUE7QUFDbkQsY0FBYywyQkFBMkIsQ0FBQztBQUMxQyxjQUFjLG9CQUFvQixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFB1YmxpYyBBUEkgU3VyZmFjZSBvZiBuZXdzLWluZm9cbiAqL1xuXG5cbmV4cG9ydCAqIGZyb20gJy4vbGliL25ld3MtbGlzdC9uZXdzLWxpc3QuY29tcG9uZW50J1xuZXhwb3J0ICogZnJvbSAnLi9saWIvbmV3cy1pbmZvLmNvbXBvbmVudCc7XG5leHBvcnQgKiBmcm9tICcuL2xpYi9uZXdzLnNlcnZpY2UnO1xuXG4iXX0=

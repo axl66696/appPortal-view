@@ -1,0 +1,75 @@
+:host {
+  ::ng-deep {
+    .navigation-header {
+      .p-button.p-button-icon-only.p-button-rounded.p-button-text {
+        color: var(--primary-main);
+      }
+    }
+    .appList .p-dialog-content,
+    .navigation-footer {
+      .p-button.p-button-icon-only .pi {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+.layout-sidebar {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  width: 60px;
+  height: 100%;
+  z-index: 999;
+  overflow-y: auto;
+  user-select: none;
+  top: 0;
+  left: 0;
+  transition: transform 0.2s, left 0.2s;
+  background-color: var(--surface-overlay);
+  border-right: 1px solid var(--outline-variant);
+  padding: 0.5rem 0rem;
+  border-radius: 0;
+  box-shadow: none;
+
+  &.collapsed-inactive {
+    width: 200px;
+  }
+}
+
+.layout-content {
+  margin-left: 60px;
+  height: 100%;
+  &.collapsed-inactive {
+    margin-left: 200px;
+  }
+}
+.systemTitle {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+}
+.navigation-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+  padding-bottom: 10px;
+}
+
+.navigation-body {
+  flex: 1;
+}
+
+.navigation-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.collapsed-inactive {
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,59 @@
+.check-button{
+  width: 88px;
+  height: 32px;
+  padding: 4px, 12px, 4px, 12px;
+  border-radius: 20px;
+  border: 1px;
+  gap: 4px;
+
+}
+:host {
+  ::ng-deep {
+    .p-datatable {
+      height: 100%;
+      background: #fff;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 20px; /* 125% */
+      letter-spacing: 0.16px;
+      color: var(--surface-on-surface);
+      .p-datatable-tbody > tr {
+        width: 100%;
+        &:first-child {
+          > td {
+          }
+        }
+        &:last-child {
+          > td {
+            border-bottom: none;
+          }
+        }
+
+        > td {
+          padding: 8px 0;
+          &:first-child {
+            width: 5%;
+            min-width: 45px;
+            .p-button {
+              min-width: 60px;
+            }
+          }
+          &:nth-child(2) {
+            width: 13%;
+          }
+
+          &:last-child {
+            width: 13%;
+          }
+        }
+      }
+    }
+    .p-fieldset {
+      border-radius: 12px;
+      .p-fieldset-content {
+        padding: 8px 12px 8px;
+      }
+    }
+  }
+}
+

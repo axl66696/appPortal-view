@@ -1,0 +1,6 @@
+/*
+ * Public API Surface of service
+ */
+export * from './lib/service.service';
+export * from './lib/user-account.service';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NlcnZpY2Uvc3JjL3B1YmxpYy1hcGkudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0dBRUc7QUFFSCxjQUFjLHVCQUF1QixDQUFDO0FBQ3RDLGNBQWMsNEJBQTRCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogUHVibGljIEFQSSBTdXJmYWNlIG9mIHNlcnZpY2VcbiAqL1xuXG5leHBvcnQgKiBmcm9tICcuL2xpYi9zZXJ2aWNlLnNlcnZpY2UnO1xuZXhwb3J0ICogZnJvbSAnLi9saWIvdXNlci1hY2NvdW50LnNlcnZpY2UnO1xuIl19

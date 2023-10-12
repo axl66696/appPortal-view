@@ -1,0 +1,12 @@
+[
+    {
+        "icon": "material-symbols-outlined",
+        "label": "grid_view",
+        "value": "grid"
+    },
+    {
+        "icon": "material-symbols-outlined",
+        "label": "view_agenda",
+        "value": "list"
+    }
+]

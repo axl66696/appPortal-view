@@ -1,13 +1,15 @@
 <!-- eslint-disable @angular-eslint/template/elements-content -->
 <div class="content-container">
   <div class="top-bar-container">
-      <!-- <p-avatar
-        image="{{ userInfoService.userImage().image }}"
-        styleClass="mr-2"
-        size="xlarge"
-        shape="circle"
-      ></p-avatar> -->
-      <!-- <div class="title" i18n>{{ userInfoService.userInfo().userCode.display }},歡迎回來</div> -->
+    <p-avatar
+    image="{{ userAccountService.userImage().image }}"
+    styleClass="mr-2"
+    size="xlarge"
+    shape="circle"
+  ></p-avatar>
+  <div class="title">
+    {{ userAccountService.userAccount().userCode.display }},{{'歡迎回來'| translate}}
+  </div>
   </div>
   <div class="toolbar-container">
     <div class="icon-container title-box">

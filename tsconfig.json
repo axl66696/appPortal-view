@@ -16,11 +16,20 @@
       "app-store": [
         "dist/app-store"
       ],
+      "home-page": [
+        "dist/home-page"
+      ],
       "login": [
         "dist/login"
       ],
       "navigation": [
         "dist/navigation"
+      ],
+      "news-info": [
+        "dist/news-info"
+      ],
+      "service": [
+        "dist/service"
       ]
     },
     "declaration": false,

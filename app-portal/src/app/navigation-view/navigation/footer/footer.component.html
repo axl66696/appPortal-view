@@ -1,0 +1,192 @@
+<ul class="navigation-footer">
+  <li class="logo">
+    <img class="logo-style" src="assets/companyLogo.png" alt="Image" />
+
+    <div
+      [ngClass]="{
+        'collapsed-active': navigationService.isCollapsed()
+      }"
+    >
+      雲行至善
+    </div>
+  </li>
+  <hr />
+  <div
+    class="wrapNavitem"
+    [ngClass]="{
+      'collapsed-inactive': !navigationService.isCollapsed()
+    }"
+  >
+    <li>
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-home"
+        (click)="onHomeIconClick()"
+        class="p-button-rounded p-button-text p-button-icon-only"
+      > </button>
+    </li>
+    <li>
+      <button
+      pButton
+      pRipple
+      type="button"
+      (click)="onUserIconClick()"
+      class="p-button-rounded p-button-text p-button-icon-only"
+    >
+      <p-avatar
+        image="assets/user.png"
+        shape="circle"
+        [style]="{ width: '24px', height: '24px' }"
+      ></p-avatar>
+      </button>
+      <p-dialog
+      class="userSetting"
+      header="Header"
+      [(visible)]="isUserDialogVisible"
+    >
+      <ng-template pTemplate="header">
+        <div class="dialog-header">
+          <p-avatar
+          image="assets/user.png"
+          shape="circle"
+          [style]="{ width: '24px', height: '24px' }"
+        ></p-avatar>
+          {{userAccountService.userAccount().userCode.display}}
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <p-listbox [options]="userDialogList" optionLabel="label" (onClick)="onUserDialogListClick($event)">
+          <ng-template let-setting pTemplate="item">
+            <div class="labellist">
+              {{ setting.label }}
+            </div>
+          </ng-template>
+        </p-listbox>
+      </ng-template>
+    </p-dialog>
+    </li>
+    <li>
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-bell"
+        (click)="onNewsIconClick()"
+        class="p-button-rounded p-button-text"
+      > </button>
+      <div class="badge-container">
+        <p-badge value="3" class="badge-style" severity="danger"></p-badge>
+      </div>
+    </li>
+    <li>
+      <button
+        pButton
+        pRipple
+        type="button"
+        class="p-button-rounded p-button-text p-button-icon-only"
+        (click)="onAppListIconClick()"
+      ><i class="pi pi-th-large"></i>
+      </button>
+      <p-dialog
+        header="Header"
+        [(visible)]="isAppListDialogVisible"
+        [style]="{ width: '240px' }"
+        class="appList"
+      >
+        <ng-template pTemplate="header">
+          <div class="dialog-header">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_2927_3142)">
+                <path
+                  d="M4 8H8V4H4V8ZM10 20H14V16H10V20ZM4 20H8V16H4V20ZM4 14H8V10H4V14ZM10 14H14V10H10V14ZM16 4V8H20V4H16ZM10 8H14V4H10V8ZM16 14H20V10H16V14ZM16 20H20V16H16V20Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_2927_3142">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <h6 >程式集</h6>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div class="see-all-style">
+            查看全部
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-angle-right"
+              class="p-button-text"
+              (click)="onAppStoreClick()"
+            > </button>
+          </div>
+          <p-divider></p-divider>
+          <div class="title-style label-m">我的最愛</div>
+          <ng-container *ngFor="let favoriteApp of appStoreService.myAppStores()">
+            <div
+              *ngIf="favoriteApp.isFavorite === true"
+              class="dialog-content-title"
+            >
+            <div class="app-container" (click)="onNavAppClick(favoriteApp.url)">
+              <div class="p-image p-component">
+                <span class="material-symbols-outlined icon-style">
+                  {{favoriteApp.icon}}
+                </span>
+              </div>
+           {{ favoriteApp.title }}
+          </div>
+          </div>
+          </ng-container>
+          <p-divider></p-divider>
+          <div class="title-style label-m">已開啟</div>
+          <!-- <ng-container *ngFor="let openApp of appStoreService.myAppStores()">
+            <div
+              *ngIf="openApp.isOpen == true"
+              class="dialog-content-title"
+            >
+            <span class="flex opend w-full">
+              <div class="app-container" (click)="onNavAppClick(openApp.appUrl)">
+                <div class="p-image p-component">
+                  <span class="material-symbols-outlined icon-style">
+                    {{openApp.appIcon}}
+                  </span>
+                </div>
+                  {{ openApp.appTitle}}
+                </div>
+                <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-times"
+                class="p-button-text"
+                (click)="onCloseApp(openApp._id)"
+              ></button>
+            </span>
+          </div>
+          </ng-container> -->
+        </ng-template>
+      </p-dialog>
+    </li>
+    <li>
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-sign-out "
+        class="p-button-rounded p-button-text"
+        (click)="onLogoutIconClick()"
+      > </button>
+    </li>
+  </div>
+</ul>

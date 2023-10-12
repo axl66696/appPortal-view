@@ -1,0 +1,7 @@
+/*
+ * Public API Surface of home-page
+ */
+export * from './lib/user-profile.service';
+export * from './lib/user-profile.component';
+export * from './lib/ws-nats.service';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2hvbWUtcGFnZS9zcmMvcHVibGljLWFwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7R0FFRztBQUNILGNBQWMsNEJBQTRCLENBQUM7QUFDM0MsY0FBYyw4QkFBOEIsQ0FBQztBQUM3QyxjQUFjLHVCQUF1QixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLypcbiAqIFB1YmxpYyBBUEkgU3VyZmFjZSBvZiBob21lLXBhZ2VcbiAqL1xuZXhwb3J0ICogZnJvbSAnLi9saWIvdXNlci1wcm9maWxlLnNlcnZpY2UnO1xuZXhwb3J0ICogZnJvbSAnLi9saWIvdXNlci1wcm9maWxlLmNvbXBvbmVudCc7XG5leHBvcnQgKiBmcm9tICcuL2xpYi93cy1uYXRzLnNlcnZpY2UnO1xuIl19

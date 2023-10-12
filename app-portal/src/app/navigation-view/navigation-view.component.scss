@@ -1,0 +1,30 @@
+.layout-sidebar {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  width: 60px;
+  height: 100%;
+  z-index: 999;
+  overflow-y: auto;
+  user-select: none;
+  top: 0;
+  left: 0;
+  transition: transform 0.2s, left 0.2s;
+  background-color: var(--surface-overlay);
+  border-right: 1px solid var(--outline-variant);
+  padding: 0.5rem 0rem;
+  border-radius: 0;
+  box-shadow: none;
+
+  &.collapsed-inactive {
+    width: 200px;
+  }
+}
+
+.layout-content {
+  margin-left: 60px;
+  height: 100%;
+  &.collapsed-inactive {
+    margin-left: 200px;
+  }
+}

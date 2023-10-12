@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import {AppStore} from '@his-viewmodel/app-portal/dist'
@@ -13,14 +13,16 @@ import { NavigationService } from './navigation.service';
 })
 export class NavigationComponent {
 
-  appInfo = signal<AppStore>({} as AppStore)
+  @Output() setCollapsed = new EventEmitter<any>;
 
+  appInfo = signal<AppStore>({} as AppStore)
   navigationService = inject(NavigationService);
   collapsedButtonIcon = computed(() => {
     if (
       !this.navigationService.isCollapsed() &&
       this.navigationService.isShowBody()
     ) {
+      console.log('pi pi-angle-double-left')
       return 'pi pi-angle-double-left';
     }
     return 'pi pi-angle-double-right';
@@ -29,7 +31,8 @@ export class NavigationComponent {
   /** 開合導覽列
    * @memberof NavigationComponent
    */
-      changeCollapsed(): void {
-        this.navigationService.onCollapsClick();
-      }
+  changeCollapsed(isCollapsed:boolean): void {
+    this.navigationService.onCollapsClick()
+    this.setCollapsed.emit(!isCollapsed);
+  }
 }

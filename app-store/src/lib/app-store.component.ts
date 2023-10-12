@@ -9,8 +9,9 @@ import { DividerModule } from 'primeng/divider';
 import { AvatarModule } from 'primeng/avatar';
 import { SharedService } from '@his-base/shared';
 import { CardListComponent } from '@his-directive/card-list/dist/card-list'
-import { WsNatsService } from './ws-nats.service';
-import { UserAccount } from '@his-viewmodel/app-portal/dist';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UserAccountService } from 'dist/service';
+import * as SelectButtonOption from '../assets/option/ SelectButtonOption.json'
 import * as _ from 'lodash';
 
 
@@ -26,7 +27,8 @@ import * as _ from 'lodash';
     FormsModule,
     InputTextModule,
     AvatarModule,
-    CardListComponent
+    CardListComponent,
+    TranslateModule
   ],
   templateUrl: './app-store.component.html',
   styleUrls: ['./app-store.component.scss'],
@@ -34,15 +36,20 @@ import * as _ from 'lodash';
 export class AppStoreComponent {
 
   isGridView = signal<boolean>(true);
-  appStoreService = inject(AppStoreService);
-  #sharedService = inject(SharedService);
-  #wsNatsService = inject(WsNatsService);
-  Options: any[] = [
-    { icon: 'material-symbols-outlined', label: 'grid_view' ,value: 'grid'},
-    { icon: 'material-symbols-outlined', label: 'view_agenda' ,value: 'list'},
-  ];
+  Options: string[] = [];
   value = 'grid';
+  appStoreService = inject(AppStoreService);
+  userAccountService = inject(UserAccountService);
+  #sharedService = inject(SharedService);
+  #translate = inject(TranslateService)
 
+
+
+
+  async ngOnInit(){
+    this.#translate.setDefaultLang(`zh-Hant`)
+    this.Options = Object.values(SelectButtonOption)[0] as unknown as string[];
+  }
 
   /** 返回上一頁
     * @memberof AppStoreComponent
@@ -60,13 +67,6 @@ export class AppStoreComponent {
     } else {
       this.isGridView.set(false);
     }
-  }
-
-  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
-  async ngOnInit(){
-    await this.#wsNatsService.connect();
-    await this.appStoreService.initAppStore();
-    // console.log(this.#sharedService.getValue(history.state.token));
   }
 
 }

@@ -1,0 +1,86 @@
+<!-- eslint-disable @angular-eslint/template/elements-content -->
+<div class="content-container">
+  <div class="top-bar-container">
+    <p-avatar
+    image="{{ userAccountService.userImage().image }}"
+    styleClass="mr-2"
+    size="xlarge"
+    shape="circle"
+  ></p-avatar>
+  <div class="title">
+    {{ userAccountService.userAccount().userCode.display }},{{'歡迎回來'| translate}}
+  </div>
+  </div>
+  <div class="toolbar-container">
+    <div class="icon-container title-box">
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-angle-left"
+        class="p-button-rounded p-button-secondary p-button-outlined"
+        (click)="onBackClick()"
+      ></button>
+      <div><h3>程式集</h3></div>
+    </div>
+    <div class="icon-container">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input type="text"  pInputText placeholder="查詢" />
+        </span>
+      <p-selectButton
+        [options]="Options"
+        [(ngModel)]="value"
+        optionLabel="name"
+        optionValue="value"
+        (onOptionClick)="onSelectedChange()"
+      >
+      <ng-template let-item pTemplate>
+        <span [class]="item.icon"> {{ item.label }} </span>
+      </ng-template>
+      </p-selectButton>
+    </div>
+  </div>
+  <ng-container *ngIf="isGridView(); else listView">
+    <div class="appstore-container">
+      <p-divider class="first-class"></p-divider>
+      <div class="flex flex-wrap card-content">
+        <ng-container
+          *ngFor="let myAppStore of appStoreService.myAppStores()"
+        >
+          <his-card-list
+            class="grid-style"
+            [myAppStore]="myAppStore"
+            (setChange)="appStoreService.onFavoriteClick($event)"
+            (clickCard)="appStoreService.onNavAppClick($event)"
+            >
+          </his-card-list>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #listView>
+    <div class="appstore-container listView">
+      <p-divider class="first-class"></p-divider>
+      <div class="flex flex-wrap list-content">
+        <ng-container
+          *ngFor="let myAppStore of appStoreService.myAppStores()"
+        >
+          <his-card-list
+            class="list-style"
+            [myAppStore]="myAppStore"
+            [isListView]="true"
+            (setChange)="appStoreService.onFavoriteClick($event)"
+            (clickCard)="appStoreService.onNavAppClick($event)"
+            >
+          </his-card-list>
+        </ng-container>
+      </div>
+      </div>
+  </ng-template>
+</div>
+
+
+
+
+

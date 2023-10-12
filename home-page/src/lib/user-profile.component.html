@@ -1,0 +1,56 @@
+<!-- eslint-disable @angular-eslint/template/elements-content -->
+<div class="content-container">
+  <div class="top-bar-container">
+    <p-avatar
+      image="{{ userAccountService.userImage().image }}"
+      styleClass="mr-2"
+      size="xlarge"
+      shape="circle"
+    ></p-avatar>
+    <div class="title">
+      {{ userAccountService.userAccount().userCode.display }},{{'歡迎回來'| translate}}
+    </div>
+  </div>
+  <div class="flex flex-container">
+    <div class="newsArea card flex justify-content-center card-container">
+      <div class="see-more-container">
+        <h3>{{'最新消息' | translate}}</h3>
+        <button
+          pButton
+          pRipple
+          label="{{'查看更多' | translate}}"
+          (click)="onMoreNewsClick()"
+        ></button>
+      </div>
+      <his-news-list
+        [news]="newsService.news()"
+        class="news-container"
+      ></his-news-list>
+    </div>
+
+    <div class="favoriteArea card flex justify-content-center card-container">
+      <div class="see-more-container">
+        <h3>{{'我的最愛'| translate }}</h3>
+        <button
+          pButton
+          pRipple
+          label="{{'查看更多' | translate}}"
+          (click)="onMoreAppListClick()"
+        ></button>
+      </div>
+      <div class="flex grid-container">
+        <ng-container *ngFor="let myAppStore of appStoreService.myAppStores()">
+          <ng-container *ngIf="myAppStore.isFavorite === true">
+            <his-card-list
+              class="grid-style"
+              [myAppStore]="myAppStore"
+              (setChange)="appStoreService.onFavoriteClick($event)"
+              (clickCard)="appStoreService.onNavAppClick($event)"
+            >
+            </his-card-list>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

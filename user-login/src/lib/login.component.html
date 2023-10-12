@@ -1,0 +1,63 @@
+<div class="login-page-container">
+  <div class="login-container">
+    <div class="welcome-container">
+    <div class="welcome-style">Welcome!</div>
+  </div>
+    <div class="logo-container">
+      <img src="assets/companyLogo.png" alt="Image" />
+    </div>
+
+    <div class="title-style">雲行至善醫療系統</div>
+
+
+    <div class="form-container">
+      <div class="input-text">
+        <label class="input-label" htmlFor="branchSelector" [innerText]="'branch' | translate"></label>
+        <p-dropdown
+          id="branchSelector"
+          [options]="branchesOption"
+          [(ngModel)]="loginReq.orgNo"
+          [placeholder]="'Please select branch' | translate"
+        >
+      </p-dropdown>
+      </div>
+      <div class="input-text">
+        <label class="input-label" htmlFor="UserName" [innerText]="'account' | translate"></label>
+        <input
+          pInputText
+          id="UserName"
+          type="text"
+          [placeholder]="'Please enter account' | translate"
+          [(ngModel)]="loginReq.userCode.code"
+          class="p-inputtext p-element p-component"
+        />
+      </div>
+      <div class="input-text">
+        <label class="input-label" htmlFor="UserName" [innerText]="'password' | translate"></label>
+        <p-password
+          id="password"
+          [placeholder]="'Please enter password' | translate"
+          [(ngModel)]="password"
+          [feedback]="false"
+          (keyup.enter)="onLoginClick()"
+          class="p-fluid"
+        ></p-password>
+      </div>
+      <div class="button-group">
+        <p-button [label]="'forget password' | translate" styleClass="p-button-link" (onClick)="onForgotClick()"></p-button>
+        <button pButton pRipple-label [label]="'login' | translate" (click)="onLoginClick()"> </button>
+      </div>
+    </div>
+  </div>
+  <div class="image-container">
+    <div class="image-box">
+      <img src="assets/loginImage.png" class="image-style" alt="Image" />
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+
+<his-forgot-password (hide)="onHideForgot()" [isVisibleForgot]=isVisibleForgot></his-forgot-password>
+<his-reset-password (hide)="onHideReset()" (authError)="onAuthError()" [isVisibleReset]=isVisibleReset
+                                                         [token]="token"></his-reset-password>
+

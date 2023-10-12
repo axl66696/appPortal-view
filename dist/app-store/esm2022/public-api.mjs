@@ -1,0 +1,6 @@
+/*
+ * Public API Surface of app-store
+ */
+export * from './lib/app-store.service';
+export * from './lib/app-store.component';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2FwcC1zdG9yZS9zcmMvcHVibGljLWFwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7R0FFRztBQUVILGNBQWMseUJBQXlCLENBQUM7QUFDeEMsY0FBYywyQkFBMkIsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qXG4gKiBQdWJsaWMgQVBJIFN1cmZhY2Ugb2YgYXBwLXN0b3JlXG4gKi9cblxuZXhwb3J0ICogZnJvbSAnLi9saWIvYXBwLXN0b3JlLnNlcnZpY2UnO1xuZXhwb3J0ICogZnJvbSAnLi9saWIvYXBwLXN0b3JlLmNvbXBvbmVudCc7XG4iXX0=

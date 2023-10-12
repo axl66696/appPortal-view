@@ -1,0 +1,132 @@
+:host ::ng-deep {
+  .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    padding: 0.5rem 0.75rem;
+  }
+  .p-dropdown,
+  .p-inputtext {
+    width: 100%;
+    background:var(--white) !important;
+  }
+  .button-group {
+    display: flex;
+    gap: var(--spacing-lg);
+    .p-button{
+      max-width: 142px;
+      width: calc(50% - 8px);
+    }
+    p-button {
+      width: calc(50% - 8px);
+      .p-button {
+        width: 100%;
+      }
+    }
+  }
+  .p-dropdown {
+    border-color: var(--outline);
+    max-height: 40px;
+    .p-inputtext{
+      padding: 10px 16px;
+    }
+  }
+}
+
+input:-webkit-autofill{
+     -webkit-box-shadow:0 0 0 40px white inset !important;
+}
+
+.login-page-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+}
+
+.login-container {
+  width: 33%;
+  height: 100%;
+  padding: var(--spacing-xxl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--surface-card);
+}
+
+.welcome-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+.welcome-style {
+  color: rgba(19, 20, 20, 0.38);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 44px; /* 137.5% */
+  letter-spacing: 1.28px;
+}
+
+.logo-container {
+  width: 44.79%;
+  object-fit: cover;
+  padding: var(--spacing-xxl) 0;
+  img {
+    width: 100%;
+    display: block;
+  }
+}
+
+.form-container {
+  width: 52%;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+
+.title-style {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: var(--spacing-xxl);
+}
+
+.input-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-label {
+  color: var(--surface-on-surface);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 140% */
+  letter-spacing: 0.4px;
+}
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-lg);
+}
+.image-container {
+  width: 67%;
+  height: 100%;
+}
+
+.image-box {
+  width: 100%;
+  height: 100%;
+}
+
+.image-style {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

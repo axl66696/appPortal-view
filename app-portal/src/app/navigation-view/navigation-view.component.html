@@ -1,0 +1,17 @@
+<div class="layout-sidebar" [ngClass]="{ 'collapsed-inactive': !navigationService.isCollapsed() }">
+<his-navigation
+  (setCollapsed)="navigationService.onCollapsClick()">
+</his-navigation>
+</div>
+
+
+<div
+  class="layout-content"
+  [ngClass]="{
+    'collapsed-inactive': !navigationService.isCollapsed()
+  }"
+>
+<router-outlet></router-outlet>
+</div>
+
+<!-- <his-dock></his-dock> -->

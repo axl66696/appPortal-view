@@ -1,0 +1,193 @@
+// .top-bar-container {
+//   display: flex;
+//   justify-content: space-between;
+//   padding: 12px 16px;
+// }
+.top-bar-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.icon-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  // gap: var(spacing/md);
+  h3 {
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 2rem; /* 133.333% */
+    letter-spacing: 0.03rem;
+    color: var(--surface-on-surface);
+  }
+}
+.content-container {
+  padding: 32px;
+  height: 100%;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-ground);
+}
+.flex-column {
+  gap: 26px;
+}
+:host {
+  ::ng-deep {
+    p-fieldset {
+      .p-fieldset-toggleable .p-fieldset-legend {
+        padding: 0;
+        margin-left: -1px;
+        width: 129px;
+        transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+        a {
+          min-height: 34px;
+          padding: var(--spacing-xs) var(--spacing-md);
+        }
+      }
+      .p-fieldset-legend-text{
+        font-weight: bold;
+      }
+      .p-fieldset .p-fieldset-content {
+        padding: 8px 0px;
+      }
+      .p-fieldset-legend > a {
+        flex-direction: row-reverse;
+      }
+      .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a .p-fieldset-toggler {
+        margin-right: 0;
+        margin-left: 18px;
+      }
+
+      &.first {
+        .p-fieldset-toggleable .p-fieldset-legend {
+          a {
+            color: var(--white);
+          }
+
+          background-color: var(--tertiary-main);
+        }
+      }
+      &.second {
+        .p-fieldset-toggleable .p-fieldset-legend {
+          a {
+            color: #f6f6f6;
+          }
+          background-color: var(--primary-main);
+        }
+      }
+      &.third {
+        .p-fieldset-toggleable .p-fieldset-legend {
+          a {
+            color: var(--surface-on-surface);
+          }
+          background-color: var(--surface-section);
+        }
+      }
+    }
+  }
+}
+
+:host {
+  ::ng-deep {
+    .p-datatable {
+      height: 100%;
+      background: #fff;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 20px; /* 125% */
+      letter-spacing: 0.16px;
+      color: var(--surface-on-surface);
+      .p-datatable-tbody > tr {
+        width: 100%;
+        &:first-child {
+          > td {
+          }
+        }
+        &:last-child {
+          > td {
+            border-bottom: none;
+          }
+        }
+
+        > td {
+          padding: 8px 0 8px 5px;
+          &:first-child {
+            width: 5%;
+            padding-left: 0;
+            min-width: 45px;
+            .p-button {
+              min-width: 60px;
+            }
+          }
+          &:nth-child(2) {
+            width: 10%;
+            padding-left: 14px;
+          }
+
+          &:last-child {
+            width: 10%;
+            text-align: end;
+          }
+        }
+      }
+    }
+    .p-fieldset {
+      border-radius: 12px;
+      .p-fieldset-content {
+        padding: 8px 0px;
+      }
+    }
+  }
+}
+.title {
+  padding-left: 24px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 40px; /* 142.857% */
+  letter-spacing: 1.12px;
+  color: var(--primary-main);
+}
+.toolbar-container {
+  display: flex;
+  flex-direction: row;
+  width:100%;
+  justify-content: space-between;
+}
+
+.p-button {
+  color: #ffffff;
+  background: var(--primary-main);
+  border: 0 none;
+  padding: 4px 12px;
+  font-size: 1rem;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s,
+      box-shadow 0.2s, background-size 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
+  border-radius: 6px;
+}
+
+.check-button{
+  width: 88px;
+  height: 32px;
+  padding: 4px, 12px, 4px, 12px;
+  border-radius: 20px;
+  border: 1px;
+  gap: 4px;
+
+}
+
+.p-input-icon-left{
+  padding: 0px 3px 0px 0px;
+  width: 320px;
+}
+
+.p-inputtext{
+  width: 100%
+}
+
+.pi{
+  width: 17.51px;
+  height: 17.51px;
+}

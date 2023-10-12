@@ -1,0 +1,20 @@
+{"remotePages":[
+  {
+    "type": "module",
+    "remoteEntry": "http://localhost:4201/remoteEntry.js",
+    "pageNo": 1,
+    "pageTitle": "醫囑",
+    "pagePath": "system",
+    "dummyName": "routes",
+    "moduleName": "./routes"
+  },
+  {
+    "type": "module",
+    "remoteEntry": "http://localhost:4202/remoteEntry.js",
+    "pageNo": 2,
+    "pageTitle": "掛號",
+    "pagePath": "appointment",
+    "dummyName": "viewRoutes",
+    "moduleName": "./View"
+  }
+]}

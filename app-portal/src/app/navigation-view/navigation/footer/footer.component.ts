@@ -21,7 +21,6 @@ import { UserAccountService,UserProfileService } from 'dist/service';
 import { AuthService } from '../../auth.service'
 import { UserAccount } from '@his-viewmodel/app-portal/dist';
 
-
 @Component({
   selector: 'his-footer',
   standalone: true,
@@ -365,8 +364,7 @@ export class FooterComponent implements OnInit{
    * @memberof FooterComponent
    */
   onDockVisible(){
-      // this.#navigationFooterService.setDockVisible(this.dockSwitch)
-      console.log("click set DockerVisible")
+      this.navigationViewService.setDockVisible(this.isDockVisible)
     }
 
 

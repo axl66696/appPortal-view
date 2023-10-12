@@ -1,0 +1,85 @@
+<ng-container *ngIf="isDockDisplay">
+  <div
+    class="dock-container"
+    @slideDown
+    (mouseenter)="onMouseOverDock()"
+    (mouseleave)="onMouseLeaveDock()"
+  >
+    <div class="dock">
+      <ng-container *ngFor="let appFavorite of appStoreService.myAppStores()">
+        <div class="button-box">
+          <button
+            *ngIf="appFavorite.isFavorite == true"
+            (mouseover)="
+              hoveredAppId = appFavorite.appId; onMouseOver(appFavorite.appId)
+            "
+            (mouseout)="hoveredItemIndex = null; onMouseLeave()"
+            (click)="onIconClick(appFavorite.url)"
+            [style.transform]="getTransform(appFavorite.appId)"
+            class="app-icon-style"
+          >
+            <div *ngIf="hoveredAppId == appFavorite.appId" class="systemBox">
+              <p class="name">
+                {{ appFavorite.title }}
+              </p>
+            </div>
+            <div class="p-image p-component">
+              <span class="material-symbols-outlined icon-style">
+                {{appFavorite.icon}}
+              </span>
+            </div>
+            <div *ngIf="appFavorite.isOpen" class="active"></div>
+          </button>
+          <div *ngIf="appFavorite.isOpen" class="cancel-ico">
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-times"
+              class="p-button-rounded p-button-danger"
+              (click)="onCancelClick(appFavorite.appId)"
+            ></button>
+          </div>
+        </div>
+      </ng-container>
+
+      <p-divider layout="vertical"></p-divider>
+
+      <ng-container *ngFor="let appOpened of appStoreService.myAppStores()">
+        <div class="button-box" *ngIf="appOpened.isFavorite === false && appOpened.isOpen === true">
+          <button
+            (mouseover)="
+              hoveredAppId = appOpened.appId; onMouseOver(appOpened.appId)
+            "
+            (mouseout)="hoveredItemIndex = null; onMouseLeave()"
+            (click)="onIconClick(appOpened.url)"
+            [style.transform]="getTransform(appOpened.appId)"
+            class="app-icon-style"
+          >
+            <div *ngIf="hoveredAppId == appOpened.appId" class="systemBox">
+              <p class="name">
+                {{ appOpened.title }}
+              </p>
+            </div>
+            <div class="p-image p-component">
+              <span class="material-symbols-outlined icon-style">
+                {{appOpened.icon}}
+              </span>
+            </div>
+            <div *ngIf="appOpened.isOpen" class="active"></div>
+          </button>
+          <div *ngIf="appOpened.isOpen" class="cancel-ico">
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-times"
+              class="p-button-rounded p-button-danger"
+              (click)="onCancelClick(appOpened.appId)"
+            ></button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

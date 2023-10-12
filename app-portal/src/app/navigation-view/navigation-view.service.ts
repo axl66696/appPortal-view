@@ -6,18 +6,22 @@ import { SharedService } from '@his-base/shared';
 })
 export class NavigationViewService {
 
-  /** 使用Signal變數儲存UserAccount型別的使用者資訊
-   * @memberof NavigationViewService
-  */
-  userAccount = signal<UserAccount>({} as UserAccount)
-  #sharedService = inject(SharedService);
 
-  /** 從首頁傳過來的
-   * @memberof NavigationViewService
-  */
-  async getUserAccount() {
-    const userAccount:UserAccount =  await this.#sharedService.getValue(history.state.token);
-    this.userAccount.set(userAccount);
-    console.log('userAccount',userAccount);
+
+  isDockVisible = signal<boolean>(true)
+
+
+    /**設置Dock是否顯示
+   * @param {boolean} isDockVisible Dock顯示
+   */
+    setDockVisible(isDockVisible:boolean){
+      this.isDockVisible.set(isDockVisible)
+    }
+
+  /**取得Dock是否顯示
+   * @returns {boolean} Dock顯示
+   */
+  getDockVisible():boolean{
+    return this.isDockVisible()
   }
 }

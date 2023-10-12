@@ -1,0 +1,169 @@
+
+:host {
+  ::ng-deep {
+    .p-image.p-component {
+      display: block;
+      width: 48px;
+      height: 48px;
+      background-color: var(--primary-main);
+      border-radius: 12px;
+      overflow: hidden;
+      padding: 8px;
+      position: relative;
+      background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0) 100%
+        ),
+        var(--primary-main);
+      box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.02),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+  }
+}
+
+.icon-style{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var( --surface-a);
+  font-size: 48px;
+}
+
+.dock-container {
+  width: auto;
+  height: 72px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 87px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+
+  // @media  (max-width:1441px) {
+  //   top: 12%;
+  // }
+
+
+  .dock {
+    padding: 8px 16px;
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    gap: 16px;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+    .app-icon-style {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      vertical-align: bottom;
+      transition: 0.2s;
+      transform-origin: 50% 100%;
+      border: none;
+      background-color: transparent;
+
+      .systemBox {
+        bottom: -40px;
+        position: absolute;
+        white-space: nowrap;
+        background: rgba(0, 0, 0, 0.5);
+        height: 10px;
+        padding: 10px 15px;
+        backdrop-filter: blur(13px);
+        -webkit-backdrop-filter: blur(13px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        &::before {
+          content: "";
+          position: absolute;
+          top: -10px;
+          width: 0;
+          height: 0;
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-bottom: 10px solid rgba(0, 0, 0, 0.5);
+        }
+      }
+      .name {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .active {
+        &::after {
+          position: absolute;
+          content: "";
+          bottom: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background-color: rgba(0, 0, 0, 0.8);
+        }
+      }
+      .ico {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        transition: 0.2s;
+      }
+    }
+    .button-box{
+      position: relative;
+      transition: all 0.3s;
+      &:hover {
+        margin: 0px 13px;
+      }
+      .cancel-ico {
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        top: -12px;
+        right: -8px;
+      }
+    }
+  }
+}
+
+:host {
+  ::ng-deep {
+    .p-divider.p-divider-vertical{
+      padding: 12px 0;
+      margin:0px;
+    }
+    .p-button.p-button-icon-only .pi{
+      font-size: 1px;
+    }
+    .cancel-ico{
+      .p-button.p-button-icon-only{
+        width: 18px;
+        height: 18px;
+        .pi{
+          font-size: 1px;
+        }
+      }
+    }
+  }
+}

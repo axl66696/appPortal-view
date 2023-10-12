@@ -45,7 +45,7 @@ export class AppStoreService {
    * @memberof AppStoreService
    */
   convertToExtended(appStores: MyAppStore[]): ExtendedMyAppStore[] {
-      return appStores.map(appStore => ({...appStore,isOpen: false}));
+      return appStores.map(appStore => ({...appStore,isOpen: true}));
   }
 
   /** 取得全部應用程式清單
@@ -146,6 +146,28 @@ export class AppStoreService {
   onNavAppClick(appUrl: number):void{
     this.#router.navigate([appUrl])
   }
+
+    /** 設定應用程式關閉
+   * @param {string} appId
+   * @memberof AppStoreService
+  */
+    setAppClose(appId: string): void {
+      this.myAppStores.update(apps => apps.map(app => { app.appId === appId ? app.isOpen = false : app; return app }))
+      console.log(this.appOpenedIndex)
+
+      if (this.appOpenedIndex.length > 1) {
+        const index = this.appOpenedIndex.findIndex(app => app._id === appId)
+        this.appOpenedIndex.splice(index, 1);
+        console.log(index)
+        console.log(this.appOpenedIndex[this.appOpenedIndex.length - 1])
+        // window.open(this.appOpenedIndex[this.appOpenedIndex.length-1].appUrl,"_top")
+        this.#router.navigate([this.appOpenedIndex[this.appOpenedIndex.length - 1].url])
+      }
+      else {
+        this.appOpenedIndex.splice(1, 1);
+        this.#router.navigateByUrl('/home')
+      }
+    }
 }
 
 

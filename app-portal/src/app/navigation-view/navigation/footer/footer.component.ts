@@ -17,7 +17,6 @@ import { PasswordModule } from 'primeng/password';
 import { NavigationService } from '../navigation.service';
 import { NavigationViewService } from '../../navigation-view.service';
 import { AppStoreService } from 'dist/app-store';
-import { UserProfileService } from 'dist/home-page';
 import { UserAccountService } from 'dist/service';
 // import { AuthService } from 'src/app/login-page/auth.service';
 // import { NavigationFooterService } from './navigation-footer.service';
@@ -48,14 +47,27 @@ import { UserAccountService } from 'dist/service';
 export class FooterComponent {
 
 
+  /**User Dialog開關
+   * @memberof FooterComponent
+   */
   isUserDialogVisible: boolean = false;
+
+  /**User Dialog中個人設定顯示 User Profile Dialog開關
+   * @memberof FooterComponent
+   */
   isUserProfileVisible: boolean = false;
+
+  /**App List Dialog開關
+   * @memberof FooterComponent
+  */
   isAppListDialogVisible: boolean = false;
   userDialogList!: object[];
+  editableUserInfo: any;
 
   navigationService = inject(NavigationService);
   navigationViewService = inject(NavigationViewService);
   userAccountService = inject(UserAccountService);
+
   appStoreService = inject(AppStoreService);
   #router = inject(Router);
 
@@ -65,6 +77,7 @@ export class FooterComponent {
       { label: $localize`個人設定`, code: 'PROFILE' },
       { label: $localize`幫助中心`, code: 'HELP' },
     ];
+    this.editableUserInfo = Object.assign({}, this.userAccountService.userAccount());
   }
   /**點擊 Navigation Footer首頁Icon，導向首頁
    * @memberof FooterComponent
@@ -91,6 +104,18 @@ export class FooterComponent {
       this.isUserProfileVisible = true;
     }
   }
+
+  // onCancelSaveClick() {
+  //   this.isUserProfileVisible = !this.isUserProfileVisible;
+  //   this.editableUserInfo = Object.assign({}, this.userInfoService.userInfo());
+  //   this.dockSwitch = this.userInfoService.userInfo().typeSetting.isDockVisible;
+  //   this.selectedScale = this.userInfoService.userInfo().typeSetting.scale;
+  //   this.selectedTheme = this.userInfoService.userInfo().typeSetting.theme;
+  //   this.onThemeChange();
+  //   this.onScaleChange(this.selectedScale);
+  //   this.onDockVisible();
+  //   this.verityResetPassword();
+  // }
 
   /**點擊 News Icon導向News頁面
    * @memberof FooterComponent
@@ -119,6 +144,14 @@ export class FooterComponent {
   */
   onNavAppClick(appUrl: string) {
     this.#router.navigate([appUrl]);
+  }
+
+  /**關閉開啟App
+   * @param {string} appId 應用程式ID
+   * @memberof FooterComponent
+  */
+  onCloseApp(appId: string) {
+    this.appStoreService.setAppClose(appId);
   }
 
   /**點擊導向登出頁面

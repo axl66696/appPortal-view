@@ -137,7 +137,7 @@ export class LoginComponent implements OnInit {
       this.#loginService.getUserAccount(userToken.userCode.code).subscribe(x=>{
         this.userAccount = x
         const key = this.#sharedService.setValue(this.userAccount)
-        this.router.navigate(['/Home'],{state: {token: key}});
+        this.router.navigate(['/home'],{state: {token: key}});
       })
     }
     else {

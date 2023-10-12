@@ -150,19 +150,19 @@
           </ng-container>
           <p-divider></p-divider>
           <div class="title-style label-m">已開啟</div>
-          <!-- <ng-container *ngFor="let openApp of appStoreService.myAppStores()">
+          <ng-container *ngFor="let openApp of appStoreService.myAppStores()">
             <div
-              *ngIf="openApp.isOpen == true"
+              *ngIf="openApp.isOpen === true"
               class="dialog-content-title"
             >
             <span class="flex opend w-full">
-              <div class="app-container" (click)="onNavAppClick(openApp.appUrl)">
+              <div class="app-container" (click)="onNavAppClick(openApp.url)">
                 <div class="p-image p-component">
                   <span class="material-symbols-outlined icon-style">
-                    {{openApp.appIcon}}
+                    {{openApp.icon}}
                   </span>
                 </div>
-                  {{ openApp.appTitle}}
+                  {{ openApp.title}}
                 </div>
                 <button
                 pButton
@@ -170,11 +170,11 @@
                 type="button"
                 icon="pi pi-times"
                 class="p-button-text"
-                (click)="onCloseApp(openApp._id)"
-              ></button>
+                (click)="onCloseApp(openApp.appId)"
+              > </button>
             </span>
           </div>
-          </ng-container> -->
+          </ng-container>
         </ng-template>
       </p-dialog>
     </li>
@@ -190,3 +190,4 @@
     </li>
   </div>
 </ul>
+

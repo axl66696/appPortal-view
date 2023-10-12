@@ -1,4 +1,3 @@
-import { UserProfileService } from './user-profile.service';
 import { NewsService } from 'dist/news-info';
 import { AppStoreService } from 'dist/app-store';
 import { UserAccountService } from 'dist/service';
@@ -7,7 +6,6 @@ export declare class UserProfileComponent {
     #private;
     appStoreService: AppStoreService;
     newsService: NewsService;
-    userProfileService: UserProfileService;
     userAccountService: UserAccountService;
     /**跳轉到查看更多消息的路徑
      * @memberof UserProfileComponent

@@ -63,6 +63,11 @@ export declare class AppStoreService {
      * @memberof AppStoreService
      */
     onNavAppClick(appUrl: number): void;
+    /** 設定應用程式關閉
+   * @param {string} appId
+   * @memberof AppStoreService
+  */
+    setAppClose(appId: string): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<AppStoreService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<AppStoreService>;
 }

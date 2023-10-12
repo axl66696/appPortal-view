@@ -7,7 +7,7 @@ export const routes: Routes = [
     loadComponent : () => import('./navigation-view/navigation-view.component').then(m=>m.NavigationViewComponent),
     children:[
       {
-        path: 'Home',
+        path: 'home',
         loadComponent: () => import('dist/home-page')
           .then(m => m.UserProfileComponent)
       },

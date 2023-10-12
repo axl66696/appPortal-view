@@ -2,7 +2,6 @@ import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserProfileService } from './user-profile.service';
 import { NewsListComponent } from 'dist/news-info';
 import { NewsService } from 'dist/news-info';
 import { Router } from '@angular/router';

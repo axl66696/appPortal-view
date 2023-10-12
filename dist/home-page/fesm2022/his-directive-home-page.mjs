@@ -1,66 +1,20 @@
-import * as i0 from '@angular/core';
-import { inject, signal, Injectable, Component } from '@angular/core';
-import { NewsService, NewsListComponent } from 'dist/news-info';
-import { AppStoreService } from 'dist/app-store';
-import { JetstreamWsService } from '@his-base/jetstream-ws/dist';
 import * as i2 from 'primeng/avatar';
 import { AvatarModule } from 'primeng/avatar';
 import * as i3 from 'primeng/button';
 import { ButtonModule } from 'primeng/button';
+import * as i0 from '@angular/core';
+import { inject, Injectable, Component } from '@angular/core';
 import * as i1 from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { NewsService, NewsListComponent } from 'dist/news-info';
 import { Router } from '@angular/router';
 import { SharedService } from '@his-base/shared';
 import { CardListComponent } from '@his-directive/card-list/dist/card-list';
+import { AppStoreService } from 'dist/app-store';
+import { JetstreamWsService } from '@his-base/jetstream-ws/dist';
 import * as i4 from '@ngx-translate/core';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { UserAccountService } from 'dist/service';
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-empty-function */
-class UserProfileService {
-    constructor() {
-        this.appStoreService = inject(AppStoreService);
-        this.newsService = inject(NewsService);
-        this.#jetStreamWsService = inject(JetstreamWsService);
-        /** 使用Signal變數儲存UserAccount型別的使用者帳號
-         * @memberof UserProfileService
-         */
-        this.userAccount = signal({});
-        /** 使用Signal變數儲存UserImage型別的使用者照片
-         * @memberof UserProfileService
-         */
-        this.userImage = signal({});
-    }
-    #jetStreamWsService;
-    /** 更新使用者帳號
-     * @param {UserAccount} user
-     * @memberof UserProfileService
-     */
-    getUserAccountFromNats(user) {
-        this.userAccount.set(user);
-    }
-    /** 取得使用者帳號照片
-     * @param {string} payload
-     * @memberof UserProfileService
-     */
-    getUserImage(payload) {
-        this.#jetStreamWsService
-            .request('UserImage.GetUserImage', payload)
-            .subscribe((result) => {
-            this.userImage.set(result);
-            console.log("get image", result);
-        });
-    }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserProfileService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
-    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserProfileService, providedIn: 'root' }); }
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserProfileService, decorators: [{
-            type: Injectable,
-            args: [{
-                    providedIn: 'root',
-                }]
-        }] });
 
 const environment = {
     wsUrl: 'ws://localhost:8080'
@@ -99,7 +53,6 @@ class UserProfileComponent {
     constructor() {
         this.appStoreService = inject(AppStoreService);
         this.newsService = inject(NewsService);
-        this.userProfileService = inject(UserProfileService);
         this.userAccountService = inject(UserAccountService);
         this.#router = inject(Router);
         this.#sharedService = inject(SharedService);
@@ -115,7 +68,7 @@ class UserProfileComponent {
      */
     onMoreNewsClick() {
         this.#sharedService.sharedValue = null;
-        const key = this.#sharedService.setValue(this.userProfileService.userAccount());
+        const key = this.#sharedService.setValue(this.userAccountService.userAccount());
         this.#router.navigate(['/news'], { state: { token: key } });
     }
     /**跳轉到最新消息中appUrl的路徑
@@ -131,7 +84,7 @@ class UserProfileComponent {
      * @memberof UserProfileComponent
      */
     onMoreAppListClick() {
-        const key = this.#sharedService.setValue(this.userProfileService.userAccount());
+        const key = this.#sharedService.setValue(this.userAccountService.userAccount());
         this.#router.navigate(['/appStore'], { state: { token: key } });
     }
     static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserProfileComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
@@ -158,5 +111,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { UserProfileComponent, UserProfileService, WsNatsService };
+export { UserProfileComponent, WsNatsService };
 //# sourceMappingURL=his-directive-home-page.mjs.map

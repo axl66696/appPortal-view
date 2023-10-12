@@ -1,6 +1,7 @@
 import * as i0 from '@angular/core';
 import { Injectable, inject, signal } from '@angular/core';
 import { JetstreamWsService } from '@his-base/jetstream-ws/dist';
+import { Coding } from '@his-base/datatypes';
 
 class ServiceService {
     constructor() { }
@@ -51,6 +52,40 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImpor
                 }]
         }] });
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-empty-function */
+class UserProfileService {
+    #jetStreamWsService;
+    constructor() {
+        this.#jetStreamWsService = inject(JetstreamWsService);
+        /** 使用Signal變數儲存UserAccount型別的使用者帳號
+         * @memberof UserProfileService
+         */
+        this.userProfile = signal({});
+        this.userProfile.set({
+            "_id": "jidweqjiefwi",
+            "userCode": {
+                "code": "Neo",
+                "display": "alphaTeam-001"
+            },
+            "appId": 'web-client',
+            "profile": {
+                isDockVisible: true,
+            },
+            "updatedBy": new Coding(),
+            "updatedAt": new Date(),
+        });
+    }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserProfileService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserProfileService, providedIn: 'root' }); }
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserProfileService, decorators: [{
+            type: Injectable,
+            args: [{
+                    providedIn: 'root',
+                }]
+        }], ctorParameters: function () { return []; } });
+
 /*
  * Public API Surface of service
  */
@@ -59,5 +94,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { ServiceService, UserAccountService };
+export { ServiceService, UserAccountService, UserProfileService };
 //# sourceMappingURL=his-view-service.mjs.map

@@ -25,7 +25,9 @@ constructor() {
         "display": "alphaTeam-001"
       },
       "appId" : 'web-client',
-      "profile":{},
+      "profile":{
+        isDockVisible: true,
+      },
       "updatedBy": new Coding(),
       "updatedAt": new Date(),
     }

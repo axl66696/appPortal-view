@@ -8,10 +8,11 @@ import { SharedService } from '@his-base/shared';
 import { NewsService } from 'news-info';
 import { WsNatsService } from '../ws-nats.service';
 import { UserAccountService } from 'dist/service';
+import { DockComponent } from './dock/dock.component';
 @Component({
   selector: 'app-navigation-view',
   standalone: true,
-  imports: [CommonModule,NavigationComponent,RouterOutlet],
+  imports: [CommonModule,NavigationComponent,RouterOutlet,DockComponent],
   templateUrl: './navigation-view.component.html',
   styleUrls: ['./navigation-view.component.scss'],
   providers: [NavigationViewService]

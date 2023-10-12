@@ -1,6 +1,5 @@
 import { UserAppStore } from "@his-viewmodel/app-portal/dist";
 import { MyAppStore } from "@his-viewmodel/app-portal/dist";
-import { AppStore } from "@his-viewmodel/app-portal/dist";
 import * as i0 from "@angular/core";
 type ExtendedMyAppStore = MyAppStore & {
     isOpen: boolean;
@@ -17,7 +16,7 @@ export declare class AppStoreService {
      * @memberof AppStoreService
      */
     userAppStores: import("@angular/core").WritableSignal<UserAppStore[]>;
-    appOpenedIndex: AppStore[];
+    appOpenedIndex: ExtendedMyAppStore[];
     /** 擴展MyAppStore到ExtendedMyAppStore
      * @param {MyAppStore[]} appStores
      * @memberof AppStoreService
@@ -64,10 +63,15 @@ export declare class AppStoreService {
      */
     onNavAppClick(appUrl: number): void;
     /** 設定應用程式關閉
-   * @param {string} appId
-   * @memberof AppStoreService
-  */
+     * @param {string} appId
+     * @memberof AppStoreService
+    */
     setAppClose(appId: string): void;
+    /** 設定應用程式開啟
+     * @param {string} appId
+     * @memberof AppStoreService
+    */
+    setAppOpen(appId: string): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<AppStoreService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<AppStoreService>;
 }

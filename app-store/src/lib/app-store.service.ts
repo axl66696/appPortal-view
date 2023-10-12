@@ -33,7 +33,7 @@ export class AppStoreService {
    */
   userAppStores = signal<UserAppStore[]>([])
 
-  appOpenedIndex = [] as AppStore[]
+  appOpenedIndex = [] as ExtendedMyAppStore[]
 
   #router = inject(Router);
   #jetStreamWsService = inject(JetstreamWsService);
@@ -45,7 +45,7 @@ export class AppStoreService {
    * @memberof AppStoreService
    */
   convertToExtended(appStores: MyAppStore[]): ExtendedMyAppStore[] {
-      return appStores.map(appStore => ({...appStore,isOpen: true}));
+      return appStores.map(appStore => ({...appStore,isOpen: false}));
   }
 
   /** 取得全部應用程式清單
@@ -147,7 +147,7 @@ export class AppStoreService {
     this.#router.navigate([appUrl])
   }
 
-    /** 設定應用程式關閉
+  /** 設定應用程式關閉
    * @param {string} appId
    * @memberof AppStoreService
   */
@@ -156,7 +156,7 @@ export class AppStoreService {
       console.log(this.appOpenedIndex)
 
       if (this.appOpenedIndex.length > 1) {
-        const index = this.appOpenedIndex.findIndex(app => app._id === appId)
+        const index = this.appOpenedIndex.findIndex(app => app.appId === appId)
         this.appOpenedIndex.splice(index, 1);
         console.log(index)
         console.log(this.appOpenedIndex[this.appOpenedIndex.length - 1])
@@ -168,6 +168,25 @@ export class AppStoreService {
         this.#router.navigateByUrl('/home')
       }
     }
+
+  /** 設定應用程式開啟
+   * @param {string} appId
+   * @memberof AppStoreService
+  */
+  setAppOpen(appId: string): void {
+    const findApp = this.myAppStores().filter(x => x.appId === appId)[0]
+
+    const objectsAreEqual = (x: ExtendedMyAppStore, y: ExtendedMyAppStore) => {
+      return x.url === y.url;
+    };
+
+    if (findApp) {
+      this.myAppStores.update(x => x.map(y => { y.appId === appId ? y.isOpen = true : y; return y }))
+      if (!this.appOpenedIndex.find(x => objectsAreEqual(x, findApp))) {
+        this.appOpenedIndex.push(findApp)
+      }
+    }
+  }
 }
 
 

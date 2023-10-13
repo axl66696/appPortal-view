@@ -5,7 +5,7 @@ export declare class ForgotPasswordService {
     /** 向後端拿userMail
      * @param {string} userCode
      * @param {string} eMail
-     * @return {*}  {Promise<boolean>}
+     * @return {*}  {Observable<string>}
      * @memberof ForgotPasswordService
      */
     getUserMail(userCode: string, eMail: string): Observable<string>;

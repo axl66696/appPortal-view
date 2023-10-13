@@ -34,7 +34,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "app-portal/src/favicon.ico",
-              "app-portal/src/assets"
+              "app-portal/src/assets",
+              "app-portal/src/app/styles"
             ],
             "styles": [
               "app-portal/src/styles.scss"

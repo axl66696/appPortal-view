@@ -5,7 +5,7 @@ export declare class LoginService {
     #private;
     /** 取得使用者權杖
      * @param {LoginReq} payload
-     * @return {*}  {Promise<Msg>}
+     * @return {*}  {Observable<UserToken>}
      * @memberof LoginService
      */
     getUserToken(payload: LoginReq): Observable<UserToken>;
@@ -17,7 +17,7 @@ export declare class LoginService {
     getHashPassword(password: string): string;
     /** 取得使用者帳號資訊
      * @param {string} payload
-     * @return {*}  {Promise<UserAccount>}
+     * @return {*}  {Observable<UserAccount>}
      * @memberof LoginService
      */
     getUserAccount(payload: string): Observable<UserAccount>;

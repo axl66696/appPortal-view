@@ -12,31 +12,31 @@
 
     <div class="form-container">
       <div class="input-text">
-        <label class="input-label" htmlFor="branchSelector" [innerText]="'branch' | translate"></label>
+        <label class="input-label" htmlFor="branchSelector">{{'院區'|translate}}</label>
         <p-dropdown
           id="branchSelector"
           [options]="branchesOption"
           [(ngModel)]="loginReq.orgNo"
-          [placeholder]="'Please select branch' | translate"
+          [placeholder]="'請選擇院區' | translate"
         >
       </p-dropdown>
       </div>
       <div class="input-text">
-        <label class="input-label" htmlFor="UserName" [innerText]="'account' | translate"></label>
+        <label class="input-label" htmlFor="UserName">{{'帳號'|translate}}</label>
         <input
           pInputText
           id="UserName"
           type="text"
-          [placeholder]="'Please enter account' | translate"
+          [placeholder]="'請輸入帳號' | translate"
           [(ngModel)]="loginReq.userCode.code"
           class="p-inputtext p-element p-component"
         />
       </div>
       <div class="input-text">
-        <label class="input-label" htmlFor="UserName" [innerText]="'password' | translate"></label>
+        <label class="input-label" htmlFor="Password">{{'密碼'|translate}}</label>
         <p-password
           id="password"
-          [placeholder]="'Please enter password' | translate"
+          [placeholder]="'請輸入密碼' | translate"
           [(ngModel)]="password"
           [feedback]="false"
           (keyup.enter)="onLoginClick()"
@@ -44,8 +44,8 @@
         ></p-password>
       </div>
       <div class="button-group">
-        <p-button [label]="'forget password' | translate" styleClass="p-button-link" (onClick)="onForgotClick()"></p-button>
-        <button pButton pRipple-label [label]="'login' | translate" (click)="onLoginClick()"> </button>
+        <p-button [label]="'忘記密碼' | translate" styleClass="p-button-link" (onClick)="onForgotClick()"></p-button>
+        <button pButton pRipple-label [label]="'登入' | translate" (click)="onLoginClick()"> </button>
       </div>
     </div>
   </div>
@@ -57,7 +57,6 @@
 </div>
 <p-toast></p-toast>
 
-<his-forgot-password (hide)="onHideForgot()" [isVisibleForgot]=isVisibleForgot></his-forgot-password>
-<his-reset-password (hide)="onHideReset()" (authError)="onAuthError()" [isVisibleReset]=isVisibleReset
-                                                         [token]="token"></his-reset-password>
+<his-forgot-password (hideForgot)="onHideForgot()" [isVisibleForgot]=isVisibleForgot></his-forgot-password>
+<his-reset-password (hideReset)="onHideReset()" [isVisibleReset]=isVisibleReset [token]="token"></his-reset-password>
 

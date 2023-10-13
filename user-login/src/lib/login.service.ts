@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Injectable,inject} from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
-import { JSONCodec, JetstreamWsService} from '@his-base/jetstream-ws/dist';
+import { Observable } from 'rxjs';
+import { JetstreamWsService} from '@his-base/jetstream-ws/dist';
 import { LoginReq, UserAccount, UserToken } from '@his-viewmodel/app-portal/dist';
 import jsSHA from 'jssha';
 
@@ -14,13 +14,13 @@ export class LoginService {
 
   /** 取得使用者權杖
    * @param {LoginReq} payload
-   * @return {*}  {Promise<Msg>}
+   * @return {*}  {Observable<UserToken>}
    * @memberof LoginService
    */
   getUserToken(payload: LoginReq): Observable<UserToken>{
     // @ts-ignore
     // 需帶入指定的主題跟要傳遞的資料
-    return this.#jetStreamWsService.request('UserAccount.GetUserToken', payload)
+    return this.#jetStreamWsService.request('appPortal.userAccount.userToken', payload)
   }
 
   /** 加密密碼
@@ -36,10 +36,10 @@ export class LoginService {
 
   /** 取得使用者帳號資訊
    * @param {string} payload
-   * @return {*}  {Promise<UserAccount>}
+   * @return {*}  {Observable<UserAccount>}
    * @memberof LoginService
    */
   getUserAccount(payload: string): Observable<UserAccount>{
-    return this.#jetStreamWsService.request('UserAccount.GetUserAccount', payload)
+    return this.#jetStreamWsService.request('appPortal.userAccount.find', payload)
   }
 }

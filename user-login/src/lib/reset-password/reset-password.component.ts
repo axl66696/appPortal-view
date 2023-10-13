@@ -11,7 +11,7 @@ import { ResetPasswordService } from './reset-password.service';
 import { Router } from '@angular/router';
 import '@angular/localize/init';
 import { MessageService } from 'primeng/api';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -46,12 +46,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy{
   /** 發射關閉重置密碼視窗事件
    * @memberof ResetPasswordComponent
    */
-  @Output() hide = new EventEmitter();
-
-  /** 發射重置密碼失敗事件
-   * @memberof ResetPasswordComponent
-   */
-  @Output() authError = new EventEmitter();
+  @Output() hideReset = new EventEmitter();
 
   /** 新密碼
    * @type {string}
@@ -81,15 +76,15 @@ export class ResetPasswordComponent implements OnInit, OnDestroy{
   messageService = inject(MessageService);
   loginService = inject(LoginService);
   #resetPasswordService = inject(ResetPasswordService);
+  #translateService = inject(TranslateService)
 
   /** 初始化,與Nats連線，如果網址傳入之token無誤則可以進入重置密碼頁面
    * @memberof ResetPasswordComponent
    */
   async ngOnInit() {
     if(this.token){
-      this.isVisibleReset = true;
       await this.#resetPasswordService.connect();
-      this.catchAuthError();
+      this.checkUserCode();
     }
   }
 
@@ -106,7 +101,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy{
    * @memberof ResetPasswordComponent
    */
   onCloseClick() {
-    this.hide.emit();
+    this.hideReset.emit();
     this.router.navigate(['login']);
   }
 
@@ -131,36 +126,39 @@ export class ResetPasswordComponent implements OnInit, OnDestroy{
   onCancelClick() {
     this.password = '';
     this.passwordConfirm = '';
-    this.hide.emit();
+    this.hideReset.emit();
     this.router.navigate(['login']);
   }
 
   /** 點擊確定按鈕送出新密碼
    * @memberof ResetPasswordComponent
    */
-  async onSubmitClick() {
+  onSubmitClick() {
     if(this.checkPassword()) {
-      this.hide.emit();
-      await this.#resetPasswordService.pubPassword(this.userCode, this.passwordHash);
-      this.router.navigate(['login']);
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: '密碼更改成功'});
+      history.replaceState('','','login')
+      this.isVisibleReset = false
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: this.#translateService.instant('重置成功')});
+      this.#resetPasswordService.pubPassword(this.userCode, this.passwordHash);
     }
     else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: '請輸入相同密碼'});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('請輸入相同密碼')});
     }
     this.password = '';
     this.passwordConfirm = '';
   }
 
-  /** 取得重置密碼授權 如果得到的userCode是空值則不能進入重置密碼頁面
+  /** 檢查有無Usercode 如果得到的userCode是空值則不能進入重置密碼頁面
    * @memberof ResetPasswordComponent
    */
-  catchAuthError() {
-    this.#resetPasswordService.getUserCode(this.token).subscribe(x=>{
+  checkUserCode() {
+    this.#resetPasswordService.getUserCode(this.token).subscribe(x => {
       this.userCode = x
       if(this.userCode === '') {
-        this.router.navigate(['login']);
-        this.authError.emit();
+        history.replaceState('','','login')
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('重置連結驗證失敗')});
+      }
+      else {
+        this.isVisibleReset = true
       }
     })
   }

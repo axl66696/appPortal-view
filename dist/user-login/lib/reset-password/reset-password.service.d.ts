@@ -4,7 +4,7 @@ export declare class ResetPasswordService {
     #private;
     /** 以傳入的token至後端抓取使用者代號
      * @param {string} payload
-     * @return {*}  {Promise<string>}
+     * @return {*}  {Observable<string>}
      * @memberof ResetPasswordService
      */
     getUserCode(payload: string): Observable<string>;

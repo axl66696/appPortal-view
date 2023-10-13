@@ -23,7 +23,7 @@
         ></button>
       </div>
       <his-news-list
-        [news]="newsService.news()"
+        [news]="newsService.toDoList().concat(newsService.normalNews())"
         class="news-container"
       ></his-news-list>
     </div>

@@ -1,3 +1,5 @@
+/* eslint-disable @angular-eslint/component-selector */
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarModule } from 'primeng/avatar';
@@ -18,6 +20,7 @@ import { NavigationService } from '../navigation.service';
 import { NavigationViewService } from '../../navigation-view.service';
 import { AppStoreService } from 'dist/app-store';
 import { UserAccountService } from 'dist/service';
+import { NewsService } from 'news-info';
 // import { AuthService } from 'src/app/login-page/auth.service';
 // import { NavigationFooterService } from './navigation-footer.service';
 
@@ -67,6 +70,7 @@ export class FooterComponent {
   navigationService = inject(NavigationService);
   navigationViewService = inject(NavigationViewService);
   userAccountService = inject(UserAccountService);
+  newsService = inject(NewsService)
 
   appStoreService = inject(AppStoreService);
   #router = inject(Router);
@@ -74,8 +78,10 @@ export class FooterComponent {
 
   ngOnInit(): void{
     this.userDialogList = [
-      { label: $localize`個人設定`, code: 'PROFILE' },
-      { label: $localize`幫助中心`, code: 'HELP' },
+      // { label: $localize`個人設定`, code: 'PROFILE' },
+      // { label: $localize`幫助中心`, code: 'HELP' },
+      { label: '個人設定', code: 'PROFILE' },
+      { label: '幫助中心', code: 'HELP' },
     ];
     this.editableUserInfo = Object.assign({}, this.userAccountService.userAccount());
   }

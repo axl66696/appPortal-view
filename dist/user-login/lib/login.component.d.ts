@@ -18,6 +18,7 @@ export declare class LoginComponent implements OnInit {
      */
     branchesOption: string[];
     /** 輸入的密碼
+     * @type {string}
      * @memberof LoginComponent
      */
     password: string;
@@ -73,10 +74,6 @@ export declare class LoginComponent implements OnInit {
      * @memberof LoginComponent
      */
     onHideReset(): void;
-    /** 重置連結驗證失敗
-     * @memberof LoginComponent
-     */
-    onAuthError(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<LoginComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<LoginComponent, "his-login", never, { "token": { "alias": "token"; "required": false; }; }, {}, never, never, true, never>;
 }

@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit {
   branchesOption: string[] = [];
 
   /** 輸入的密碼
+   * @type {string}
    * @memberof LoginComponent
    */
   password: string = '';
@@ -95,16 +96,12 @@ export class LoginComponent implements OnInit {
   #loginService = inject(LoginService);
   #wsNatsService = inject(WsNatsService);
   #sharedService = inject(SharedService);
-  #translate = inject(TranslateService)
+  #translateService = inject(TranslateService)
 
   /** 初始化登入畫面為淺色模式 以及與Nats連線
    * @memberof LoginComponent
    */
   async ngOnInit() {
-    // this.#translate.setDefaultLang(`zh-Hant`)
-    if(this.token) {
-      this.isVisibleReset = true
-    }
     this.branchesOption = Object.values(branchData)[0] as unknown as string[]
     await this.#wsNatsService.connect();
     const themeLink = <HTMLLinkElement>document.getElementById('theme-css')
@@ -117,13 +114,13 @@ export class LoginComponent implements OnInit {
   onLoginClick() {
     try {
       this.loginReq.passwordHash = this.#loginService.getHashPassword(this.password);
-      this.#loginService.getUserToken(this.loginReq).subscribe(x=>{
+      this.#loginService.getUserToken(this.loginReq).subscribe(x => {
         this.userToken = x
         this.checkUserToken(this.userToken);
       })
     }
     catch (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: "登入失敗"});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('登入失敗')});
     }
   }
 
@@ -134,14 +131,14 @@ export class LoginComponent implements OnInit {
   checkUserToken(userToken: UserToken) {
     if (userToken.token !== '') {
       this.#sharedService.sharedValue = null;
-      this.#loginService.getUserAccount(userToken.userCode.code).subscribe(x=>{
+      this.#loginService.getUserAccount(userToken.userCode.code).subscribe(x => {
         this.userAccount = x
         const key = this.#sharedService.setValue(this.userAccount)
         this.router.navigate(['/home'],{state: {token: key}});
       })
     }
     else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: '帳號或密碼錯誤'});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('帳號或密碼錯誤')});
     }
   }
 
@@ -165,13 +162,4 @@ export class LoginComponent implements OnInit {
   onHideReset() {
     this.isVisibleReset = false;
   }
-
-  /** 重置連結驗證失敗
-   * @memberof LoginComponent
-   */
-  onAuthError() {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: '重置連結驗證失敗'});
-    this.isVisibleReset = false;
-  }
-
 }

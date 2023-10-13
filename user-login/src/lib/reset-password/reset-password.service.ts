@@ -1,7 +1,7 @@
-import {  Observable, lastValueFrom } from 'rxjs';
+import {  Observable } from 'rxjs';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Injectable, inject } from '@angular/core';
-import { JSONCodec, JetstreamWsService } from '@his-base/jetstream-ws/dist';
+import { JetstreamWsService } from '@his-base/jetstream-ws/dist';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -19,13 +19,13 @@ export class ResetPasswordService {
 
   /** 以傳入的token至後端抓取使用者代號
    * @param {string} payload
-   * @return {*}  {Promise<string>}
+   * @return {*}  {Observable<string>}
    * @memberof ResetPasswordService
    */
   getUserCode(payload: string): Observable<string> {
     // @ts-ignore
     // 需帶入指定發布主題以及要傳送的訊息
-    return this.#jetStreamWsService.request('UserAccount.GetUserCode', payload);
+    return this.#jetStreamWsService.request('appPortal.userAccount.userCode', payload);
   }
 
   /** 將新密碼送至後端更新
@@ -36,7 +36,7 @@ export class ResetPasswordService {
   async pubPassword(userCode: string, passwordHash: string) {
     // @ts-ignore
     // 需帶入指定發布主題以及要傳送的訊息
-    await this.#jetStreamWsService.publish('UserAccount.UpdatePassword', {'userCode': userCode, 'passwordHash': passwordHash});
+    await this.#jetStreamWsService.publish('appPortal.userAccount.modifyPassword', {'userCode': userCode, 'passwordHash': passwordHash});
   }
 
   /** nats server連線

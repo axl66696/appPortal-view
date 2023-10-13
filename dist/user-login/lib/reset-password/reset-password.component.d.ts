@@ -19,11 +19,7 @@ export declare class ResetPasswordComponent implements OnInit, OnDestroy {
     /** 發射關閉重置密碼視窗事件
      * @memberof ResetPasswordComponent
      */
-    hide: EventEmitter<any>;
-    /** 發射重置密碼失敗事件
-     * @memberof ResetPasswordComponent
-     */
-    authError: EventEmitter<any>;
+    hideReset: EventEmitter<any>;
     /** 新密碼
      * @type {string}
      * @memberof ResetPasswordComponent
@@ -71,11 +67,11 @@ export declare class ResetPasswordComponent implements OnInit, OnDestroy {
     /** 點擊確定按鈕送出新密碼
      * @memberof ResetPasswordComponent
      */
-    onSubmitClick(): Promise<void>;
-    /** 取得重置密碼授權 如果得到的userCode是空值則不能進入重置密碼頁面
+    onSubmitClick(): void;
+    /** 檢查有無Usercode 如果得到的userCode是空值則不能進入重置密碼頁面
      * @memberof ResetPasswordComponent
      */
-    catchAuthError(): void;
+    checkUserCode(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<ResetPasswordComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ResetPasswordComponent, "his-reset-password", never, { "isVisibleReset": { "alias": "isVisibleReset"; "required": false; }; "token": { "alias": "token"; "required": false; }; }, { "hide": "hide"; "authError": "authError"; }, never, never, true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ResetPasswordComponent, "his-reset-password", never, { "isVisibleReset": { "alias": "isVisibleReset"; "required": false; }; "token": { "alias": "token"; "required": false; }; }, { "hideReset": "hideReset"; }, never, never, true, never>;
 }

@@ -12,7 +12,7 @@ export declare class ForgotPasswordComponent {
     /** 發射關閉忘記密碼畫面事件
      * @memberof ForgotPasswordComponent
      */
-    hide: EventEmitter<any>;
+    hideForgot: EventEmitter<any>;
     /** 帳號
      * @type {string}
      * @memberof ForgotPasswordComponent
@@ -38,5 +38,5 @@ export declare class ForgotPasswordComponent {
      */
     onCloseClick(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<ForgotPasswordComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ForgotPasswordComponent, "his-forgot-password", never, { "isVisibleForgot": { "alias": "isVisibleForgot"; "required": false; }; }, { "hide": "hide"; }, never, never, true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ForgotPasswordComponent, "his-forgot-password", never, { "isVisibleForgot": { "alias": "isVisibleForgot"; "required": false; }; }, { "hideForgot": "hideForgot"; }, never, never, true, never>;
 }

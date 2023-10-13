@@ -101,36 +101,4 @@
   </div>
 </div>
 
-<ng-template #customtemplate>
-  <p-table
-    [value]="toDoList()"
-    [tableStyle]="{ width: '100%' }">
-    <ng-template pTemplate="body" let-news>
-      <tr>
-        <td>
-          <span *ngIf="news.execStatus['code'] === '10'">
-            <button
-              pButton
-              pRipple
-              type="button"
-              [label]="'complete' |translate"
-              class="p-button-outlined"
-              (click)="onChangeStatus(news.userCode, news._id)"
-            ></button>
-          </span>
-        </td>
-        <td>
-          <span class="label-m">{{ news.period.start.toLocaleString({hour12:false}) }}</span>
-        </td>
-        <td>
-          <span class="label-m">{{ news.subject }}</span>
-        </td>
-        <td>
-          <span *ngIf="news.url">
-            <p-button #navButton [label]="'clickToEnter'|translate" styleClass="p-button-link" (click)="onNavNewsClick(news.url,news.sharedData)"></p-button>
-          </span>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</ng-template>
+

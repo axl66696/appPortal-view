@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { SharedService } from '@his-base/shared';
 import { FormsModule } from '@angular/forms';
 import { UserAccountService } from 'dist/service';
+import { News } from '@his-viewmodel/app-portal/dist';
 
 @Component({
   selector: 'his-news-info',
@@ -28,7 +29,7 @@ export class NewsInfoComponent implements OnDestroy{
   /** 使用computed變數儲存各最新消息的資訊
    *  @memberof NewsInfoComponent
    */
-  news = computed(() => this.newsService.news());
+  news = computed(() => this.newsService.originalNews());
   normalNews = computed(() => this.newsService.normalNews());
   toDoList = computed(() => this.newsService.toDoList());
   checkedNormalNews = computed(() => this.newsService.checkedNormalNews());
@@ -81,9 +82,12 @@ export class NewsInfoComponent implements OnDestroy{
   /** 發送`最新消息狀態改為已讀/已完成`到nats
    *  @memberof NewsInfoComponent
    */
-  async onChangeStatus(userCode:Coding, newsId:string):Promise<void>{
-    this.newsService.changeStatus(userCode, newsId);
-  }
+  // async onChangeStatus(userCode:Coding, newsId:string):Promise<void>{
+  //   this.newsService.changeStatus(userCode, newsId);
+  // }
+  // async onChangeStatus(news:News):Promise<void>{
+  //   this.newsService.changeStatus(news);
+  // }
 
   /** 搜尋標題包含query的最新消息
    *  @memberof NewsInfoComponent

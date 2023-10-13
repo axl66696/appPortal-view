@@ -1,20 +1,20 @@
 import { OnDestroy } from '@angular/core';
 import { NewsService } from './news.service';
-import { Coding } from '@his-base/datatypes';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from '@his-base/shared';
 import { UserAccountService } from 'dist/service';
+import { News } from '@his-viewmodel/app-portal/dist';
 import * as i0 from "@angular/core";
 export declare class NewsInfoComponent implements OnDestroy {
     #private;
     /** 使用computed變數儲存各最新消息的資訊
      *  @memberof NewsInfoComponent
      */
-    news: import("@angular/core").Signal<import("@his-viewmodel/app-portal/dist").News[]>;
-    normalNews: import("@angular/core").Signal<import("@his-viewmodel/app-portal/dist").News[]>;
-    toDoList: import("@angular/core").Signal<import("@his-viewmodel/app-portal/dist").News[]>;
-    checkedNormalNews: import("@angular/core").Signal<import("@his-viewmodel/app-portal/dist").News[]>;
-    checkedToDoList: import("@angular/core").Signal<import("@his-viewmodel/app-portal/dist").News[]>;
+    news: import("@angular/core").Signal<News[]>;
+    normalNews: import("@angular/core").Signal<News[]>;
+    toDoList: import("@angular/core").Signal<News[]>;
+    checkedNormalNews: import("@angular/core").Signal<News[]>;
+    checkedToDoList: import("@angular/core").Signal<News[]>;
     /** 使用者進行查詢所需的查詢式
      *  @memberof NewsInfoComponent
      */
@@ -38,7 +38,6 @@ export declare class NewsInfoComponent implements OnDestroy {
     /** 發送`最新消息狀態改為已讀/已完成`到nats
      *  @memberof NewsInfoComponent
      */
-    onChangeStatus(userCode: Coding, newsId: string): Promise<void>;
     /** 搜尋標題包含query的最新消息
      *  @memberof NewsInfoComponent
      */

@@ -13,7 +13,7 @@ export class NewsService {
   /** 使用Signal變數儲存各類型最新消息的資訊
    *  @memberof NewsService
    */
-  news = signal<News[]>({} as News[]);
+  originalNews = signal<News[]>({} as News[]);
   allNormalNews = signal<News[]>({} as News[]);
   allTodoList = signal<News[]>({} as News[]);
   normalNews = signal<News[]>({} as News[]);
@@ -29,12 +29,14 @@ export class NewsService {
   /** 使用Subject變數自nats拿取最新消息
    *  @memberof NewsService
    */
-  #userNews = new Subject();
+  #myNews = new Subject();
+
 
   /** 使用ConsumerMessages訂閱最新消息
    *  @memberof NewsService
    */
-  #consumerMessages$!: Observable<ConsumerMessages>;
+  #myNewsConsumer$!: Observable<ConsumerMessages>;
+
 
   #jetStreamWsService = inject(JetstreamWsService);
 
@@ -62,9 +64,19 @@ export class NewsService {
   /** 發送`最新消息狀態改為已讀/已完成`到nats
    *  @memberof NewsService
    */
-  changeStatus(userCode:Coding, newsId:string){
+  changeStatus(news:News){
     const date = new Date();
-    this.#jetStreamWsService.publish("news.updateStatus", {userCode, newsId, date});
+    this.originalNews.mutate(newsList=>{
+      // _.remove(newsList, news);
+      // newsList.filter(newsData=>!(newsData._id==news._id))
+      const index = newsList.findIndex(newsData=>newsData._id==news._id)
+      console.log("index",index)
+      newsList.splice(index,1)
+    })
+    news.execStatus = {code:"60",display:"已讀/已完成"}
+    news.execTime = date
+    console.log("after remove news",this.originalNews())
+    this.#jetStreamWsService.publish("news.appPortal.setNews", news);
   }
 
   /** 依‘一般消息’、’待辦工作’分類最新消息
@@ -104,21 +116,21 @@ export class NewsService {
    *  @memberof NewsService
    */
   filterSubject(subject:string){
-    const newsList=this.news();
-    this.setNews(newsList.filter(newsData=>newsData.subject.match(subject)));
+    const newsList=this.originalNews();
+    this.upsertNews(newsList.filter(newsData=>newsData.subject.match(subject)));
   }
 
   /** 回復到上一次取得最新消息的狀態
    *  @memberof NewsService
    */
   filterReset(){
-    this.setNews(this.news())
+    this.upsertNews(this.originalNews())
   }
 
   /** 設定除了原始最新消息news以外的Signal
    *  @memberof NewsService
    */
-  setNews(news:News[]): void{
+  upsertNews(news:News[]): void{
     this.allNormalNews.set(this.filterType(news, "10"));
     this.allTodoList.set(this.filterType(news, "60"));
     this.normalNews.set(this.filterStatus(this.allNormalNews(), "10"));
@@ -159,29 +171,72 @@ export class NewsService {
    * @memberof NewsService
    */
   async subNews(): Promise<void> {
-    this.#userNews = new Subject();
+    this.#myNews = new Subject();
     const jsonCodec = JSONCodec();
-    this.#consumerMessages$ = this.#jetStreamWsService.subscribe(
+    this.#myNewsConsumer$ = this.#jetStreamWsService.subscribe(
       SubscribeType.Push,
       'news.getNews.dashboard'
     );
 
-    this.#consumerMessages$
+    this.#myNewsConsumer$
       .pipe(
         mergeMap(async (messages) => {
           for await (const message of messages) {
-            this.#userNews.next(jsonCodec.decode(message.data));
+            this.#myNews.next(jsonCodec.decode(message.data));
             message.ack();
           }
         })
       )
       .subscribe(() => {});
 
-    this.#userNews.subscribe((newsList:any) => {
-      this.news.set(this.formatNews(newsList as News[]));
-      this.setNews(this.formatNews(newsList));
+    this.#myNews.subscribe((newsList:any) => {
+      this.originalNews.set(this.formatNews(newsList as News[]));
+      this.upsertNews(this.formatNews(newsList));
     });
   }
+
+  getInitNews(userCode:Coding): Observable<News[]>{
+    return this.#jetStreamWsService.request('news.appPortal.newsList', userCode);
+  }
+
+  upsertAllNews(newsList:News[]):void{
+    this.originalNews.set(newsList);
+    this.upsertNews(newsList);
+    console.log("upsertAllNews",this.originalNews())
+  }
+
+  /** 訂閱最新消息
+   * @memberof NewsService
+   */
+  async subMyNews(userCode:Coding): Promise<void> {
+    this.#myNews = new Subject();
+    const jsonCodec = JSONCodec();
+    this.#myNewsConsumer$ = this.#jetStreamWsService.subscribe(
+      SubscribeType.Push,
+      `news.appPortal.${userCode.code}`
+    );
+
+    this.#myNewsConsumer$
+      .pipe(
+        mergeMap(async (messages) => {
+          for await (const message of messages) {
+            this.#myNews.next(jsonCodec.decode(message.data));
+            message.ack();
+          }
+        })
+      )
+      .subscribe(() => {});
+
+    this.#myNews.subscribe((newsElement:any) => {
+      this.originalNews.mutate(newsList=>{
+        const tmpNews = this.formatNews([newsElement])
+        newsList.push(tmpNews[0])
+        console.log("newsList",newsList)
+      })
+      this.upsertNews(this.originalNews())
+    });
+  }
+
 
 }
 

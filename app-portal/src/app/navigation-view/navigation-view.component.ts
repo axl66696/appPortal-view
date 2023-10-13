@@ -9,6 +9,7 @@ import { NewsService } from 'news-info';
 import { WsNatsService } from '../ws-nats.service';
 import { UserAccountService } from 'dist/service';
 import { DockComponent } from './dock/dock.component';
+import { News } from '@his-viewmodel/app-portal/dist';
 @Component({
   selector: 'app-navigation-view',
   standalone: true,
@@ -30,7 +31,13 @@ export class NavigationViewComponent {
     this.userAccountService.userAccount.set(this.#shareService.getValue(window.history.state.token));
     this.userAccountService.getUserImage(this.userAccountService.userAccount().userCode.code);
     await this.newsService.connect();
-    await this.newsService.subNews();
-    this.newsService.publishUserCode(this.userAccountService.userAccount().userCode as unknown as string);
+    // await this.newsService.subNews();
+    await this.newsService.subMyNews(this.userAccountService.userAccount().userCode);
+    this.newsService.getInitNews(this.userAccountService.userAccount().userCode).subscribe(newsList=>{
+      this.newsService.upsertAllNews(this.newsService.formatNews(newsList as News[]))
+
+    });
+    console.log("news",this.newsService.originalNews());
+    // this.newsService.publishUserCode(this.userAccountService.userAccount().userCode as unknown as string);
   }
 }

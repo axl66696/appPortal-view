@@ -139,7 +139,6 @@ export class NewsService {
   upsertAllNews(newsList:News[]):void{
     this.originalNews.set(newsList);
     this.upsertNews(newsList);
-    console.log("git test")
   }
 
   /** 規格化從nats取得的最新消息

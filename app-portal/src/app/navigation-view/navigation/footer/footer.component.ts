@@ -22,7 +22,7 @@ import { AppStoreService } from 'dist/app-store';
 import { UserAccountService,UserProfileService } from 'dist/service';
 import { AuthService } from '../../auth.service'
 import { UserAccount } from '@his-viewmodel/app-portal/dist';
-
+import { NewsService } from 'dist/news-info';
 @Component({
   selector: 'his-footer',
   standalone: true,
@@ -150,6 +150,7 @@ export class FooterComponent implements OnInit{
   navigationViewService = inject(NavigationViewService);
   userAccountService = inject(UserAccountService);
   userProfileService = inject(UserProfileService);
+  newsService = inject(NewsService);
   appStoreService = inject(AppStoreService);
   #router = inject(Router);
   #authService = inject(AuthService);

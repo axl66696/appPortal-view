@@ -51,7 +51,7 @@
       <ng-template pTemplate="header">
         <div class="dialog-header">
           <p-avatar
-          image="assets/user.png"
+          image="{{ userAccountService.userImage().image }}"
           shape="circle"
           [style]="{ width: '24px', height: '24px' }"
         ></p-avatar>
@@ -230,7 +230,7 @@
           </div>
           <div class="fromColumn">
             <h6>電子信箱</h6>
-            <input type="text" pInputText [(ngModel)]="editableUserInfo.eMail"/>
+            <input type="text" pInputText [(ngModel)]="editableUserAccount.eMail"/>
           </div>
         </div>
         <div class="formList flex flex-wrap">

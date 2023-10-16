@@ -23,6 +23,10 @@ import { UserAccountService,UserProfileService } from 'dist/service';
 import { AuthService } from '../../auth.service'
 import { UserAccount } from '@his-viewmodel/app-portal/dist';
 import { NewsService } from 'dist/news-info';
+import { AppPortalProfile } from 'app-portal/src/app/types/appPortalProfile';
+import { FooterService } from './footer.service';
+import * as ThemeOptions from '../../../../assets/option/themeOptions.json'
+import * as userDialogList from '../../../../assets/option/userDialogList.json'
 @Component({
   selector: 'his-footer',
   standalone: true,
@@ -99,11 +103,18 @@ export class FooterComponent implements OnInit{
    */
   themeOptions: object[] = [];
 
-  /**暫存使用者資訊
+  /**暫存User Account資訊
    * @type {UserAccount}
    * @memberof FooterComponent
    */
-  editableUserInfo!: UserAccount;
+  editableUserAccount!: UserAccount;
+
+  /**暫存User Profile資訊
+   * @type {UserProfile}
+   * @memberof FooterComponent
+   */
+  editableAppPortalProfile!: AppPortalProfile;
+
 
   /**暫存使用者頭像
    * @type {string}
@@ -132,7 +143,7 @@ export class FooterComponent implements OnInit{
    * @type {string}
    * @memberof NavigationFooterComponent
    */
-  selectedTheme: string = 'light';
+  selectedTheme: string = '';
 
   /** 字體大小
    * @type {number}
@@ -152,24 +163,22 @@ export class FooterComponent implements OnInit{
   userProfileService = inject(UserProfileService);
   newsService = inject(NewsService);
   appStoreService = inject(AppStoreService);
+  #footerService = inject(FooterService);
   #router = inject(Router);
   #authService = inject(AuthService);
 
 
   ngOnInit(): void{
-
-    this.userDialogList = [
-      { label: $localize`個人設定`, code: 'PROFILE' },
-      { label: $localize`幫助中心`, code: 'HELP' },
-    ];
-    this.themeOptions = [
-      { name: $localize`淺色模式`, value: 'light' },
-      { name: $localize`深色模式`, value: 'dark' },
-    ];
-    this.editableUserInfo = Object.assign({}, this.userAccountService.userAccount());
+    this.userDialogList = Object.values(userDialogList)[Object.values(userDialogList).length-1] as unknown as object[];
+    this.themeOptions = Object.values(ThemeOptions)[Object.values(ThemeOptions).length-1] as unknown as object[];
+    this.editableUserAccount = Object.assign({}, this.userAccountService.userAccount());
     this.editableUserImage.set(this.userAccountService.userImage().image)
-    this.isDockVisible = true;
-    this.selectedTheme = "dark"
+    this.editableAppPortalProfile = Object.assign({}, this.userProfileService.userProfile().profile as AppPortalProfile) ;
+    this.selectedScale = this.editableAppPortalProfile.fontSize
+    this.activeScaleButton = this.editableAppPortalProfile.fontSize
+    this.selectedTheme = this.editableAppPortalProfile.selectedTheme
+    this.isDockVisible = this.editableAppPortalProfile.isDockVisible
+
   }
   /**點擊 Navigation Footer首頁Icon，導向首頁
    * @memberof FooterComponent
@@ -252,11 +261,8 @@ export class FooterComponent implements OnInit{
       if (file) {
         this.preview = '';
         this.currentFile = file;
-
         const reader = new FileReader();
-
         reader.readAsDataURL(this.currentFile);
-
         reader.onload = (x: any) => {
           this.preview = x.target.result;
           this.editableUserImage.set(this.preview)
@@ -275,21 +281,19 @@ export class FooterComponent implements OnInit{
     if (enteredPasswordHash === passwordHash) {
       this.isRestDisabled = false;
     } else {
-      alert($localize`密碼不正確`);
+      alert("密碼不正確");
     }
   }
 
   /**驗證修改密碼兩次輸入是否相同
    * @memberof FooterComponent
    */
-
   verityResetPassword() {
     const resetPassword = this.#authService.getHashPassword(this.resetPassword);
     const resetPasswordVerify = this.#authService.getHashPassword(this.resetPasswordVerify);
-
     if(this.enteredPassword !== '' && resetPassword === resetPasswordVerify && this.resetPassword !== '') {
-      this.editableUserInfo.passwordHash = resetPassword;
-      alert($localize`密碼修改成功`)
+      this.editableUserAccount.passwordHash = resetPassword;
+      alert("密碼修改成功")
     }
     this.enteredPassword = '';
     this.resetPassword = '';
@@ -302,16 +306,16 @@ export class FooterComponent implements OnInit{
   */
   onCancelSaveClick() {
     this.isUserProfileVisible = !this.isUserProfileVisible;
-    this.editableUserInfo = Object.assign({}, this.userAccountService.userAccount());
+    this.editableUserAccount = Object.assign({}, this.userAccountService.userAccount());
     this.editableUserImage.set(this.userAccountService.userImage().image)
     this.verityResetPassword();
-    this.isDockVisible = true
-    this.selectedScale = 16;
-    this.activeScaleButton = 16;
-    this.selectedTheme = "dark"
-    // this.onThemeChange();
+    const userProfile = this.userProfileService.userProfile().profile as AppPortalProfile ;
+    this.selectedScale = userProfile.fontSize
+    this.selectedTheme = userProfile.selectedTheme
+    this.isDockVisible = userProfile.isDockVisible
+    this.onThemeChange();
     this.onScaleChange(this.selectedScale);
-    // this.onDockVisible();
+    this.onDockVisible();
 
   }
 
@@ -321,14 +325,27 @@ export class FooterComponent implements OnInit{
   onProfileSaveClick(){
     this.verityResetPassword();
     this.isUserProfileVisible = !this.isUserProfileVisible;
-    this.userAccountService.userAccount.set(this.editableUserInfo);
+    this.userAccountService.userAccount.set(this.editableUserAccount);
     this.userAccountService.userImage.set({
       _id:this.userAccountService.userImage()._id,
       userCode:this.userAccountService.userImage().userCode,
       image:this.editableUserImage()})
-    this.editableUserInfo = Object.assign({},this.userAccountService.userAccount());
-    // this.editableUserInfo.typeSetting = Object.assign({},{theme:this.selectedTheme,isDockVisible:this.dockSwitch,scale:this.selectedScale})
-    // this.#navigationFooterService.pubUserAccount(this.userInfoService.userInfo())
+      this.editableUserAccount = Object.assign({},this.userAccountService.userAccount());
+      this.editableAppPortalProfile = Object.assign({},
+        {
+          selectedTheme:this.selectedTheme,
+          isDockVisible:this.isDockVisible,
+          fontSize:this.selectedScale
+        })
+      this.userProfileService.userProfile.set(
+        {
+          "_id":this.userProfileService.userProfile()._id,
+          "userCode":this.userProfileService.userProfile().userCode,
+          "appId":this.userProfileService.userProfile().appId,
+          "profile":this.editableAppPortalProfile,
+          updatedAt:new Date(),
+          updatedBy:this.userAccountService.userAccount().userCode})
+      this.#footerService.pubUserAccount(this.userProfileService.userProfile())
   }
 
   /**修改主題樣式

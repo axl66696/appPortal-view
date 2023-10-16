@@ -26,6 +26,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import '@angular/localize/init';
 import * as i6 from '@ngx-translate/core';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { UserProfileService } from 'service';
 
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 class LoginService {
@@ -439,6 +440,7 @@ class LoginComponent {
         this.userAccount = new UserAccount();
         this.messageService = inject(MessageService);
         this.router = inject(Router);
+        this.userProfileService = inject(UserProfileService);
         this.#loginService = inject(LoginService);
         this.#wsNatsService = inject(WsNatsService);
         this.#sharedService = inject(SharedService);
@@ -481,6 +483,16 @@ class LoginComponent {
             this.#sharedService.sharedValue = null;
             this.#loginService.getUserAccount(userToken.userCode.code).subscribe(x => {
                 this.userAccount = x;
+                this.userProfileService.getUserProfile(x.userCode.code, "app-portal")
+                    .subscribe((x) => {
+                    this.userProfileService.userProfile.set(x);
+                    const appPortalProfile = x.profile;
+                    const themeLink = document.getElementById('theme-css');
+                    if (appPortalProfile.selectedTheme === 'dark') {
+                        themeLink.href = 'app/styles/theme-dark.css'; // 切換到 dark 主題的樣式表
+                    }
+                    document.documentElement.style.fontSize = appPortalProfile.fontSize + 'px'; //套用使用者字型大小設定
+                });
                 const key = this.#sharedService.setValue(this.userAccount);
                 this.router.navigate(['/home'], { state: { token: key } });
             });

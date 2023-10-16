@@ -31,11 +31,8 @@ export class NavigationComponent {
   appStoreService = inject(AppStoreService);
   wsNatsService = inject(WsNatsService);
   async ngOnInit() {
-    console.log("in NAV")
     await this.wsNatsService.connect();
     await this.appStoreService.initAppStore()
-    console.log(this.appStoreService.myAppStores())
-    console.log("in nav bottom")
   }
   /** 開合導覽列
    * @memberof NavigationComponent

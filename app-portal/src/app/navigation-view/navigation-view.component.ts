@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationComponent } from './navigation/navigation.component';
 import { RouterOutlet } from '@angular/router';
@@ -7,9 +7,11 @@ import { NavigationViewService } from './navigation-view.service';
 import { SharedService } from '@his-base/shared';
 import { NewsService } from 'news-info';
 import { WsNatsService } from '../ws-nats.service';
-import { UserAccountService } from 'dist/service';
+import { UserAccountService,UserProfileService } from 'dist/service';
 import { DockComponent } from './dock/dock.component';
-import { News } from '@his-viewmodel/app-portal/dist';
+import { News, UserProfile } from '@his-viewmodel/app-portal/dist';
+import { AppPortalProfile } from '../types/appPortalProfile.d';
+
 @Component({
   selector: 'app-navigation-view',
   standalone: true,
@@ -23,6 +25,7 @@ export class NavigationViewComponent {
   navigationViewService = inject(NavigationViewService);
   newsService = inject(NewsService);
   userAccountService = inject(UserAccountService);
+  userProfileService = inject(UserProfileService);
   #shareService = inject(SharedService);
   #wsNatsService = inject(WsNatsService);
 
@@ -30,10 +33,12 @@ export class NavigationViewComponent {
     await this.#wsNatsService.connect();
     this.userAccountService.userAccount.set(this.#shareService.getValue(window.history.state.token));
     this.userAccountService.getUserImage(this.userAccountService.userAccount().userCode.code);
-    await this.newsService.connect();
     await this.newsService.subMyNews(this.userAccountService.userAccount().userCode);
     this.newsService.getInitNews(this.userAccountService.userAccount().userCode).subscribe(newsList=>{
       this.newsService.upsertAllNews(this.newsService.formatNews(newsList as News[]))
     });
+
+
+
   }
 }

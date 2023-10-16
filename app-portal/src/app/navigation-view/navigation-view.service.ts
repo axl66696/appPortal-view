@@ -1,6 +1,4 @@
 import { Injectable, Signal, computed, inject,signal } from '@angular/core';
-import { UserAccount } from '@his-viewmodel/app-portal/dist/app/user-account';
-import { SharedService } from '@his-base/shared';
 @Injectable({
   providedIn: 'root'
 })

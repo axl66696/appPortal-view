@@ -12,34 +12,35 @@ import { MessageService } from 'primeng/api';
 import { SharedService } from '@his-base/shared';
 import { LoginService } from './login.service';
 import { WsNatsService } from './ws-nats.service';
-import { UserAccount, UserToken } from '@his-viewmodel/app-portal/dist';
-import { LoginReq} from '@his-viewmodel/app-portal/dist'
+import { UserAccount, UserProfile, UserToken } from '@his-viewmodel/app-portal/dist';
+import { LoginReq } from '@his-viewmodel/app-portal/dist'
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { InputTextModule } from 'primeng/inputtext';
 import * as branchData from '../assets/data/branchesName.json'
 import '@angular/localize/init';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-
+import { UserProfileService } from 'service';
+import { AppPortalProfile } from './types/appPortalProfile.d';
 @Component({
-    selector: 'his-login',
-    standalone: true,
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    providers: [MessageService],
-    imports: [CommonModule,
-              ButtonModule,
-              PasswordModule,
-              FormsModule,
-              RouterLink,
-              ImageModule,
-              DropdownModule,
-              ToastModule,
-              ForgotPasswordComponent,
-              ResetPasswordComponent,
-              InputTextModule,
-              TranslateModule
-      ]
+  selector: 'his-login',
+  standalone: true,
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  providers: [MessageService],
+  imports: [CommonModule,
+    ButtonModule,
+    PasswordModule,
+    FormsModule,
+    RouterLink,
+    ImageModule,
+    DropdownModule,
+    ToastModule,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    InputTextModule,
+    TranslateModule
+  ]
 })
 export class LoginComponent implements OnInit {
 
@@ -65,7 +66,7 @@ export class LoginComponent implements OnInit {
    * @type {LoginReq}
    * @memberof LoginComponent
    */
-  loginReq: LoginReq  = new LoginReq();
+  loginReq: LoginReq = new LoginReq();
 
   /** 使用者權杖
    * @type {UserToken}
@@ -93,6 +94,7 @@ export class LoginComponent implements OnInit {
 
   messageService = inject(MessageService);
   router = inject(Router);
+  userProfileService = inject(UserProfileService);
   #loginService = inject(LoginService);
   #wsNatsService = inject(WsNatsService);
   #sharedService = inject(SharedService);
@@ -120,7 +122,7 @@ export class LoginComponent implements OnInit {
       })
     }
     catch (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('登入失敗')});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('登入失敗') });
     }
   }
 
@@ -133,12 +135,22 @@ export class LoginComponent implements OnInit {
       this.#sharedService.sharedValue = null;
       this.#loginService.getUserAccount(userToken.userCode.code).subscribe(x => {
         this.userAccount = x
+        this.userProfileService.getUserProfile(x.userCode.code, "app-portal")
+          .subscribe((x: UserProfile) => {
+            this.userProfileService.userProfile.set(x);
+            const appPortalProfile = x.profile as AppPortalProfile;
+            const themeLink = <HTMLLinkElement>document.getElementById('theme-css');
+            if (appPortalProfile.selectedTheme === 'dark') {
+              themeLink.href = 'app/styles/theme-dark.css'; // 切換到 dark 主題的樣式表
+            }
+            document.documentElement.style.fontSize = appPortalProfile.fontSize + 'px';//套用使用者字型大小設定
+          })
         const key = this.#sharedService.setValue(this.userAccount)
-        this.router.navigate(['/home'],{state: {token: key}});
+        this.router.navigate(['/home'], { state: { token: key } });
       })
     }
     else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('帳號或密碼錯誤')});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('帳號或密碼錯誤') });
     }
   }
 

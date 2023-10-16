@@ -15,6 +15,9 @@ export class NavigationService {
   );
   routerSignal: Signal<RouterEvent | undefined> = toSignal(this.event$);
 
+  /** 判斷是否為ModuleFederation,顯示icon
+    * @memberof NavigationService
+  */
   isShowBody: Signal<boolean> = computed(() => {
     if (!this.routerSignal()) return false;
     if (!(this.routerSignal() instanceof NavigationEnd)) return false;
@@ -25,7 +28,7 @@ export class NavigationService {
   });
 
 
-    /** navigation收合
+  /** navigation收合
     * @memberof NavigationService
   */
     onCollapsClick(): void {

@@ -1,0 +1,1 @@
+(self.webpackChunkapp_portal=self.webpackChunkapp_portal||[]).push([[5061],{5061:(h,s,a)=>{a.r(s),a.d(s,{TranslateHttpLoader:()=>p});class p{http;prefix;suffix;constructor(t,e="/assets/i18n/",i=".json"){this.http=t,this.prefix=e,this.suffix=i}getTranslation(t){return this.http.get(`${this.prefix}${t}${this.suffix}`)}}}}]);

@@ -21,17 +21,17 @@
           class="p-button-rounded p-button-secondary p-button-outlined"
           (click)="onBackClick()"
         ></button>
-        <div><h3 [innerText]="'latestNews'|translate"></h3></div>
+        <div><h3 [innerText]="'最新消息'|translate"></h3></div>
       </div>
       <div>
         <span class="p-input-icon-left" >
           <i class="pi pi-search"></i>
-          <input type="text" pinputtext="" [placeholder]="'search'|translate" class="p-inputtext p-component p-element" [(ngModel)]="query" (keyup)="filterSubject()" (keyup.excape)="filterReset()">
+          <input type="text" pinputtext="" [placeholder]="'搜尋'|translate" class="p-inputtext p-component p-element" [(ngModel)]="query" (keyup)="filterSubject()" (keyup.excape)="filterReset()">
         </span>
       </div>
   </div>
   <div class="flex flex-column">
-    <p-fieldset [legend]="'todolist'|translate" [toggleable]="true" class="first">
+    <p-fieldset [legend]="'代辦工作'|translate" [toggleable]="true" class="first">
       <ng-template pTemplate="expandicon">
         <div >
           <span class="pi pi-chevron-down"></span>
@@ -48,7 +48,7 @@
       ></his-news-list>
     </p-fieldset>
 
-    <p-fieldset [legend]="'normalNews'|translate" [toggleable]="true" class="second">
+    <p-fieldset [legend]="'公告訊息'|translate" [toggleable]="true" class="second">
       <ng-template pTemplate="expandicon">
         <div>
           <span class="pi pi-chevron-down"></span>
@@ -65,7 +65,7 @@
       ></his-news-list>
     </p-fieldset>
 
-    <p-fieldset [legend]="'checkedToDoList'|translate" [toggleable]="true" class="third">
+    <p-fieldset [legend]="'完成工作'|translate" [toggleable]="true" class="third">
       <ng-template pTemplate="expandicon">
         <div>
           <span class="pi pi-chevron-down"></span>
@@ -82,7 +82,7 @@
       ></his-news-list>
     </p-fieldset>
 
-    <p-fieldset [legend]="'checkedNormalNews'|translate" [toggleable]="true" class="fourth">
+    <p-fieldset [legend]="'已讀訊息'|translate" [toggleable]="true" class="fourth">
       <ng-template pTemplate="expandicon">
         <div>
           <span class="pi pi-chevron-down"></span>
@@ -101,36 +101,4 @@
   </div>
 </div>
 
-<ng-template #customtemplate>
-  <p-table
-    [value]="toDoList()"
-    [tableStyle]="{ width: '100%' }">
-    <ng-template pTemplate="body" let-news>
-      <tr>
-        <td>
-          <span *ngIf="news.execStatus['code'] === '10'">
-            <button
-              pButton
-              pRipple
-              type="button"
-              [label]="'complete' |translate"
-              class="p-button-outlined"
-              (click)="onChangeStatus(news.userCode, news._id)"
-            ></button>
-          </span>
-        </td>
-        <td>
-          <span class="label-m">{{ news.period.start.toLocaleString({hour12:false}) }}</span>
-        </td>
-        <td>
-          <span class="label-m">{{ news.subject }}</span>
-        </td>
-        <td>
-          <span *ngIf="news.url">
-            <p-button #navButton [label]="'clickToEnter'|translate" styleClass="p-button-link" (click)="onNavNewsClick(news.url,news.sharedData)"></p-button>
-          </span>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</ng-template>
+

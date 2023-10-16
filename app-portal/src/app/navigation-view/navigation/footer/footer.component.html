@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <ul class="navigation-footer">
   <li class="logo">
     <img class="logo-style" src="assets/companyLogo.png" alt="Image" />
@@ -77,7 +79,7 @@
         class="p-button-rounded p-button-text"
       > </button>
       <div class="badge-container">
-        <p-badge value="3" class="badge-style" severity="danger"></p-badge>
+        <p-badge value="{{this.newsService.normalNews().length+this.newsService.toDoList().length}}" class="badge-style" severity="danger"></p-badge>
       </div>
     </li>
     <li>

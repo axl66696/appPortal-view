@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/elements-content -->
 <ng-container *ngIf="news && news.length < 1; else ShowNews">
-  <h1 class="p-datatable" [innerText]="'noNews'|translate"></h1>
+  <h1 class="p-datatable" [innerText]="'沒有最新消息'|translate"></h1>
 </ng-container>
 
 <ng-template #ShowNews>
@@ -18,7 +18,7 @@
               pButton
               pRipple
               type="button"
-              [label]="'complete' |translate"
+              [label]="'完成'|translate"
               class="p-button-outlined check-button"
               (click)="onChangeStatus(news)"
             ></button>
@@ -48,7 +48,7 @@
               pButton
               pRipple
               type="button"
-              [label]="'complete' |translate"
+              [label]="'完成' |translate"
               class="p-button-outlined"
               (click)="onChangeStatus(news)"
             ></button>
@@ -62,7 +62,7 @@
         </td>
         <td>
           <span *ngIf="news.url">
-            <p-button #navButton [label]="'clickToEnter'|translate" styleClass="p-button-link" (click)="onNavNewsClick(news.url,news.sharedData)"></p-button>
+            <p-button #navButton [label]="'請點選進入'|translate" styleClass="p-button-link" (click)="onNavNewsClick(news.url,news.sharedData)"></p-button>
           </span>
         </td>
       </tr>

@@ -8,13 +8,11 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterOutlet } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
-import { Coding } from '@his-base/datatypes';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from '@his-base/shared';
 import { FormsModule } from '@angular/forms';
 import { UserAccountService } from 'dist/service';
-import { News } from '@his-viewmodel/app-portal/dist';
 
 @Component({
   selector: 'his-news-info',
@@ -23,8 +21,7 @@ import { News } from '@his-viewmodel/app-portal/dist';
   templateUrl: './news-info.component.html',
   styleUrls: ['./news-info.component.scss']
 })
-export class NewsInfoComponent implements OnDestroy{
-
+export class NewsInfoComponent{
 
   /** 使用computed變數儲存各最新消息的資訊
    *  @memberof NewsInfoComponent
@@ -40,29 +37,11 @@ export class NewsInfoComponent implements OnDestroy{
    */
   query = ''
 
-  /** userCode測試資料
-   *  @memberof NewsInfoComponent
-   */
-  userCode!:string
-
   newsService = inject(NewsService);
   sharedService = inject(SharedService);
   httpClient = inject(HttpClient)
   userAccountService = inject(UserAccountService);
   #router = inject(Router);
-
-  // /** 建立連線、訂閱最新消息、初始化最新消息
-  //  *  @memberof NewsInfoComponent
-  //  */
-  // async ngOnInit(): Promise<void> {
-  //   this.httpClient.get('http://localhost:4320/assets/mockUserCode/mockUserCode.json')
-  //                  .subscribe(userCode => {
-  //                   this.userCode = userCode as unknown as string;
-  //                 })
-  //   await this.newsService.connect();
-  //   await this.newsService.subNews();
-  //   this.newsService.publishUserCode(this.userCode);
-  // }
 
   /** 跳轉到上一頁
    *  @memberof NewsInfoComponent
@@ -79,16 +58,6 @@ export class NewsInfoComponent implements OnDestroy{
     this.#router.navigate([appUrl],{state:{token:key}});
   }
 
-  /** 發送`最新消息狀態改為已讀/已完成`到nats
-   *  @memberof NewsInfoComponent
-   */
-  // async onChangeStatus(userCode:Coding, newsId:string):Promise<void>{
-  //   this.newsService.changeStatus(userCode, newsId);
-  // }
-  // async onChangeStatus(news:News):Promise<void>{
-  //   this.newsService.changeStatus(news);
-  // }
-
   /** 搜尋標題包含query的最新消息
    *  @memberof NewsInfoComponent
    */
@@ -102,12 +71,4 @@ export class NewsInfoComponent implements OnDestroy{
   filterReset(){
     this.newsService.filterReset();
   }
-
-  /** 清除連線
-   *  @memberof NewsInfoCoponent
-   */
-  async ngOnDestroy(): Promise<void> {
-    await this.newsService.disconnect();
-  }
-
 }

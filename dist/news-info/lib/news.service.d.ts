@@ -22,10 +22,10 @@ export declare class NewsService {
      *  @memberof NewsService
      */
     disconnect(): Promise<void>;
-    /** publish userCode到nats
+    /** 首次進入頁面時，自資料庫初始化最新消息
      *  @memberof NewsService
      */
-    publishUserCode(userCode: string): void;
+    getInitNews(userCode: Coding): Observable<News[]>;
     /** 發送`最新消息狀態改為已讀/已完成`到nats
      *  @memberof NewsService
      */
@@ -38,7 +38,7 @@ export declare class NewsService {
      *  @memberof NewsService
      */
     filterStatus(newsList: News[], code: Coding['code']): News[];
-    /** 僅顯示未超過24小時的已讀一般消息/待辦工作
+    /** 僅顯示未超過24小時已讀/已完成的一般消息/待辦工作
      *  @memberof NewsService
      */
     filterOverdue(newsList: News[]): News[];
@@ -46,24 +46,22 @@ export declare class NewsService {
      *  @memberof NewsService
      */
     filterSubject(subject: string): void;
-    /** 回復到上一次取得最新消息的狀態
+    /** 以originalNews重置所有最新消息
      *  @memberof NewsService
      */
     filterReset(): void;
-    /** 設定除了原始最新消息news以外的Signal
+    /** 設定除了原始最新消息originalNews以外的最新消息
      *  @memberof NewsService
      */
     upsertNews(news: News[]): void;
+    /** 設定/更新所有最新消息
+     *  @memberof NewsService
+     */
+    upsertAllNews(newsList: News[]): void;
     /** 規格化從nats取得的最新消息
      *  @memberof NewsService
      */
     formatNews(newsList: News[]): News[];
-    /** 訂閱最新消息
-     * @memberof NewsService
-     */
-    subNews(): Promise<void>;
-    getInitNews(userCode: Coding): Observable<News[]>;
-    upsertAllNews(newsList: News[]): void;
     /** 訂閱最新消息
      * @memberof NewsService
      */

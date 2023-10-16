@@ -31,12 +31,10 @@ export class NewsService {
    */
   #myNews = new Subject();
 
-
   /** 使用ConsumerMessages訂閱最新消息
    *  @memberof NewsService
    */
   #myNewsConsumer$!: Observable<ConsumerMessages>;
-
 
   #jetStreamWsService = inject(JetstreamWsService);
 
@@ -54,11 +52,11 @@ export class NewsService {
     await this.#jetStreamWsService.drain();
   }
 
-  /** publish userCode到nats
+  /** 首次進入頁面時，自資料庫初始化最新消息
    *  @memberof NewsService
    */
-  publishUserCode(userCode:string): void {
-    this.#jetStreamWsService.publish("news.wantNews", userCode);
+  getInitNews(userCode:Coding): Observable<News[]>{
+    return this.#jetStreamWsService.request('news.appPortal.newsList', userCode);
   }
 
   /** 發送`最新消息狀態改為已讀/已完成`到nats
@@ -67,15 +65,11 @@ export class NewsService {
   changeStatus(news:News){
     const date = new Date();
     this.originalNews.mutate(newsList=>{
-      // _.remove(newsList, news);
-      // newsList.filter(newsData=>!(newsData._id==news._id))
-      const index = newsList.findIndex(newsData=>newsData._id==news._id)
-      console.log("index",index)
+      const index = newsList.findIndex(newsElement=>newsElement._id==news._id)
       newsList.splice(index,1)
     })
     news.execStatus = {code:"60",display:"已讀/已完成"}
     news.execTime = date
-    console.log("after remove news",this.originalNews())
     this.#jetStreamWsService.publish("news.appPortal.setNews", news);
   }
 
@@ -84,7 +78,7 @@ export class NewsService {
    */
   filterType(newsList:News[], code:Coding['code']): News[]{
     if(code){
-      return newsList.filter(newsData=>newsData.type['code']==code);
+      return newsList.filter(newsElement=>newsElement.type['code']==code);
     }
     else{
       return newsList;
@@ -96,20 +90,20 @@ export class NewsService {
    */
   filterStatus(newsList:News[], code:Coding['code']): News[]{
     if(code){
-      return newsList.filter(newsData=>newsData.execStatus['code']==code);
+      return newsList.filter(newsElement=>newsElement.execStatus['code']==code);
     }
     else{
       return newsList;
     }
   }
 
-  /** 僅顯示未超過24小時的已讀一般消息/待辦工作
+  /** 僅顯示未超過24小時已讀/已完成的一般消息/待辦工作
    *  @memberof NewsService
    */
   filterOverdue(newsList:News[]): News[]{
     const date = new Date;
     const aDay = 24*60*60*1000;
-    return newsList.filter(newsData=>date.valueOf() - newsData.execTime.valueOf() < aDay);
+    return newsList.filter(newsElement=>date.valueOf() - newsElement.execTime.valueOf() < aDay);
   }
 
   /** 搜尋含subject字串的最新消息
@@ -117,17 +111,17 @@ export class NewsService {
    */
   filterSubject(subject:string){
     const newsList=this.originalNews();
-    this.upsertNews(newsList.filter(newsData=>newsData.subject.match(subject)));
+    this.upsertNews(newsList.filter(newsElement=>newsElement.subject.match(subject)));
   }
 
-  /** 回復到上一次取得最新消息的狀態
+  /** 以originalNews重置所有最新消息
    *  @memberof NewsService
    */
   filterReset(){
     this.upsertNews(this.originalNews())
   }
 
-  /** 設定除了原始最新消息news以外的Signal
+  /** 設定除了原始最新消息originalNews以外的最新消息
    *  @memberof NewsService
    */
   upsertNews(news:News[]): void{
@@ -139,13 +133,21 @@ export class NewsService {
     this.checkedToDoList.set(this.filterOverdue(this.filterStatus(this.allTodoList(), "60")));
   }
 
+  /** 設定/更新所有最新消息
+   *  @memberof NewsService
+   */
+  upsertAllNews(newsList:News[]):void{
+    this.originalNews.set(newsList);
+    this.upsertNews(newsList);
+  }
+
   /** 規格化從nats取得的最新消息
    *  @memberof NewsService
    */
   formatNews(newsList: News[]): News[]{
     const formatNewsList: News[] = [];
       newsList.forEach((news: News) => {
-        const formatNewsData:News = {
+        const formatNewsElement:News = {
           "_id": news._id,
           "appId": news.appId,
           "userCode": news.userCode,
@@ -162,47 +164,9 @@ export class NewsService {
           "updatedBy": news.updatedBy,
           "updatedAt": new Date(news.updatedAt)
         };
-        formatNewsList.push(formatNewsData);
+        formatNewsList.push(formatNewsElement);
       });
     return formatNewsList;
-  }
-
-  /** 訂閱最新消息
-   * @memberof NewsService
-   */
-  async subNews(): Promise<void> {
-    this.#myNews = new Subject();
-    const jsonCodec = JSONCodec();
-    this.#myNewsConsumer$ = this.#jetStreamWsService.subscribe(
-      SubscribeType.Push,
-      'news.getNews.dashboard'
-    );
-
-    this.#myNewsConsumer$
-      .pipe(
-        mergeMap(async (messages) => {
-          for await (const message of messages) {
-            this.#myNews.next(jsonCodec.decode(message.data));
-            message.ack();
-          }
-        })
-      )
-      .subscribe(() => {});
-
-    this.#myNews.subscribe((newsList:any) => {
-      this.originalNews.set(this.formatNews(newsList as News[]));
-      this.upsertNews(this.formatNews(newsList));
-    });
-  }
-
-  getInitNews(userCode:Coding): Observable<News[]>{
-    return this.#jetStreamWsService.request('news.appPortal.newsList', userCode);
-  }
-
-  upsertAllNews(newsList:News[]):void{
-    this.originalNews.set(newsList);
-    this.upsertNews(newsList);
-    console.log("upsertAllNews",this.originalNews())
   }
 
   /** 訂閱最新消息
@@ -231,12 +195,10 @@ export class NewsService {
       this.originalNews.mutate(newsList=>{
         const tmpNews = this.formatNews([newsElement])
         newsList.push(tmpNews[0])
-        console.log("newsList",newsList)
       })
       this.upsertNews(this.originalNews())
     });
   }
-
 
 }
 

@@ -54,7 +54,7 @@ class NewsService {
      *  @memberof NewsService
      */
     getInitNews(userCode) {
-        return this.#jetStreamWsService.request('news.find', userCode);
+        return this.#jetStreamWsService.request('appPortal.news.find', userCode);
     }
     /** 發送`最新消息狀態改為已讀/已完成`到nats
      *  @memberof NewsService
@@ -67,8 +67,8 @@ class NewsService {
         });
         news.execStatus = { code: "60", display: "已讀/已完成" };
         news.execTime = date;
-        this.#jetStreamWsService.publish(`news.${news.userCode.code}`, news);
-        this.#jetStreamWsService.publish("news.setNews", news);
+        this.#jetStreamWsService.publish(`appPortal.news.${news.userCode.code}`, news);
+        this.#jetStreamWsService.publish("appPortal.news.setNews", news);
     }
     /** 依‘一般消息’、’待辦工作’分類最新消息
      *  @memberof NewsService
@@ -166,7 +166,7 @@ class NewsService {
     async subMyNews(userCode) {
         this.#myNews = new Subject();
         const jsonCodec = JSONCodec();
-        this.#myNewsConsumer$ = this.#jetStreamWsService.subscribe(SubscribeType.Push, `news.${userCode.code}`);
+        this.#myNewsConsumer$ = this.#jetStreamWsService.subscribe(SubscribeType.Push, `appPortal.news.${userCode.code}`);
         this.#myNewsConsumer$
             .pipe(mergeMap(async (messages) => {
             for await (const message of messages) {

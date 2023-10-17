@@ -1,8 +1,8 @@
 import * as i0 from '@angular/core';
-import { inject, Injectable, signal, Component } from '@angular/core';
+import { signal, inject, Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { JetstreamWsService } from '@his-base/jetstream-ws/dist';
-import { SharedService } from '@his-base/shared';
+import { UserAccountService } from 'service';
 import * as i1 from '@angular/common';
 import { CommonModule } from '@angular/common';
 import * as i6 from '@angular/forms';
@@ -20,33 +20,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { CardListComponent } from '@his-directive/card-list/dist/card-list';
 import * as i9 from '@ngx-translate/core';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
-import { UserAccountService } from 'dist/service';
+import { UserAccountService as UserAccountService$1 } from 'dist/service';
 import * as i3 from 'primeng/api';
-
-const environment = {
-    wsUrl: 'ws://localhost:8080'
-};
-
-class WsNatsService {
-    #natsUrl = environment.wsUrl;
-    #jetStreamWsService = inject(JetstreamWsService);
-    async connect() {
-        console.log('connected');
-        await this.#jetStreamWsService.connect(this.#natsUrl);
-    }
-    async disconnect() {
-        // 連線關閉前，會先將目前訂閱給排空
-        await this.#jetStreamWsService.drain();
-    }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: WsNatsService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
-    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: WsNatsService, providedIn: 'root' }); }
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: WsNatsService, decorators: [{
-            type: Injectable,
-            args: [{
-                    providedIn: 'root'
-                }]
-        }] });
 
 class AppStoreService {
     constructor() {
@@ -60,44 +35,38 @@ class AppStoreService {
          * @memberof AppStoreService
          */
         this.userAppStores = signal([]);
+        /** 使用者打開應用程式順序
+         * @type {ExtendedMyAppStore}
+         * @memberof AppStoreService
+         */
         this.appOpenedIndex = [];
         this.#router = inject(Router);
         this.#jetStreamWsService = inject(JetstreamWsService);
-        this.#sharedService = inject(SharedService);
-        this.#wsNatsService = inject(WsNatsService);
+        this.#userAccountService = inject(UserAccountService);
     }
     #router;
     #jetStreamWsService;
-    #sharedService;
-    #wsNatsService;
+    #userAccountService;
     /** 擴展MyAppStore到ExtendedMyAppStore
      * @param {MyAppStore[]} appStores
      * @memberof AppStoreService
      */
-    convertToExtended(appStores) {
+    convertToExtendedAppStores(appStores) {
         return appStores.map(appStore => ({ ...appStore, isOpen: false }));
     }
     /** 取得全部應用程式清單
      * @param {string} payload
      * @memberof AppStoreService
      */
-    async getAppStoreList(payload) {
-        // @ts-ignore
-        // 需帶入指定的主題跟要傳遞的資料
-        this.#jetStreamWsService.request('UserAppStore.myAppStore', payload).subscribe((result) => {
-            this.myAppStores.set(this.convertToExtended(result));
-        });
+    getAppStoreList(payload) {
+        return this.#jetStreamWsService.request('appPortal.appStore.myAppStores', payload);
     }
     /** 取得全部使用者應用程式清單
       * @param {string} payload
       * @memberof AppStoreService
       */
-    async getUserStoreList(payload) {
-        // @ts-ignore
-        // 需帶入指定的主題跟要傳遞的資料
-        this.#jetStreamWsService.request('UserAppStore.list', payload).subscribe((result) => {
-            this.userAppStores.set(result);
-        });
+    getUserStoreList(payload) {
+        return this.#jetStreamWsService.request('appPortal.appStore.userAppStores', payload);
     }
     /** 取得全部應用程式清單
      * @param {string} keyword
@@ -124,18 +93,7 @@ class AppStoreService {
      * @memberof AppStoreService
      */
     async pubUserAppStoreFavorite(payload) {
-        // 需帶入指定發布主題以及要傳送的訊息
-        await this.#jetStreamWsService.publish('UserAppStore.update.isFavorite', payload);
-    }
-    /** 初始化MyAppStore
-     * @param {UserAccount} userAccount
-     * @memberof AppStoreService
-     */
-    async initAppStore() {
-        const userAccount = await this.#sharedService.getValue(history.state.token);
-        console.log("get token", userAccount);
-        await this.getAppStoreList(userAccount.userCode.code);
-        await this.getUserStoreList(userAccount.userCode.code);
+        await this.#jetStreamWsService.publish('appPortal.appStore.userFavorite', payload);
     }
     /** 應用程式點擊我的最愛icon
      * @param {string} appId
@@ -143,7 +101,6 @@ class AppStoreService {
      */
     onFavoriteClick(appId) {
         this.myAppStores.update(myAppStoreArray => {
-            console.log("userAppStores", this.userAppStores());
             return myAppStoreArray.map(myAppStore => {
                 if (myAppStore.appId === appId) {
                     // 切换 isFavorite 值
@@ -178,9 +135,6 @@ class AppStoreService {
         if (this.appOpenedIndex.length > 1) {
             const index = this.appOpenedIndex.findIndex(app => app.appId === appId);
             this.appOpenedIndex.splice(index, 1);
-            console.log(index);
-            console.log(this.appOpenedIndex[this.appOpenedIndex.length - 1]);
-            // window.open(this.appOpenedIndex[this.appOpenedIndex.length-1].appUrl,"_top")
             this.#router.navigate([this.appOpenedIndex[this.appOpenedIndex.length - 1].url]);
         }
         else {
@@ -238,14 +192,11 @@ class AppStoreComponent {
         this.Options = [];
         this.value = 'grid';
         this.appStoreService = inject(AppStoreService);
-        this.userAccountService = inject(UserAccountService);
-        this.#sharedService = inject(SharedService);
+        this.userAccountService = inject(UserAccountService$1);
         this.#translate = inject(TranslateService);
     }
-    #sharedService;
     #translate;
     async ngOnInit() {
-        this.#translate.setDefaultLang(`zh-Hant`);
         this.Options = Object.values(SelectButtonOption)[0];
     }
     /** 返回上一頁

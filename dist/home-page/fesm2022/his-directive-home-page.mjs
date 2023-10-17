@@ -3,7 +3,7 @@ import { AvatarModule } from 'primeng/avatar';
 import * as i3 from 'primeng/button';
 import { ButtonModule } from 'primeng/button';
 import * as i0 from '@angular/core';
-import { inject, Injectable, Component } from '@angular/core';
+import { inject, Component } from '@angular/core';
 import * as i1 from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { NewsService, NewsListComponent } from 'dist/news-info';
@@ -11,43 +11,9 @@ import { Router } from '@angular/router';
 import { SharedService } from '@his-base/shared';
 import { CardListComponent } from '@his-directive/card-list/dist/card-list';
 import { AppStoreService } from 'dist/app-store';
-import { JetstreamWsService } from '@his-base/jetstream-ws/dist';
 import * as i4 from '@ngx-translate/core';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { UserAccountService } from 'dist/service';
-
-const environment = {
-    wsUrl: 'ws://localhost:8080'
-};
-
-class WsNatsService {
-    /** 與Nats連接的Url
-     * @type {string}
-     * @memberof WsNatsService
-     */
-    #natsUrl = environment.wsUrl;
-    #jetStreamWsService = inject(JetstreamWsService);
-    /** 與Nats連接
-     * @memberof WsNatsService
-     */
-    async connect() {
-        await this.#jetStreamWsService.connect(this.#natsUrl);
-    }
-    /** 與Nats斷開連接
-     * @memberof WsNatsService
-     */
-    async disconnect() {
-        await this.#jetStreamWsService.drain();
-    }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: WsNatsService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
-    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: WsNatsService, providedIn: 'root' }); }
-}
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: WsNatsService, decorators: [{
-            type: Injectable,
-            args: [{
-                    providedIn: 'root',
-                }]
-        }] });
 
 class UserProfileComponent {
     constructor() {
@@ -56,12 +22,10 @@ class UserProfileComponent {
         this.userAccountService = inject(UserAccountService);
         this.#router = inject(Router);
         this.#sharedService = inject(SharedService);
-        this.#wsNatsService = inject(WsNatsService);
         this.#translate = inject(TranslateService);
     }
     #router;
     #sharedService;
-    #wsNatsService;
     #translate;
     /**跳轉到查看更多消息的路徑
      * @memberof UserProfileComponent
@@ -111,5 +75,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { UserProfileComponent, WsNatsService };
+export { UserProfileComponent };
 //# sourceMappingURL=his-directive-home-page.mjs.map

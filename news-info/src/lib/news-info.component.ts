@@ -9,7 +9,6 @@ import { ButtonModule } from 'primeng/button';
 import { Router, RouterOutlet } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
 import { SharedService } from '@his-base/shared';
 import { FormsModule } from '@angular/forms';
 import { UserAccountService } from 'dist/service';
@@ -39,7 +38,6 @@ export class NewsInfoComponent{
 
   newsService = inject(NewsService);
   sharedService = inject(SharedService);
-  httpClient = inject(HttpClient)
   userAccountService = inject(UserAccountService);
   #router = inject(Router);
 

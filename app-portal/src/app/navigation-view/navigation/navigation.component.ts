@@ -32,7 +32,6 @@ export class NavigationComponent {
   wsNatsService = inject(WsNatsService);
   async ngOnInit() {
     await this.wsNatsService.connect();
-    await this.appStoreService.initAppStore()
   }
   /** 開合導覽列
    * @memberof NavigationComponent

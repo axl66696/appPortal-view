@@ -1,19 +1,12 @@
 import { UserAccount } from '@his-viewmodel/app-portal/dist/app/user-account';
-import { lastValueFrom } from 'rxjs';
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserAppStore } from "@his-viewmodel/app-portal/dist";
 import { MyAppStore } from "@his-viewmodel/app-portal/dist";
-import { AppStore } from "@his-viewmodel/app-portal/dist";
-import { JSONCodec, JetstreamWsService, TransferInfo } from '@his-base/jetstream-ws/dist';
-import { SharedService } from '@his-base/shared';
-import { WsNatsService } from './ws-nats.service';
+import { JetstreamWsService } from '@his-base/jetstream-ws/dist';
+import { ExtendedMyAppStore } from '../types/extended-my-app-store';
 import * as _ from 'lodash';
-
-
-type ExtendedMyAppStore = MyAppStore & {
-  isOpen: boolean;
-};
+import { UserAccountService } from 'service';
 
 @Injectable({
   providedIn: 'root'
@@ -33,18 +26,22 @@ export class AppStoreService {
    */
   userAppStores = signal<UserAppStore[]>([])
 
+  /** 使用者打開應用程式順序
+   * @type {ExtendedMyAppStore}
+   * @memberof AppStoreService
+   */
   appOpenedIndex = [] as ExtendedMyAppStore[]
 
   #router = inject(Router);
   #jetStreamWsService = inject(JetstreamWsService);
-  #sharedService = inject(SharedService);
-  #wsNatsService = inject(WsNatsService);
+  #userAccountService = inject(UserAccountService);
+
 
   /** 擴展MyAppStore到ExtendedMyAppStore
    * @param {MyAppStore[]} appStores
    * @memberof AppStoreService
    */
-  convertToExtended(appStores: MyAppStore[]): ExtendedMyAppStore[] {
+  convertToExtendedAppStores(appStores: MyAppStore[]): ExtendedMyAppStore[] {
       return appStores.map(appStore => ({...appStore,isOpen: false}));
   }
 
@@ -52,24 +49,16 @@ export class AppStoreService {
    * @param {string} payload
    * @memberof AppStoreService
    */
-  async getAppStoreList(payload: string) {
-    // @ts-ignore
-    // 需帶入指定的主題跟要傳遞的資料
-    this.#jetStreamWsService.request('UserAppStore.myAppStore', payload).subscribe((result: any) => {
-      this.myAppStores.set(this.convertToExtended(result as unknown as MyAppStore[]))
-    });
+  getAppStoreList(payload: string) {
+    return this.#jetStreamWsService.request('appPortal.appStore.myAppStores', payload)
   }
 
   /** 取得全部使用者應用程式清單
     * @param {string} payload
     * @memberof AppStoreService
     */
-  async getUserStoreList(payload: string) {
-    // @ts-ignore
-    // 需帶入指定的主題跟要傳遞的資料
-    this.#jetStreamWsService.request('UserAppStore.list', payload).subscribe((result: any) => {
-      this.userAppStores.set(result as unknown as UserAppStore[])
-    })
+  getUserStoreList(payload: string) {
+    return this.#jetStreamWsService.request('appPortal.appStore.userAppStores', payload)
   }
 
   /** 取得全部應用程式清單
@@ -99,20 +88,10 @@ export class AppStoreService {
    * @memberof AppStoreService
    */
   async pubUserAppStoreFavorite(payload: UserAppStore) {
-    // 需帶入指定發布主題以及要傳送的訊息
-    await this.#jetStreamWsService.publish('UserAppStore.update.isFavorite', payload);
+    await this.#jetStreamWsService.publish('appPortal.appStore.userFavorite', payload);
   }
 
-  /** 初始化MyAppStore
-   * @param {UserAccount} userAccount
-   * @memberof AppStoreService
-   */
-  async initAppStore() {
-    const userAccount:UserAccount =  await this.#sharedService.getValue(history.state.token);
-    console.log("get token", userAccount)
-    await this.getAppStoreList(userAccount.userCode.code)
-    await this.getUserStoreList(userAccount.userCode.code)
-  }
+
 
   /** 應用程式點擊我的最愛icon
    * @param {string} appId
@@ -120,7 +99,6 @@ export class AppStoreService {
    */
   onFavoriteClick(appId: string):void {
     this.myAppStores.update(myAppStoreArray => {
-      console.log("userAppStores", this.userAppStores())
       return myAppStoreArray.map(myAppStore => {
         if (myAppStore.appId === appId) {
           // 切换 isFavorite 值
@@ -158,9 +136,6 @@ export class AppStoreService {
       if (this.appOpenedIndex.length > 1) {
         const index = this.appOpenedIndex.findIndex(app => app.appId === appId)
         this.appOpenedIndex.splice(index, 1);
-        console.log(index)
-        console.log(this.appOpenedIndex[this.appOpenedIndex.length - 1])
-        // window.open(this.appOpenedIndex[this.appOpenedIndex.length-1].appUrl,"_top")
         this.#router.navigate([this.appOpenedIndex[this.appOpenedIndex.length - 1].url])
       }
       else {

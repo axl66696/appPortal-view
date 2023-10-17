@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { UserAccount, UserToken } from '@his-viewmodel/app-portal/dist';
 import { LoginReq } from '@his-viewmodel/app-portal/dist';
 import '@angular/localize/init';
+import { UserAccountService, UserProfileService } from 'service';
 import * as i0 from "@angular/core";
 export declare class LoginComponent implements OnInit {
     #private;
@@ -49,6 +50,8 @@ export declare class LoginComponent implements OnInit {
     userAccount: UserAccount;
     messageService: MessageService;
     router: Router;
+    userAccountService: UserAccountService;
+    userProfileService: UserProfileService;
     /** 初始化登入畫面為淺色模式 以及與Nats連線
      * @memberof LoginComponent
      */
@@ -62,6 +65,11 @@ export declare class LoginComponent implements OnInit {
      * @memberof LoginComponent
      */
     checkUserToken(userToken: UserToken): void;
+    /** 檢查授權拿到User Profile
+   * @param {UserToken} userToken
+   * @memberof LoginComponent
+   */
+    getUserProfile(userToken: UserToken): void;
     /** 點擊忘記密碼
      * @memberof LoginComponent
      */

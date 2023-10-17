@@ -1,0 +1,12 @@
+import { MyAppStore } from "@his-viewmodel/app-portal/dist";
+export class ExtendedMyAppStore extends MyAppStore {
+    /** 建構式
+     ** @param that MyAppStore
+     **/
+    constructor(that) {
+        super();
+        this.isOpen = false;
+        Object.assign(this, structuredClone(that));
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZXh0ZW5kZWQtbXktYXBwLXN0b3JlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vYXBwLXN0b3JlL3NyYy90eXBlcy9leHRlbmRlZC1teS1hcHAtc3RvcmUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxFQUFFLFVBQVUsRUFBRSxNQUFNLGdDQUFnQyxDQUFDO0FBRTVELE1BQU0sT0FBTyxrQkFBbUIsU0FBUSxVQUFVO0lBSWhEOztRQUVJO0lBQ0gsWUFBWSxJQUFrQztRQUM3QyxLQUFLLEVBQUUsQ0FBQztRQU5WLFdBQU0sR0FBWSxLQUFLLENBQUM7UUFPdEIsTUFBTSxDQUFDLE1BQU0sQ0FBQyxJQUFJLEVBQUUsZUFBZSxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUM7SUFDN0MsQ0FBQztDQUVGIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgTXlBcHBTdG9yZSB9IGZyb20gXCJAaGlzLXZpZXdtb2RlbC9hcHAtcG9ydGFsL2Rpc3RcIjtcblxuZXhwb3J0IGNsYXNzIEV4dGVuZGVkTXlBcHBTdG9yZSBleHRlbmRzIE15QXBwU3RvcmV7XG5cbiAgaXNPcGVuOiBib29sZWFuID0gZmFsc2U7XG5cbiAgLyoqIOW7uuani+W8j1xuICAgKiogQHBhcmFtIHRoYXQgTXlBcHBTdG9yZVxuICAgKiovXG4gICBjb25zdHJ1Y3Rvcih0aGF0PzogUGFydGlhbDxFeHRlbmRlZE15QXBwU3RvcmU+KSB7XG4gICAgc3VwZXIoKTtcbiAgICBPYmplY3QuYXNzaWduKHRoaXMsIHN0cnVjdHVyZWRDbG9uZSh0aGF0KSk7XG4gIH1cblxufVxuIl19

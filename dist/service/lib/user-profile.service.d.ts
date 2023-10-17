@@ -6,7 +6,7 @@ export declare class UserProfileService {
      * @memberof UserProfileService
      */
     userProfile: import("@angular/core").WritableSignal<UserProfile>;
-    constructor();
+    getUserProfile(userCode: string, appId: string): import("rxjs").Observable<any>;
     static ɵfac: i0.ɵɵFactoryDeclaration<UserProfileService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<UserProfileService>;
 }

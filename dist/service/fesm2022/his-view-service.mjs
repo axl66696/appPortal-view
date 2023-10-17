@@ -1,14 +1,13 @@
 import * as i0 from '@angular/core';
 import { Injectable, inject, signal } from '@angular/core';
 import { JetstreamWsService } from '@his-base/jetstream-ws/dist';
-import { Coding } from '@his-base/datatypes';
 
 class ServiceService {
     constructor() { }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: ServiceService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
-    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: ServiceService, providedIn: 'root' }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: ServiceService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: ServiceService, providedIn: 'root' }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: ServiceService, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: ServiceService, decorators: [{
             type: Injectable,
             args: [{
                     providedIn: 'root'
@@ -42,10 +41,10 @@ class UserAccountService {
             console.log("get image", result);
         });
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: UserAccountService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
-    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: UserAccountService, providedIn: 'root' }); }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserAccountService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserAccountService, providedIn: 'root' }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: UserAccountService, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.8", ngImport: i0, type: UserAccountService, decorators: [{
             type: Injectable,
             args: [{
                     providedIn: 'root',
@@ -55,26 +54,22 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.9", ngImpor
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 class UserProfileService {
-    #jetStreamWsService;
     constructor() {
         this.#jetStreamWsService = inject(JetstreamWsService);
         /** 使用Signal變數儲存UserAccount型別的使用者帳號
          * @memberof UserProfileService
          */
         this.userProfile = signal({});
-        this.userProfile.set({
-            "_id": "jidweqjiefwi",
-            "userCode": {
-                "code": "Neo",
-                "display": "alphaTeam-001"
-            },
-            "appId": 'web-client',
-            "profile": {
-                isDockVisible: true,
-            },
-            "updatedBy": new Coding(),
-            "updatedAt": new Date(),
-        });
+    }
+    #jetStreamWsService;
+    getUserProfile(userCode, appId) {
+        // @ts-ignore
+        // 需帶入指定的主題跟要傳遞的資料
+        // this.#jetStreamWsService.request('appPortal.userProfile.find', {'userCode':userCode,'appId':appId})
+        // .subscribe((result: any) => {
+        //   this.userProfile.set(result);
+        // });
+        return this.#jetStreamWsService.request('appPortal.userProfile.find', { 'userCode': userCode, 'appId': appId });
     }
     static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: UserProfileService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
     static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: UserProfileService, providedIn: 'root' }); }
@@ -84,7 +79,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "16.2.9", ngImpor
             args: [{
                     providedIn: 'root',
                 }]
-        }], ctorParameters: function () { return []; } });
+        }] });
 
 /*
  * Public API Surface of service

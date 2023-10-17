@@ -23,7 +23,6 @@ export class NavigationService {
     if (!(this.routerSignal() instanceof NavigationEnd)) return false;
 
     let event = this.routerSignal() as NavigationEnd;
-    console.log("is the view?", event.urlAfterRedirects !== '/appStore' && event.urlAfterRedirects !== '/home' && event.urlAfterRedirects !== '/news')
     return event.urlAfterRedirects !== '/appStore' && event.urlAfterRedirects !== '/home' && event.urlAfterRedirects !== '/news';
   });
 

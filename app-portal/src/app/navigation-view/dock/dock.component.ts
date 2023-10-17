@@ -88,7 +88,6 @@ export class DockComponent {
    */
   onMouseOver(index: string): void {
     this.focusedIndex = index;
-    // console.log(this.navigationFooterService.getDockVisible())
   }
 
   /** 偵測滑鼠移出icon

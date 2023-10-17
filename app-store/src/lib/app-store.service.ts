@@ -105,8 +105,6 @@ export class AppStoreService {
           myAppStore.isFavorite = !myAppStore.isFavorite;
           // 在 userAppStores 中找到相應的項目更新它的 isFavorite
           const userAppStore = this.userAppStores().find(userAppStore => userAppStore.appId === appId);
-          console.log('appId', appId);
-          console.log('userAppStoreID', userAppStore?.appId);
           if (userAppStore) {
               userAppStore.isFavorite = myAppStore.isFavorite;
               this.pubUserAppStoreFavorite(userAppStore)
@@ -131,7 +129,6 @@ export class AppStoreService {
   */
     setAppClose(appId: string): void {
       this.myAppStores.update(apps => apps.map(app => { app.appId === appId ? app.isOpen = false : app; return app }))
-      console.log(this.appOpenedIndex)
 
       if (this.appOpenedIndex.length > 1) {
         const index = this.appOpenedIndex.findIndex(app => app.appId === appId)

@@ -22,6 +22,7 @@ import { AppStoreService } from 'dist/app-store';
 import { UserAccountService,UserProfileService } from 'dist/service';
 import { AuthService } from '../../auth.service'
 import { UserAccount } from '@his-viewmodel/app-portal/dist';
+import { NewsService } from 'news-info';
 
 @Component({
   selector: 'his-footer',
@@ -151,6 +152,7 @@ export class FooterComponent implements OnInit{
   userAccountService = inject(UserAccountService);
   userProfileService = inject(UserProfileService);
   appStoreService = inject(AppStoreService);
+  newsService = inject(NewsService);
   #router = inject(Router);
   #authService = inject(AuthService);
 

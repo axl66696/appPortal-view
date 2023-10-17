@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { SharedService } from '@his-base/shared';
 import { Coding } from '@his-base/datatypes/dist';
+import '@his-base/date-extension'
 
 @Component({
   selector: 'his-news-list',
@@ -28,6 +29,8 @@ export class NewsListComponent {
    *  @memberof NewsListComponent
    */
   @Input() customTemplate?: TemplateRef<any> ;
+  @Input() defaultTable1?: TemplateRef<any> ;
+  @Input() noUrlNews?: TemplateRef<any> ;
 
   newsService = inject(NewsService)
   sharedService = inject(SharedService);
@@ -37,8 +40,13 @@ export class NewsListComponent {
    *  @memberof NewsInfoComponent
    */
   onNavNewsClick(url:string, sharedData:object):void{
-    const key = this.sharedService.setValue(sharedData)
-    this.#router.navigate([url],{state:{token:key}});
+    if(!url){
+      return;
+    }
+    else{
+      const key = this.sharedService.setValue(sharedData)
+      this.#router.navigate([url],{state:{token:key}});
+    }
   }
 
   /** 發送`最新消息狀態改為已讀/已完成`到nats

@@ -56,7 +56,7 @@ export class NewsService {
    *  @memberof NewsService
    */
   getInitNews(userCode:Coding): Observable<News[]>{
-    return this.#jetStreamWsService.request('news.appPortal.newsList', userCode);
+    return this.#jetStreamWsService.request('news.find', userCode);
   }
 
   /** 發送`最新消息狀態改為已讀/已完成`到nats
@@ -70,7 +70,8 @@ export class NewsService {
     })
     news.execStatus = {code:"60",display:"已讀/已完成"}
     news.execTime = date
-    this.#jetStreamWsService.publish("news.appPortal.setNews", news);
+    this.#jetStreamWsService.publish(`news.${news.userCode.code}`, news);
+    this.#jetStreamWsService.publish("news.setNews", news);
   }
 
   /** 依‘一般消息’、’待辦工作’分類最新消息
@@ -147,6 +148,8 @@ export class NewsService {
   formatNews(newsList: News[]): News[]{
     const formatNewsList: News[] = [];
       newsList.forEach((news: News) => {
+        console.log("news", news)
+        console.log("start", typeof news.period.start)
         const formatNewsElement:News = {
           "_id": news._id,
           "appId": news.appId,
@@ -177,7 +180,7 @@ export class NewsService {
     const jsonCodec = JSONCodec();
     this.#myNewsConsumer$ = this.#jetStreamWsService.subscribe(
       SubscribeType.Push,
-      `news.appPortal.${userCode.code}`
+      `news.${userCode.code}`
     );
 
     this.#myNewsConsumer$
@@ -192,8 +195,10 @@ export class NewsService {
       .subscribe(() => {});
 
     this.#myNews.subscribe((newsElement:any) => {
+      console.log("newsElement", newsElement)
       this.originalNews.mutate(newsList=>{
-        const tmpNews = this.formatNews([newsElement])
+        const tmpNews = this.formatNews([newsElement.data])
+        console.log("tmpNews", tmpNews)
         newsList.push(tmpNews[0])
       })
       this.upsertNews(this.originalNews())

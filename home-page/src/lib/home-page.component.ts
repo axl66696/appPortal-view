@@ -14,8 +14,8 @@ import { UserAccountService } from 'dist/service';
 @Component({
   selector: 'his-user-profile',
   standalone: true,
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss'],
+  templateUrl: './home-page.component.html',
+  styleUrls: ['./home-page.component.scss'],
   imports: [
     CommonModule,
     AvatarModule,

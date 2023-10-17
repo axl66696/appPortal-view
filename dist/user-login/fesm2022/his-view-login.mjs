@@ -458,7 +458,7 @@ class LoginComponent {
         this.branchesOption = Object.values(branchData)[0];
         await this.#wsNatsService.connect();
         const themeLink = document.getElementById('theme-css');
-        themeLink.href = 'app/styles/theme.css';
+        themeLink.href = 'app/styles/theme-light.css';
     }
     /** 點擊登入按鈕
      * @memberof LoginComponent

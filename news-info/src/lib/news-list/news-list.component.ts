@@ -29,7 +29,7 @@ export class NewsListComponent {
    *  @memberof NewsListComponent
    */
   @Input() customTemplate?: TemplateRef<any> ;
-  @Input() defaultTable1?: TemplateRef<any> ;
+  @Input() defaultTable?: TemplateRef<any> ;
   @Input() noUrlNews?: TemplateRef<any> ;
 
   newsService = inject(NewsService)

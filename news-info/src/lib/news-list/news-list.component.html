@@ -4,7 +4,6 @@
 </ng-container>
 
 <ng-template #ShowNews>
-  <!-- <ng-container [ngTemplateOutlet]="defaultTable || customTemplate"></ng-container> -->
   <ng-container *ngIf="news && news[0].execStatus.code==='10';else completedTable">
     <p-table [value]="news!" [tableStyle]="{ width: '100%' }">
       <ng-template pTemplate="body" let-news>

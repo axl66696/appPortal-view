@@ -1,5 +1,4 @@
 import { NewsService } from './news.service';
-import { HttpClient } from '@angular/common/http';
 import { SharedService } from '@his-base/shared';
 import { UserAccountService } from 'dist/service';
 import * as i0 from "@angular/core";
@@ -19,7 +18,6 @@ export declare class NewsInfoComponent {
     query: string;
     newsService: NewsService;
     sharedService: SharedService<any>;
-    httpClient: HttpClient;
     userAccountService: UserAccountService;
     /** 跳轉到上一頁
      *  @memberof NewsInfoComponent

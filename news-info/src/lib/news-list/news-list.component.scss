@@ -30,20 +30,33 @@
         }
 
         > td {
-          padding: 8px 0;
-          &:first-child {
-            width: 5%;
+          padding: 8px 0 8px 5px;
+          .first-child {
+            width: 0%;
+            padding-left: 0;
             min-width: 45px;
             .p-button {
               min-width: 60px;
             }
           }
-          &:nth-child(2) {
-            width: 13%;
+          .nth-child {
+            width: 0.1%;
+            padding-left: 14px;
           }
 
-          &:last-child {
-            width: 13%;
+          .last-child {
+            width: 1%;
+            text-align: left;
+          }
+
+          .completed-first{
+            width: 0.1%;
+            padding-left: 14px;
+          }
+
+          .complete-last{
+            width: 1%;
+            text-align: left;
           }
         }
       }
@@ -51,7 +64,7 @@
     .p-fieldset {
       border-radius: 12px;
       .p-fieldset-content {
-        padding: 8px 12px 8px;
+        padding: 8px 0px;
       }
     }
   }

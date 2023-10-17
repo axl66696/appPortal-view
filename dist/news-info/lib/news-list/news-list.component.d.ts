@@ -2,6 +2,7 @@ import { NewsService } from './../news.service';
 import { TemplateRef } from '@angular/core';
 import { News } from '@his-viewmodel/app-portal/dist';
 import { SharedService } from '@his-base/shared';
+import '@his-base/date-extension';
 import * as i0 from "@angular/core";
 export declare class NewsListComponent {
     #private;
@@ -13,6 +14,8 @@ export declare class NewsListComponent {
      *  @memberof NewsListComponent
      */
     customTemplate?: TemplateRef<any>;
+    defaultTable1?: TemplateRef<any>;
+    noUrlNews?: TemplateRef<any>;
     newsService: NewsService;
     sharedService: SharedService<any>;
     /** 跳轉到appUrl路徑的位置，並使用sharedService傳送資訊
@@ -24,5 +27,5 @@ export declare class NewsListComponent {
      */
     onChangeStatus(news: News): Promise<void>;
     static ɵfac: i0.ɵɵFactoryDeclaration<NewsListComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<NewsListComponent, "his-news-list", never, { "news": { "alias": "news"; "required": false; }; "customTemplate": { "alias": "customTemplate"; "required": false; }; }, {}, never, never, true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<NewsListComponent, "his-news-list", never, { "news": { "alias": "news"; "required": false; }; "customTemplate": { "alias": "customTemplate"; "required": false; }; "defaultTable1": { "alias": "defaultTable1"; "required": false; }; "noUrlNews": { "alias": "noUrlNews"; "required": false; }; }, {}, never, never, true, never>;
 }

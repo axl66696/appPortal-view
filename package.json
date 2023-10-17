@@ -14,7 +14,7 @@
     "lint": "ng lint"
   },
   "private": true,
-  "files":[
+  "files": [
     "dist"
   ],
   "dependencies": {
@@ -28,6 +28,7 @@
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "@his-base/datatypes": "git+https://gitlab.aservice.com.tw/hpc-his/base/datatypes.git",
+    "@his-base/date-extension": "git+https://gitlab.aservice.com.tw/hpc-his/base/date-extension.git",
     "@his-base/jetstream-ws": "git+https://gitlab.aservice.com.tw/hpc-his/base/jetstream-ws.git#v1.0.4",
     "@his-base/shared": "git+https://gitlab.aservice.com.tw/hpc-his/base/shared.git#develop",
     "@his-directive/card-list": "git+https://gitlab.aservice.com.tw/he8477/card-list",

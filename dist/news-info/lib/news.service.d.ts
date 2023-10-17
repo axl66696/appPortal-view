@@ -14,14 +14,6 @@ export declare class NewsService {
     toDoList: import("@angular/core").WritableSignal<News[]>;
     checkedNormalNews: import("@angular/core").WritableSignal<News[]>;
     checkedToDoList: import("@angular/core").WritableSignal<News[]>;
-    /** 建立nats連線
-     *  @memberof NewsService
-     */
-    connect(): Promise<void>;
-    /** 中斷nats連線
-     *  @memberof NewsService
-     */
-    disconnect(): Promise<void>;
     /** 首次進入頁面時，自資料庫初始化最新消息
      *  @memberof NewsService
      */

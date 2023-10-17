@@ -90,58 +90,6 @@
   }
 }
 
-:host {
-  ::ng-deep {
-    .p-datatable {
-      height: 100%;
-      background: #fff;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 20px; /* 125% */
-      letter-spacing: 0.16px;
-      color: var(--surface-on-surface);
-      .p-datatable-tbody > tr {
-        width: 100%;
-        &:first-child {
-          > td {
-          }
-        }
-        &:last-child {
-          > td {
-            border-bottom: none;
-          }
-        }
-
-        > td {
-          padding: 8px 0 8px 5px;
-          &:first-child {
-            width: 5%;
-            padding-left: 0;
-            min-width: 45px;
-            .p-button {
-              min-width: 60px;
-            }
-          }
-          &:nth-child(2) {
-            width: 10%;
-            padding-left: 14px;
-          }
-
-          &:last-child {
-            width: 10%;
-            text-align: end;
-          }
-        }
-      }
-    }
-    .p-fieldset {
-      border-radius: 12px;
-      .p-fieldset-content {
-        padding: 8px 0px;
-      }
-    }
-  }
-}
 .title {
   padding-left: 24px;
   font-size: 28px;

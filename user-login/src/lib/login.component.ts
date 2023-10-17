@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit {
     this.branchesOption = Object.values(branchData)[0] as unknown as string[]
     await this.#wsNatsService.connect();
     const themeLink = <HTMLLinkElement>document.getElementById('theme-css')
-    themeLink.href = 'app/styles/theme.css'
+    themeLink.href = 'app/styles/theme-light.css'
   }
 
   /** 點擊登入按鈕

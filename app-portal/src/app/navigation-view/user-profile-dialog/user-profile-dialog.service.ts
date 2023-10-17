@@ -5,7 +5,7 @@ import { UserProfile } from '@his-viewmodel/app-portal/dist';
 @Injectable({
   providedIn: 'root'
 })
-export class FooterService {
+export class UserProfileDialogService {
 
   #jetStreamWsService = inject(JetstreamWsService)
 
@@ -16,5 +16,4 @@ export class FooterService {
   async pubUserAccount(payload: UserProfile) {
     await this.#jetStreamWsService.publish('appPortal.userProfile.modify', payload);
   }
-
 }

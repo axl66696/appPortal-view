@@ -12,11 +12,11 @@ import { UserAccountService, UserProfileService } from 'dist/service';
 import { DockComponent } from './dock/dock.component';
 import { News, MyAppStore, UserAppStore } from '@his-viewmodel/app-portal/dist';
 import { AppPortalProfile } from '../types/appPortalProfile.d';
-
+import { UserProfileDialogComponent } from './user-profile-dialog/user-profile-dialog.component';
 @Component({
   selector: 'app-navigation-view',
   standalone: true,
-  imports: [CommonModule, NavigationComponent, RouterOutlet, DockComponent],
+  imports: [CommonModule, NavigationComponent, RouterOutlet, DockComponent,UserProfileDialogComponent],
   templateUrl: './navigation-view.component.html',
   styleUrls: ['./navigation-view.component.scss'],
   providers: [NavigationViewService]

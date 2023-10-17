@@ -38,7 +38,7 @@
       class="p-button-rounded p-button-text p-button-icon-only"
     >
       <p-avatar
-        image="assets/user.png"
+        image="{{ userAccountService.userImage().image }}"
         shape="circle"
         [style]="{ width: '24px', height: '24px' }"
       ></p-avatar>
@@ -192,88 +192,3 @@
     </li>
   </div>
 </ul>
-
-<p-dialog  class="profile" [(visible)]="isUserProfileVisible" [closable]="false" [modal]="true" showEffect="fade" [breakpoints]="{'960px': '75vw'}">
-  <ng-template pTemplate="header">
-    <div class="flex justify-content-between align-items-start flex-wrap" style="width: 100%;">
-      <h5 class="titel-m">個人設定</h5>
-      <p-avatar icon="pi pi-times" shape="circle" (click)="onCancelSaveClick()">
-      </p-avatar>
-    </div>
-  </ng-template>
-
-  <div class="profileContent lg:col-12 mb-2 p-0 flex">
-    <div class="ImgBox">
-      <div class="Img">
-        <p-avatar
-        image="{{editableUserImage()}}"
-        shape="circle"
-        [style]="{ width: '160px', height: '160px' }"
-        ></p-avatar>
-        <label class="pencil">
-          <input type="file" accept="image/*" style="display: none;" (change)="onSelectFile($event.target)"/>
-          <p-avatar icon="pi pi-pencil" shape="circle">
-          </p-avatar>
-        </label>
-      </div>
-    </div>
-    <div class="content">
-      <div class="formBox flex flex-wrap">
-        <div class="formList flex flex-wrap">
-          <div class="fromColumn">
-            <h6>姓名</h6>
-            <input type="text" pInputText [(ngModel)]="userAccountService.userAccount().userCode.display" [disabled]="true">
-          </div>
-          <div class="fromColumn">
-            <h6>帳號</h6>
-            <input type="text" pInputText [(ngModel)]="userAccountService.userAccount().userCode.code" [disabled]="true"/>
-          </div>
-          <div class="fromColumn">
-            <h6>電子信箱</h6>
-            <input type="text" pInputText [(ngModel)]="editableUserAccount.eMail"/>
-          </div>
-        </div>
-        <div class="formList flex flex-wrap">
-          <div class="fromColumn">
-            <h6>原本密碼</h6>
-            <span class="fulid">
-              <p-password [(ngModel)]="enteredPassword" [feedback]="false" [toggleMask]="true" (keydown.enter)="verityPassword()"></p-password>
-            </span>
-          </div>
-          <div class="fromColumn">
-            <h6>新密碼</h6>
-            <span class="fulid">
-              <p-password [(ngModel)]="resetPassword" placeholder="請輸入新密碼" [feedback]="true" [toggleMask]="true"  [disabled]="isRestDisabled"></p-password>
-            </span>
-          </div>
-          <div class="fromColumn">
-            <h6>再次輸入密碼</h6>
-            <span class="fulid">
-              <p-password [(ngModel)]="resetPasswordVerify" placeholder="請再次輸入新密碼" [feedback]="false" [toggleMask]="true"  [disabled]="isRestDisabled"></p-password>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="typeBox flex">
-        <div class="typeForm">
-          <h6>色彩主題</h6>
-          <p-selectButton [options]="themeOptions" [(ngModel)]="selectedTheme" optionLabel="name" optionValue="value" (onOptionClick)="onThemeChange()"></p-selectButton>
-      </div>
-        <div class="typeForm flex column">
-          <h6>Dock顯示</h6>
-          <p-inputSwitch [(ngModel)]="isDockVisible" (onChange)="onDockVisible()"></p-inputSwitch>
-        </div>
-        <div class="typeForm">
-          <h6>字體大小</h6>
-          <button pButton pRipple type="button" label="A" id = "small-font" [ngClass]="{ 'active': isScaleActive(14) }" class="p-button-outlined p-button-hover-outlined "  (click)="onScaleChange(14)"> </button>
-          <button pButton pRipple type="button" label="A" id = "medium-font" [ngClass]="{ 'active': isScaleActive(16) }" class="p-button-outlined p-button-hover-outlined active" (click)="onScaleChange(16)"> </button>
-          <button pButton pRipple type="button" label="A" id = "large-font" [ngClass]="{ 'active': isScaleActive(18) }" class="p-button-outlined p-button-hover-outlined" (click)="onScaleChange(18)"> </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <ng-template pTemplate="footer">
-          <button pButton pRipple (click)="onCancelSaveClick()" type="button" label="取消" class="p-button-secondary"> </button>
-          <button pButton pRipple (click)="onProfileSaveClick()" type="button" label="確定"> </button>
-  </ng-template>
-</p-dialog>

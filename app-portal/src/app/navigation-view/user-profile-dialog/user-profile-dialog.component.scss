@@ -1,0 +1,248 @@
+.profileContent {
+  gap: var(--spacing-xxl);
+  h6 {
+    margin: 0;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .ImgBox {
+    width: 20%;
+    min-width: 160px;
+    .Img {
+      position: relative;
+      .p-button {
+        position: absolute;
+        right: 3px;
+        bottom: 3px;
+        padding: 4px;
+        &:hover {
+          background-color: var(--primary-300);
+        }
+      }
+      //修改圖片的鉛筆avator
+      .pencil {
+        position: absolute;
+        right: 3px;
+        bottom: 3px;
+        padding: 4px;
+      }
+    }
+  }
+  .content {
+    flex: 1;
+    .formBox {
+      column-gap: 32px;
+      .formList {
+        width: calc(50% - 16px);
+        display: flex;
+        flex-direction: column;
+        .fromColumn {
+          margin-bottom: var(--spacing-xl);
+
+          .fulid {
+            width: 100%;
+          }
+        }
+      }
+    }
+    .typeBox {
+      border-top: 1px solid var(--outline-variant);
+      padding-top: var(--spacing-xl);
+      justify-content: space-between;
+      padding-right: 30px;
+      .typeForm {
+        &.column {
+          gap: 10px;
+          flex-direction: column;
+        }
+      }
+    }
+  }
+  .p-button.p-button-outlined.p-button-hover-outlined {
+    margin: 0 1px;
+    &.active {
+      box-shadow: inset 0 0 0 1px;
+    }
+  }
+}
+
+
+:host {
+  ::ng-deep {
+    .p-button {
+      min-width: 0;
+    }
+    .p-dialog {
+      position: absolute;
+      border-radius: 4px;
+      border: 1px solid var(--outline-variant);
+      font-size: 1.125rem;
+      box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.02),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+      .p-dialog-header {
+        background-color: var(--primary-main);
+        color: var(--white);
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 26px; /* 144.444% */
+        letter-spacing: 0.36px;
+      }
+      .p-dialog-content {
+        display: flex;
+        flex-direction: column;
+        padding: 4px 0;
+        gap: 0;
+      }
+      .p-dialog-footer {
+        display: flex;
+        align-items: center;
+        padding: 4px 12px;
+      }
+    }
+    #large-font .p-button-label{
+      font-size: 20px;
+    }
+    #medium-font .p-button-label{
+      font-size: 18px;
+    }
+    #small-font .p-button-label{
+      font-size: 16px;
+    }
+
+    .appList {
+      .p-dialog {
+        left: 45px;
+        bottom: 20px;
+        .p-dialog-footer {
+          justify-content: space-between;
+          button {
+            width: 2rem;
+            height: 2rem;
+            margin: 0;
+          }
+        }
+      }
+    }
+    .userSetting {
+      min-width: 180px;
+      .p-dialog {
+        bottom: 100px;
+      }
+      .p-dialog-content {
+        padding: 0;
+        .p-listbox {
+          border: none;
+          .p-listbox-list {
+            .p-listbox-item {
+              padding: 4px 12px;
+              min-height: 40px;
+            }
+          }
+        }
+      }
+    }
+    .userSetting {
+      .p-dialog {
+        left: 45px;
+        bottom: 110px;
+      }
+    }
+    .profile {
+      .p-dialog {
+        width: 800px;
+        .p-dialog-content {
+          padding: 20px 12px;
+          .fromColumn {
+            .fulid {
+              display: block;
+              width: 100%;
+              .p-password {
+                width: 100%;
+                .p-disabled {
+                  pointer-events: none;
+                  opacity: 1;
+                  background-color: rgba(19, 20, 20, 0.12);
+                  border-color: var(--outline-variant);
+                }
+                .p-disabled + .p-icon-wrapper {
+                  pointer-events: none;
+                }
+              }
+              .p-input-icon-right > .p-icon-wrapper {
+                right: 15px;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+        .p-dialog-footer {
+          padding: 16px 12px;
+          justify-content: flex-end;
+          button {
+            min-width: 88px;
+          }
+        }
+      }
+    }
+    .p-divider.p-divider-horizontal {
+      margin: 0;
+    }
+    .p-image.p-component {
+      display: block;
+      width: 30px;
+      height: 30px;
+      background-color: var(--primary-main);
+      border-radius: 8px;
+      overflow: hidden;
+      padding: 8px;
+      position: relative;
+      background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.2) 0%,
+          rgba(0, 0, 0, 0) 100%
+        ),
+        var(--primary-main);
+      box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.02),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .p-badge {
+      min-width: 1rem !important;
+      height: 1rem;
+      line-height: 16px;
+      font-size: 10px;
+      padding: 0;
+    }
+    p-avatar {
+      height: 24px;
+    }
+    //修改圖片的那個鉛筆avator
+    .p-avatar.p-avatar-circle{
+      background-color: var(--primary-main);
+      .pi-pencil {
+        color: var(--white);
+      }
+      &:hover {
+        background-color: var(--primary-300);
+        cursor: pointer;
+      }
+    }
+    .formBox {
+      .p-inputtext {
+        width: 100%;
+      }
+    }
+    .opend {
+      .p-button.p-button-icon-only .pi {
+        font-size: 1rem;
+      }
+    }
+  }
+}

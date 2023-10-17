@@ -8,7 +8,7 @@ export class NavigationViewService {
 
 
   isDockVisible = signal<boolean>(true)
-
+  isUserProfileVisible = signal<boolean>(false)
 
   /**初始化User Profile
    * @param {boolean} isDockVisible Dock顯示
@@ -32,4 +32,5 @@ export class NavigationViewService {
   getDockVisible():boolean{
     return this.isDockVisible()
   }
+
 }

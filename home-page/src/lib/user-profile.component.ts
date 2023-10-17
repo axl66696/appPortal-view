@@ -1,6 +1,6 @@
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NewsListComponent } from 'dist/news-info';
 import { NewsService } from 'dist/news-info';
@@ -8,8 +8,6 @@ import { Router } from '@angular/router';
 import { SharedService } from '@his-base/shared';
 import { CardListComponent } from '@his-directive/card-list/dist/card-list';
 import { AppStoreService } from 'dist/app-store';
-import { WsNatsService } from './ws-nats.service';
-import { Coding } from '@his-base/datatypes';
 import { TranslateModule,TranslateService } from '@ngx-translate/core';
 import { UserAccountService } from 'dist/service';
 
@@ -35,7 +33,6 @@ export class UserProfileComponent {
   userAccountService = inject(UserAccountService);
   #router = inject(Router);
   #sharedService = inject(SharedService);
-  #wsNatsService = inject(WsNatsService);
   #translate: TranslateService = inject(TranslateService);
 
 

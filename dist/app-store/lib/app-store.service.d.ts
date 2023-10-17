@@ -1,9 +1,7 @@
 import { UserAppStore } from "@his-viewmodel/app-portal/dist";
 import { MyAppStore } from "@his-viewmodel/app-portal/dist";
+import { ExtendedMyAppStore } from '../types/extended-my-app-store';
 import * as i0 from "@angular/core";
-type ExtendedMyAppStore = MyAppStore & {
-    isOpen: boolean;
-};
 export declare class AppStoreService {
     #private;
     /** 目前使用者應用程式原始內容
@@ -16,22 +14,26 @@ export declare class AppStoreService {
      * @memberof AppStoreService
      */
     userAppStores: import("@angular/core").WritableSignal<UserAppStore[]>;
+    /** 使用者打開應用程式順序
+     * @type {ExtendedMyAppStore}
+     * @memberof AppStoreService
+     */
     appOpenedIndex: ExtendedMyAppStore[];
     /** 擴展MyAppStore到ExtendedMyAppStore
      * @param {MyAppStore[]} appStores
      * @memberof AppStoreService
      */
-    convertToExtended(appStores: MyAppStore[]): ExtendedMyAppStore[];
+    convertToExtendedAppStores(appStores: MyAppStore[]): ExtendedMyAppStore[];
     /** 取得全部應用程式清單
      * @param {string} payload
      * @memberof AppStoreService
      */
-    getAppStoreList(payload: string): Promise<void>;
+    getAppStoreList(payload: string): import("rxjs").Observable<any>;
     /** 取得全部使用者應用程式清單
       * @param {string} payload
       * @memberof AppStoreService
       */
-    getUserStoreList(payload: string): Promise<void>;
+    getUserStoreList(payload: string): import("rxjs").Observable<any>;
     /** 取得全部應用程式清單
      * @param {string} keyword
      * @memberof AppStoreService
@@ -47,11 +49,6 @@ export declare class AppStoreService {
      * @memberof AppStoreService
      */
     pubUserAppStoreFavorite(payload: UserAppStore): Promise<void>;
-    /** 初始化MyAppStore
-     * @param {UserAccount} userAccount
-     * @memberof AppStoreService
-     */
-    initAppStore(): Promise<void>;
     /** 應用程式點擊我的最愛icon
      * @param {string} appId
      * @memberof AppStoreService
@@ -75,4 +72,3 @@ export declare class AppStoreService {
     static ɵfac: i0.ɵɵFactoryDeclaration<AppStoreService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<AppStoreService>;
 }
-export {};

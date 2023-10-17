@@ -21,10 +21,6 @@ export class NewsService {
   checkedNormalNews = signal<News[]>({} as News[]);
   checkedToDoList = signal<News[]>({} as News[]);
 
-  /** nats連線位址
-   *  @memberof NewsService
-   */
-  #url = 'ws://localhost:8080';
 
   /** 使用Subject變數自nats拿取最新消息
    *  @memberof NewsService
@@ -35,22 +31,8 @@ export class NewsService {
    *  @memberof NewsService
    */
   #myNewsConsumer$!: Observable<ConsumerMessages>;
-
   #jetStreamWsService = inject(JetstreamWsService);
 
-  /** 建立nats連線
-   *  @memberof NewsService
-   */
-  async connect(): Promise<void> {
-    await this.#jetStreamWsService.connect(this.#url);
-  }
-
-  /** 中斷nats連線
-   *  @memberof NewsService
-   */
-  async disconnect(): Promise<void> {
-    await this.#jetStreamWsService.drain();
-  }
 
   /** 首次進入頁面時，自資料庫初始化最新消息
    *  @memberof NewsService
@@ -70,7 +52,7 @@ export class NewsService {
     })
     news.execStatus = {code:"60",display:"已讀/已完成"}
     news.execTime = date
-    this.#jetStreamWsService.publish("news.appPortal.setNews", news);
+    this.#jetStreamWsService.publish("appPortal.news.setNews", news);
   }
 
   /** 依‘一般消息’、’待辦工作’分類最新消息

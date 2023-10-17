@@ -12,34 +12,34 @@ import { MessageService } from 'primeng/api';
 import { SharedService } from '@his-base/shared';
 import { LoginService } from './login.service';
 import { WsNatsService } from './ws-nats.service';
-import { UserAccount, UserToken } from '@his-viewmodel/app-portal/dist';
-import { LoginReq} from '@his-viewmodel/app-portal/dist'
+import { UserAccount, UserProfile, UserToken } from '@his-viewmodel/app-portal/dist';
+import { LoginReq } from '@his-viewmodel/app-portal/dist'
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { InputTextModule } from 'primeng/inputtext';
 import * as branchData from '../assets/data/branchesName.json'
 import '@angular/localize/init';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-
+import { UserAccountService, UserProfileService } from 'service';
 @Component({
-    selector: 'his-login',
-    standalone: true,
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    providers: [MessageService],
-    imports: [CommonModule,
-              ButtonModule,
-              PasswordModule,
-              FormsModule,
-              RouterLink,
-              ImageModule,
-              DropdownModule,
-              ToastModule,
-              ForgotPasswordComponent,
-              ResetPasswordComponent,
-              InputTextModule,
-              TranslateModule
-      ]
+  selector: 'his-login',
+  standalone: true,
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  providers: [MessageService],
+  imports: [CommonModule,
+    ButtonModule,
+    PasswordModule,
+    FormsModule,
+    RouterLink,
+    ImageModule,
+    DropdownModule,
+    ToastModule,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    InputTextModule,
+    TranslateModule
+  ]
 })
 export class LoginComponent implements OnInit {
 
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
    * @type {LoginReq}
    * @memberof LoginComponent
    */
-  loginReq: LoginReq  = new LoginReq();
+  loginReq: LoginReq = new LoginReq();
 
   /** 使用者權杖
    * @type {UserToken}
@@ -93,6 +93,8 @@ export class LoginComponent implements OnInit {
 
   messageService = inject(MessageService);
   router = inject(Router);
+  userAccountService = inject(UserAccountService);
+  userProfileService = inject(UserProfileService);
   #loginService = inject(LoginService);
   #wsNatsService = inject(WsNatsService);
   #sharedService = inject(SharedService);
@@ -117,10 +119,11 @@ export class LoginComponent implements OnInit {
       this.#loginService.getUserToken(this.loginReq).subscribe(x => {
         this.userToken = x
         this.checkUserToken(this.userToken);
+        this.getUserProfile(this.userToken);
       })
     }
     catch (error) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('登入失敗')});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('登入失敗') });
     }
   }
 
@@ -133,14 +136,30 @@ export class LoginComponent implements OnInit {
       this.#sharedService.sharedValue = null;
       this.#loginService.getUserAccount(userToken.userCode.code).subscribe(x => {
         this.userAccount = x
-        const key = this.#sharedService.setValue(this.userAccount)
-        this.router.navigate(['/home'],{state: {token: key}});
+        this.userAccountService.userAccount.set(x);
+        console.log("this.userAccountService.userAccount<========",this.userAccountService.userAccount())
+        // const key = this.#sharedService.setValue(this.userAccount)
+        // this.router.navigate(['/home'], { state: { token: key } });
+        this.router.navigate(['/home']);
       })
     }
     else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('帳號或密碼錯誤')});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: this.#translateService.instant('帳號或密碼錯誤') });
     }
   }
+
+    /** 檢查授權拿到User Profile
+   * @param {UserToken} userToken
+   * @memberof LoginComponent
+   */
+    getUserProfile(userToken: UserToken) {
+      if (userToken.token !== '') {
+        this.userProfileService.getUserProfile(userToken.userCode.code, "app-portal")
+            .subscribe((x: UserProfile) => {
+              this.userProfileService.userProfile.set(x);
+            })
+      }
+    }
 
   /** 點擊忘記密碼
    * @memberof LoginComponent

@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { AppStoreService } from 'dist/app-store';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationComponent } from './navigation/navigation.component';
 import { RouterOutlet } from '@angular/router';
@@ -7,13 +8,15 @@ import { NavigationViewService } from './navigation-view.service';
 import { SharedService } from '@his-base/shared';
 import { NewsService } from 'news-info';
 import { WsNatsService } from '../ws-nats.service';
-import { UserAccountService } from 'dist/service';
+import { UserAccountService, UserProfileService } from 'dist/service';
 import { DockComponent } from './dock/dock.component';
-import { News } from '@his-viewmodel/app-portal/dist';
+import { News, MyAppStore, UserAppStore } from '@his-viewmodel/app-portal/dist';
+import { AppPortalProfile } from '../types/appPortalProfile.d';
+
 @Component({
   selector: 'app-navigation-view',
   standalone: true,
-  imports: [CommonModule,NavigationComponent,RouterOutlet,DockComponent],
+  imports: [CommonModule, NavigationComponent, RouterOutlet, DockComponent],
   templateUrl: './navigation-view.component.html',
   styleUrls: ['./navigation-view.component.scss'],
   providers: [NavigationViewService]
@@ -22,18 +25,36 @@ export class NavigationViewComponent {
   navigationService = inject(NavigationService);
   navigationViewService = inject(NavigationViewService);
   newsService = inject(NewsService);
+  appStoreService = inject(AppStoreService);
   userAccountService = inject(UserAccountService);
+  userProfileService = inject(UserProfileService);
   #shareService = inject(SharedService);
   #wsNatsService = inject(WsNatsService);
 
   async ngOnInit() {
+
+    const appPortalProfile = this.userProfileService.userProfile().profile as AppPortalProfile;
+    this.navigationViewService.initialUserProfile(appPortalProfile);
+
+
     await this.#wsNatsService.connect();
-    this.userAccountService.userAccount.set(this.#shareService.getValue(window.history.state.token));
-    this.userAccountService.getUserImage(this.userAccountService.userAccount().userCode.code);
-    await this.newsService.connect();
     await this.newsService.subMyNews(this.userAccountService.userAccount().userCode);
-    this.newsService.getInitNews(this.userAccountService.userAccount().userCode).subscribe(newsList=>{
-      this.newsService.upsertAllNews(this.newsService.formatNews(newsList as News[]))
-    });
+
+    this.userAccountService.getUserImage(this.userAccountService.userAccount().userCode.code);
+    this.appStoreService.getAppStoreList(this.userAccountService.userAccount().userCode.code).subscribe(x => {
+      this.appStoreService.myAppStores.set(this.appStoreService.convertToExtendedAppStores(x as unknown as MyAppStore[]))
+    })
+    this.appStoreService.getUserStoreList(this.userAccountService.userAccount().userCode.code).subscribe(x => {
+      this.appStoreService.userAppStores.set(x as unknown as UserAppStore[])
+    })
+    this.newsService.getInitNews(this.userAccountService.userAccount().userCode).subscribe(x => {
+        this.newsService.upsertAllNews(this.newsService.formatNews(x as News[]))
+      });
+
+
+
+
+
+
   }
 }

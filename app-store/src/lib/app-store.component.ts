@@ -40,14 +40,12 @@ export class AppStoreComponent {
   value = 'grid';
   appStoreService = inject(AppStoreService);
   userAccountService = inject(UserAccountService);
-  #sharedService = inject(SharedService);
   #translate = inject(TranslateService)
 
 
 
 
   async ngOnInit(){
-    this.#translate.setDefaultLang(`zh-Hant`)
     this.Options = Object.values(SelectButtonOption)[0] as unknown as string[];
   }
 

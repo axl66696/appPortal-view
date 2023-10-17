@@ -130,8 +130,6 @@ export class NewsService {
   formatNews(newsList: News[]): News[]{
     const formatNewsList: News[] = [];
       newsList.forEach((news: News) => {
-        console.log("news", news)
-        console.log("start", typeof news.period.start)
         const formatNewsElement:News = {
           "_id": news._id,
           "appId": news.appId,
@@ -177,10 +175,8 @@ export class NewsService {
       .subscribe(() => {});
 
     this.#myNews.subscribe((newsElement:any) => {
-      console.log("newsElement", newsElement)
       this.originalNews.mutate(newsList=>{
         const tmpNews = this.formatNews([newsElement.data])
-        console.log("tmpNews", tmpNews)
         newsList.push(tmpNews[0])
       })
       this.upsertNews(this.originalNews())

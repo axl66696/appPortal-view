@@ -19,13 +19,6 @@ export class UserProfileService {
 
 
 getUserProfile(userCode: string,appId:string){
-  // @ts-ignore
-  // 需帶入指定的主題跟要傳遞的資料
-  // this.#jetStreamWsService.request('appPortal.userProfile.find', {'userCode':userCode,'appId':appId})
-  // .subscribe((result: any) => {
-  //   this.userProfile.set(result);
-  // });
-
   return this.#jetStreamWsService.request('appPortal.userProfile.find', {'userCode':userCode,'appId':appId})
 }
 

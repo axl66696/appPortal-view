@@ -14,7 +14,7 @@ export declare class UserAccountService {
      * @param {string} payload
      * @memberof UserProfileService
      */
-    getUserImage(payload: string): void;
+    getUserImage(payload: string): import("rxjs").Observable<any>;
     static ɵfac: i0.ɵɵFactoryDeclaration<UserAccountService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<UserAccountService>;
 }

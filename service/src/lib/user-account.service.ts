@@ -25,11 +25,6 @@ export class UserAccountService {
    * @memberof UserProfileService
    */
   getUserImage(payload: string) {
-    this.#jetStreamWsService
-      .request('UserImage.GetUserImage', payload)
-      .subscribe((result: any) => {
-        this.userImage.set(result);
-        console.log("get image",result)
-      });
+    return this.#jetStreamWsService.request('appPortal.userProfile.getUserImage', payload)
   }
 }

@@ -40,7 +40,9 @@ export class NavigationViewComponent {
     await this.#wsNatsService.connect();
     await this.newsService.subMyNews(this.userAccountService.userAccount().userCode);
 
-    this.userAccountService.getUserImage(this.userAccountService.userAccount().userCode.code);
+    this.userAccountService.getUserImage(this.userAccountService.userAccount().userCode.code).subscribe(x => {
+      this.userAccountService.userImage.set(x);
+    })
     this.appStoreService.getAppStoreList(this.userAccountService.userAccount().userCode.code).subscribe(x => {
       this.appStoreService.myAppStores.set(this.appStoreService.convertToExtendedAppStores(x as unknown as MyAppStore[]))
     })

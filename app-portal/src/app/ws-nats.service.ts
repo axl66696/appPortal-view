@@ -12,7 +12,6 @@ export class WsNatsService {
   #jetStreamWsService = inject(JetstreamWsService);
 
   async connect() {
-    console.log('connected')
     await this.#jetStreamWsService.connect(this.#natsUrl);
   }
 

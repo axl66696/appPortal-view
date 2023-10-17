@@ -23,7 +23,6 @@ export class NavigationComponent {
       !this.navigationService.isCollapsed() &&
       this.navigationService.isShowBody()
     ) {
-      console.log('pi pi-angle-double-left')
       return 'pi pi-angle-double-left';
     }
     return 'pi pi-angle-double-right';

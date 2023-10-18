@@ -1,6 +1,6 @@
 import { NewsService } from './../news.service';
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Input, TemplateRef, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { News } from '@his-viewmodel/app-portal/dist'
 import { TableModule } from 'primeng/table';
@@ -8,7 +8,6 @@ import { ButtonModule } from 'primeng/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { SharedService } from '@his-base/shared';
-import { Coding } from '@his-base/datatypes/dist';
 import '@his-base/date-extension'
 
 @Component({

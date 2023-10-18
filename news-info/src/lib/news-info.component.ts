@@ -22,8 +22,8 @@ import { UserAccountService } from 'dist/service';
 })
 export class NewsInfoComponent{
 
-  /** 使用computed變數儲存各最新消息的資訊
-   *  @memberof NewsInfoComponent
+  /** 宣告computed變數
+   *  使用computed變數儲存各最新消息的資訊
    */
   news = computed(() => this.newsService.originalNews());
   normalNews = computed(() => this.newsService.normalNews());
@@ -31,8 +31,8 @@ export class NewsInfoComponent{
   checkedNormalNews = computed(() => this.newsService.checkedNormalNews());
   checkedToDoList = computed(()=>this.newsService.checkedToDoList());
 
-  /** 使用者進行查詢所需的查詢式
-   *  @memberof NewsInfoComponent
+  /** 宣告查詢式變數
+   *  使用者進行查詢所需的查詢式
    */
   query = ''
 
@@ -42,29 +42,29 @@ export class NewsInfoComponent{
   #router = inject(Router);
 
   /** 跳轉到上一頁
-   *  @memberof NewsInfoComponent
+   *  呼叫window.history.back()函式
    */
   onBackClick():void {
     window.history.back();
   }
 
-  /** 跳轉到appUrl路徑的位置，並使用sharedService傳送資訊
-   *  @memberof NewsInfoComponent
+  /** 跳轉頁面
+   *  跳轉到appUrl路徑的位置，並使用sharedService傳送資訊
    */
   onNavNewsClick(appUrl:string, sharedData:object):void{
     const key = this.sharedService.setValue(sharedData)
     this.#router.navigate([appUrl],{state:{token:key}});
   }
 
-  /** 搜尋標題包含query的最新消息
-   *  @memberof NewsInfoComponent
+  /** 搜尋最新消息
+   *  搜尋標題包含query的最新消息
    */
   filterSubject(){
     this.newsService.filterSubject(this.query);
   }
 
-  /** 清空搜尋列時回復到上一次取得最新消息的狀態
-   *  @memberof NewsInfoComponent
+  /** 重置最新消息
+   *  清空搜尋列時回復到上一次取得最新消息的狀態
    */
   filterReset(){
     this.newsService.filterReset();

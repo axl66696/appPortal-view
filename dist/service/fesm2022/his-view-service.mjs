@@ -34,7 +34,8 @@ class UserAccountService {
      * @memberof UserProfileService
      */
     getUserImage(payload) {
-        return this.#jetStreamWsService.request('appPortal.userProfile.getUserImage', payload);
+        // return this.#jetStreamWsService.request('appPortal.userProfile.getUserImage', payload)
+        return this.#jetStreamWsService.request('UserImage.getUserImage', payload);
     }
     static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: UserAccountService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
     static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "16.2.9", ngImport: i0, type: UserAccountService, providedIn: 'root' }); }

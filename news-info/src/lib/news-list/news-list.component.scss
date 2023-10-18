@@ -40,7 +40,7 @@
           }
           &.nth-child {
             width: 13%;
-            padding-left: 14px;
+            min-width: 167px;
           }
 
           &.last-child {
@@ -50,7 +50,6 @@
 
           &.completed-first{
             width: 16%;
-            padding-left: 14px;
           }
 
           &.complete-last{

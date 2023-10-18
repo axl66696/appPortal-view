@@ -20,24 +20,17 @@ import '@his-base/date-extension'
 })
 export class NewsListComponent {
 
-  /** 接收自父component收到的最新消息
-   *  @memberof NewsListComponent
+  /** 宣告news變數
+   *  以Input接收自父component收到的最新消息
    */
   @Input() news?: News[];
-
-  /** ng-template模板
-   *  @memberof NewsListComponent
-   */
-  @Input() customTemplate?: TemplateRef<any> ;
-  @Input() defaultTable?: TemplateRef<any> ;
-  @Input() noUrlNews?: TemplateRef<any> ;
 
   newsService = inject(NewsService)
   sharedService = inject(SharedService);
   #router = inject(Router);
 
-  /** 跳轉到appUrl路徑的位置，並使用sharedService傳送資訊
-   *  @memberof NewsInfoComponent
+  /** 跳轉頁面
+   *  跳轉到appUrl路徑的位置，並使用sharedService傳送資訊
    */
   onNavNewsClick(url:string, sharedData:object):void{
     if(!url){
@@ -49,8 +42,8 @@ export class NewsListComponent {
     }
   }
 
-  /** 發送`最新消息狀態改為已讀/已完成`到nats
-   *  @memberof NewsInfoComponent
+  /** 更改最新消息狀態
+   *  發送`最新消息狀態改為已讀/已完成`到nats
    */
   async onChangeStatus(news:News):Promise<void>{
     this.newsService.changeStatus(news);

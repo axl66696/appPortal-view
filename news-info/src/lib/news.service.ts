@@ -10,8 +10,8 @@ import { Coding } from '@his-base/datatypes';
 })
 export class NewsService {
 
-  /** 使用Signal變數儲存各類型最新消息的資訊
-   *  @memberof NewsService
+  /** 宣告Signal變數
+   *  使用Signal變數儲存各類型最新消息的資訊
    */
   originalNews = signal<News[]>({} as News[]);
   allNormalNews = signal<News[]>({} as News[]);
@@ -22,28 +22,27 @@ export class NewsService {
   checkedToDoList = signal<News[]>({} as News[]);
 
 
-  /** 使用Subject變數自nats拿取最新消息
-   *  @memberof NewsService
+  /** 宣告Subject變數
+   *  使用Subject變數自nats拿取最新消息
    */
   #myNews = new Subject();
 
-  /** 使用ConsumerMessages訂閱最新消息
-   *  @memberof NewsService
+  /** 宣告ConsumerMessages變數
+   *  使用ConsumerMessages訂閱最新消息
    */
   #myNewsConsumer$!: Observable<ConsumerMessages>;
   #jetStreamWsService = inject(JetstreamWsService);
 
 
-  /** 首次進入頁面時，自資料庫初始化最新消息
-   *  @memberof NewsService
+  /** 初始化最新消息
+   *  首次進入頁面時，自資料庫初始化最新消息
    */
   getInitNews(userCode:Coding): Observable<News[]>{
-    // return this.#jetStreamWsService.request('appPortal.news.find', userCode);
-    return this.#jetStreamWsService.request('news.find', userCode);
+    return this.#jetStreamWsService.request('news.news.find', userCode);
   }
 
-  /** 發送`最新消息狀態改為已讀/已完成`到nats
-   *  @memberof NewsService
+  /** 更改最新消息狀態
+   *  發送`最新消息狀態改為已讀/已完成`到nats
    */
   changeStatus(news:News){
     const date = new Date();
@@ -53,14 +52,11 @@ export class NewsService {
     })
     news.execStatus = {code:"60",display:"已讀/已完成"}
     news.execTime = date
-    // this.#jetStreamWsService.publish(`appPortal.news.${news.userCode.code}`, news);
-    this.#jetStreamWsService.publish(`appPortal.news.setNews.${news.userCode.code}`, news);
-    // this.#jetStreamWsService.publish(`news.${news.userCode.code}`, news);
-    // this.#jetStreamWsService.publish(`news.setNews.${news.userCode.code}`, news);
+    this.#jetStreamWsService.publish(`news.news.setNews.${news.userCode.code}`, news);
   }
 
-  /** 依‘一般消息’、’待辦工作’分類最新消息
-   *  @memberof NewsService
+  /** 分類‘一般消息’、’待辦工作’
+   *  依‘一般消息’、’待辦工作’分類最新消息
    */
   filterType(newsList:News[], code:Coding['code']): News[]{
     if(code){
@@ -71,8 +67,8 @@ export class NewsService {
     }
   }
 
-  /** 依`已讀/已完成`、`未讀/未完成`分類最新消息
-   *  @memberof NewsService
+  /** 分類`已讀/已完成`、`未讀/未完成`
+   *  依`已讀/已完成`、`未讀/未完成`分類最新消息
    */
   filterStatus(newsList:News[], code:Coding['code']): News[]{
     if(code){
@@ -83,8 +79,8 @@ export class NewsService {
     }
   }
 
-  /** 僅顯示未超過24小時已讀/已完成的一般消息/待辦工作
-   *  @memberof NewsService
+  /** 不顯示逾期的最新消息
+   *  僅顯示未超過24小時已讀/已完成的一般消息/待辦工作
    */
   filterOverdue(newsList:News[]): News[]{
     const date = new Date;
@@ -92,23 +88,23 @@ export class NewsService {
     return newsList.filter(newsElement=>date.valueOf() - newsElement.execTime.valueOf() < aDay);
   }
 
-  /** 搜尋含subject字串的最新消息
-   *  @memberof NewsService
+  /** 搜尋最新消息
+   *  搜尋含subject字串的最新消息
    */
   filterSubject(subject:string){
     const newsList=this.originalNews();
     this.upsertNews(newsList.filter(newsElement=>newsElement.subject.match(subject)));
   }
 
-  /** 以originalNews重置所有最新消息
-   *  @memberof NewsService
+  /** 重置最新消息
+   *  以originalNews重置所有最新消息
    */
   filterReset(){
     this.upsertNews(this.originalNews())
   }
 
-  /** 設定除了原始最新消息originalNews以外的最新消息
-   *  @memberof NewsService
+  /** 設定最新消息
+   *  設定除了原始最新消息originalNews以外的最新消息
    */
   upsertNews(news:News[]): void{
     this.allNormalNews.set(this.filterType(news, "10"));
@@ -120,15 +116,15 @@ export class NewsService {
   }
 
   /** 設定/更新所有最新消息
-   *  @memberof NewsService
+   *  設定/更新所有最新消息Signal變數
    */
   upsertAllNews(newsList:News[]):void{
     this.originalNews.set(newsList);
     this.upsertNews(newsList);
   }
 
-  /** 規格化從nats取得的最新消息
-   *  @memberof NewsService
+  /** 規格化最新消息
+   *  規格化從nats取得的最新消息
    */
   formatNews(newsList: News[]): News[]{
     const formatNewsList: News[] = [];
@@ -156,15 +152,14 @@ export class NewsService {
   }
 
   /** 訂閱最新消息
-   * @memberof NewsService
+   *  從nats訂閱最新消息
    */
   async subMyNews(userCode:Coding): Promise<void> {
     this.#myNews = new Subject();
     const jsonCodec = JSONCodec();
     this.#myNewsConsumer$ = this.#jetStreamWsService.subscribe(
       SubscribeType.Push,
-      `news.setNews.${userCode.code}`,
-      // `appPortal.news.setNews.${userCode.code}`
+      `news.news.setNews.${userCode.code}`
     );
 
     this.#myNewsConsumer$

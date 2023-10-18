@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/elements-content -->
 <ng-container *ngIf="news && news.length < 1; else ShowNews">
   <h1 class="p-datatable" [innerText]="'沒有最新消息'|translate"></h1>
@@ -7,8 +9,8 @@
   <ng-container *ngIf="news && news[0].execStatus.code==='10';else completedTable">
     <p-table [value]="news!" [tableStyle]="{ width: '100%' }">
       <ng-template pTemplate="body" let-news>
-        <tr (click)="onNavNewsClick(news.url,news.sharedData)">
-          <td>
+        <tr>
+          <td class="first-child">
             <span *ngIf="news.execStatus['code'] === '10'">
               <button
                 pButton
@@ -20,8 +22,8 @@
               ></button>
             </span>
           </td>
-          <td><span class="label-m">{{ news.period.start.formatString('YYYY-MM-DD HH:mm') }}</span>
-          <td><span class="label-m">{{ news.subject }}</span></td>
+          <td class="nth-child" (click)="onNavNewsClick(news.url,news.sharedData)"><span class="label-m">{{ news.period.start.formatString('YYYY-MM-DD HH:mm') }}</span>
+          <td class="last-child" (click)="onNavNewsClick(news.url,news.sharedData)"><span class="label-m">{{ news.subject }}</span></td>
         </tr>
       </ng-template>
     </p-table>
@@ -58,10 +60,10 @@
     [tableStyle]="{ width: '100%' }">
     <ng-template pTemplate="body" let-news>
       <tr>
-        <td class="complete-first">
+        <td class="complete-first"  (click)="onNavNewsClick(news.url,news.sharedData)">
           <span class="label-m">{{ news.period.start.toLocaleString({hour12:false}) }}</span>
         </td>
-        <td class="complete-last">
+        <td class="complete-last"  (click)="onNavNewsClick(news.url,news.sharedData)">
           <span class="label-m">{{ news.subject }}</span>
         </td>
       </tr>

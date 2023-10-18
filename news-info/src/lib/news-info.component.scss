@@ -33,8 +33,8 @@
 :host {
   ::ng-deep {
     p-fieldset {
+      padding-left: 12px;
       .p-fieldset-toggleable .p-fieldset-legend {
-        padding: 0;
         margin-left: -1px;
         width: 129px;
         transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
@@ -54,7 +54,7 @@
       }
       .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a .p-fieldset-toggler {
         margin-right: 0;
-        margin-left: 18px;
+        margin-left: 10px;
       }
 
       &.first {
@@ -62,7 +62,6 @@
           a {
             color: var(--white);
           }
-
           background-color: var(--tertiary-main);
         }
       }

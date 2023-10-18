@@ -4976,6 +4976,7 @@ p-accordiontab:last-child
   padding: 0.5rem 0; }
 
 .p-fieldset {
+  padding-left: 12px;
   border: 1px solid #e0e0e0;
   background: #ffffff;
   color: rgba(0, 0, 0, 0.87);

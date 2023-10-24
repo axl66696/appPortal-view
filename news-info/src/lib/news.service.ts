@@ -4,6 +4,8 @@ import { Observable, Subject, mergeMap } from 'rxjs';
 import { ConsumerMessages, JSONCodec, JetstreamWsService, SubscribeType } from '@his-base/jetstream-ws';
 import { News } from '@his-viewmodel/app-portal/dist';
 import { Coding } from '@his-base/datatypes';
+import { AppNews } from '@his-viewmodel/app-portal-fixIndex/dist/app/app-news';
+import { UserNews } from '@his-viewmodel/app-portal-fixIndex/dist/app/user-news';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,8 @@ export class NewsService {
   toDoList = signal<News[]>({} as News[]);
   checkedNormalNews = signal<News[]>({} as News[]);
   checkedToDoList = signal<News[]>({} as News[]);
-
+  appNews = signal<AppNews[]>({} as AppNews[]);
+  userNews = signal<UserNews[]>({} as UserNews[]);
 
   /** 宣告Subject變數
    *  使用Subject變數自nats拿取最新消息
@@ -41,7 +44,14 @@ export class NewsService {
     return this.#jetStreamWsService.request('news.news.find', userCode);
   }
 
-  /** 更改最新消息狀態
+  /** 初始化最新消息
+   *  首次進入頁面時，自資料庫初始化最新消息
+   */
+  reqAppNewsList(userCode:Coding): Observable<News[]>{
+    return this.#jetStreamWsService.request('news.news.userNews', userCode);
+  }
+
+  /** 更改待辦事項狀態
    *  發送`最新消息狀態改為已讀/已完成`到nats
    */
   changeStatus(news:News){
@@ -53,6 +63,22 @@ export class NewsService {
     news.execStatus = {code:"60",display:"已讀/已完成"}
     news.execTime = date
     this.#jetStreamWsService.publish(`news.news.setNews.${news.userCode.code}`, news);
+  }
+
+  /** 更改最新消息狀態
+   *  發送`最新消息狀態改為已讀/已完成`到nats
+   */
+  changeNormalNewsStatus(id:string){
+    const date = new Date();
+    const index = this.userNews().findIndex(newsElement=>newsElement.appNews_id===id)
+    const updatedNews = this.userNews()[index]
+    this.userNews.mutate(newsList=>{
+      // const index = newsList.findIndex(newsElement=>newsElement.appNews_id===id)
+      //要不要直接在newsList改狀態？
+      newsList.splice(index,1)
+    })
+    updatedNews.readTime = date
+    this.#jetStreamWsService.publish(`news.news.userNews.${updatedNews.user}`, updatedNews);
   }
 
   /** 分類‘一般消息’、’待辦工作’
@@ -107,11 +133,11 @@ export class NewsService {
    *  設定除了原始最新消息originalNews以外的最新消息
    */
   upsertNews(news:News[]): void{
-    this.allNormalNews.set(this.filterType(news, "10"));
+    // this.allNormalNews.set(this.filterType(news, "10"));
     this.allTodoList.set(this.filterType(news, "60"));
-    this.normalNews.set(this.filterStatus(this.allNormalNews(), "10"));
+    // this.normalNews.set(this.filterStatus(this.allNormalNews(), "10"));
     this.toDoList.set(this.filterStatus(this.allTodoList(),"10"));
-    this.checkedNormalNews.set(this.filterOverdue(this.filterStatus(this.allNormalNews(), "60")));
+    // this.checkedNormalNews.set(this.filterOverdue(this.filterStatus(this.allNormalNews(), "60")));
     this.checkedToDoList.set(this.filterOverdue(this.filterStatus(this.allTodoList(), "60")));
   }
 
@@ -151,6 +177,47 @@ export class NewsService {
     return formatNewsList;
   }
 
+  /** 規格化最新消息
+   *  規格化從nats取得的最新消息
+   */
+  formatAppNews(newsList:any){
+    const formatNewsList:any = [];
+      newsList.forEach((news:any) => {
+        const formatNewsElement:any = {
+          "_id": news._id,
+          "appStore_id": news.appStore_id,
+          "level":news.level,
+          "title":news.title,
+          "url": news.url,
+          "sendUser":news.sendUser,
+          "sendTime": new Date(news.sendTime),
+          "expiredTime": new Date(news.expiredTime),
+          "updatedBy": news.updatedBy,
+          "updatedAt": new Date(news.updatedAt)
+        };
+        formatNewsList.push(formatNewsElement);
+      });
+    return formatNewsList;
+  }
+
+  /** 規格化最新消息
+   *  規格化從nats取得的最新消息
+   */
+  formatUserNews(newsList:any){
+    const formatNewsList:any = [];
+      newsList.forEach((news:any) => {
+        const formatNewsElement:any = {
+          '_id': news._id,
+          'user': news.user,
+          'readTime': new Date(news.readTime),
+          'updatedBy': news.updatedBy,
+          'updatedAt': new Date(news.updatedAt)
+        };
+        formatNewsList.push(formatNewsElement);
+      });
+    return formatNewsList;
+  }
+
   /** 訂閱最新消息
    *  從nats訂閱最新消息
    */
@@ -179,6 +246,46 @@ export class NewsService {
         newsList.push(tmpNews[0])
       })
       this.upsertNews(this.originalNews())
+    });
+  }
+
+  /** 訂閱最新消息
+   *  從nats訂閱最新消息
+   */
+  async upserNewsProperty(userCode:Coding): Promise<void> {
+    this.#myNews = new Subject();
+    const jsonCodec = JSONCodec();
+    this.#myNewsConsumer$ = this.#jetStreamWsService.subscribe(
+      SubscribeType.Push,
+      `news.news.userNews.${userCode.code}`
+    );
+
+    this.#myNewsConsumer$
+      .pipe(
+        mergeMap(async (messages) => {
+          for await (const message of messages) {
+            this.#myNews.next(jsonCodec.decode(message.data));
+            message.ack();
+          }
+        })
+      )
+      .subscribe(() => {});
+
+    this.#myNews.subscribe((newsElement:any) => {
+      const index = this.userNews().findIndex(news=>newsElement.appNews_id===news.appNews_id)
+      if(index){
+        this.userNews.mutate(newsList=>{
+          newsList[index].readTime = new Date(newsElement.data.readTIme)
+        })
+      }
+      else{
+        this.userNews.mutate(newsList=>{
+          const tmpNews = this.formatUserNews([newsElement.data])
+          newsList.push(tmpNews[0])
+        })
+      }
+
+      // this.upsertNews(this.originalNews())
     });
   }
 

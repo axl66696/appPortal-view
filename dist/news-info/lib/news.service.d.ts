@@ -1,6 +1,8 @@
 import { Observable } from 'rxjs';
 import { News } from '@his-viewmodel/app-portal/dist';
 import { Coding } from '@his-base/datatypes';
+import { AppNews } from '@his-viewmodel/app-portal-fixIndex/dist/app/app-news';
+import { UserNews } from '@his-viewmodel/app-portal-fixIndex/dist/app/user-news';
 import * as i0 from "@angular/core";
 export declare class NewsService {
     #private;
@@ -14,14 +16,24 @@ export declare class NewsService {
     toDoList: import("@angular/core").WritableSignal<News[]>;
     checkedNormalNews: import("@angular/core").WritableSignal<News[]>;
     checkedToDoList: import("@angular/core").WritableSignal<News[]>;
+    appNews: import("@angular/core").WritableSignal<AppNews[]>;
+    userNews: import("@angular/core").WritableSignal<UserNews[]>;
     /** 初始化最新消息
      *  首次進入頁面時，自資料庫初始化最新消息
      */
     getInitNews(userCode: Coding): Observable<News[]>;
-    /** 更改最新消息狀態
+    /** 初始化最新消息
+     *  首次進入頁面時，自資料庫初始化最新消息
+     */
+    reqAppNewsList(userCode: Coding): Observable<News[]>;
+    /** 更改待辦事項狀態
      *  發送`最新消息狀態改為已讀/已完成`到nats
      */
     changeStatus(news: News): void;
+    /** 更改最新消息狀態
+     *  發送`最新消息狀態改為已讀/已完成`到nats
+     */
+    changeNormalNewsStatus(id: string): void;
     /** 分類‘一般消息’、’待辦工作’
      *  依‘一般消息’、’待辦工作’分類最新消息
      */
@@ -54,10 +66,22 @@ export declare class NewsService {
      *  規格化從nats取得的最新消息
      */
     formatNews(newsList: News[]): News[];
+    /** 規格化最新消息
+     *  規格化從nats取得的最新消息
+     */
+    formatAppNews(newsList: any): any;
+    /** 規格化最新消息
+     *  規格化從nats取得的最新消息
+     */
+    formatUserNews(newsList: any): any;
     /** 訂閱最新消息
      *  從nats訂閱最新消息
      */
     subMyNews(userCode: Coding): Promise<void>;
+    /** 訂閱最新消息
+     *  從nats訂閱最新消息
+     */
+    upserNewsProperty(userCode: Coding): Promise<void>;
     static ɵfac: i0.ɵɵFactoryDeclaration<NewsService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<NewsService>;
 }
